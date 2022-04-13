@@ -1,0 +1,93 @@
+{
+  "projectType": "application",
+  "root": "apps/backoffice",
+  "sourceRoot": "apps/backoffice/src",
+  "prefix": "univ-exam",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/backoffice",
+        "index": "apps/backoffice/src/index.html",
+        "main": "apps/backoffice/src/main.ts",
+        "polyfills": "apps/backoffice/src/polyfills.ts",
+        "tsConfig": "apps/backoffice/tsconfig.app.json",
+        "assets": [
+          "apps/backoffice/src/favicon.ico",
+          "apps/backoffice/src/assets"
+        ],
+        "styles": ["apps/backoffice/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/backoffice/src/environments/environment.ts",
+              "with": "apps/backoffice/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "backoffice:build:production"
+        },
+        "development": {
+          "browserTarget": "backoffice:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "backoffice:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/backoffice/src/**/*.ts",
+          "apps/backoffice/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/backoffice"],
+      "options": {
+        "jestConfig": "apps/backoffice/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

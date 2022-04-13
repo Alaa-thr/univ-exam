@@ -1,0 +1,96 @@
+{
+  "projectType": "application",
+  "root": "apps/student-frontoffice",
+  "sourceRoot": "apps/student-frontoffice/src",
+  "prefix": "univ-exam",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/student-frontoffice",
+        "index": "apps/student-frontoffice/src/index.html",
+        "main": "apps/student-frontoffice/src/main.ts",
+        "polyfills": "apps/student-frontoffice/src/polyfills.ts",
+        "tsConfig": "apps/student-frontoffice/tsconfig.app.json",
+        "assets": [
+          "apps/student-frontoffice/src/favicon.ico",
+          "apps/student-frontoffice/src/assets"
+        ],
+        "styles": ["apps/student-frontoffice/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/student-frontoffice/src/environments/environment.ts",
+              "with": "apps/student-frontoffice/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "student-frontoffice:build:production"
+        },
+        "development": {
+          "browserTarget": "student-frontoffice:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/student-frontoffice/proxy.conf.json"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "student-frontoffice:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/student-frontoffice/src/**/*.ts",
+          "apps/student-frontoffice/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/student-frontoffice"],
+      "options": {
+        "jestConfig": "apps/student-frontoffice/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

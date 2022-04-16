@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@univ-exam/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@univ-exam/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@univ-exam/common": ["libs/common/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

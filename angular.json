@@ -4,6 +4,7 @@
     "api": "apps/api",
     "api-interfaces": "libs/api-interfaces",
     "backoffice": "apps/backoffice",
+    "common": "libs/common",
     "student-frontoffice": "apps/student-frontoffice"
   }
 }

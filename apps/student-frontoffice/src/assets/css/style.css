@@ -354,6 +354,9 @@ table.table td h2 span {
 .p-t-2 {
     padding-top: 2 !important;
 }
+.p-t-5 {
+    padding-top: 5 !important;
+}
 .p-b-2 {
     padding-bottom: 2 !important;
 }
@@ -2307,7 +2310,8 @@ footer p {
 }
 
 .page-wrapper {
-    margin-left: 320px;
+    margin-left: 100px;
+    margin-right: 100px;
     padding-top: 60px;
     position: relative;
     transition: all 0.4s ease;
@@ -3540,6 +3544,18 @@ table.table-inbox tbody tr.checked {
     transform: translateY(-50%);
 }
 
+.circle-bar .circle-graph-success b, .circle-success h6, .circle-success h4 {
+    color: #7bb13c !important;
+}
+
+.circle-bar .circle-graph-warning b,.circle-warning h6 {
+    color: #FFBC53 !important;
+}
+
+.circle-bar .circle-graph-danger b,.circle-danger h6, .circle-danger h4 {
+    color: #e84646 !important;
+}
+
 .circle-bar>div canvas {
     width: 100px !important;
     height: 100px !important;
@@ -3647,10 +3663,9 @@ table.table-inbox tbody tr.checked {
 .dash-widget1 {
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
-    display: flex;
+    /*display: flex;*/
     justify-content: space-between;
     align-items: center;
-    border-right: 1px solid #eaeaea;
 }
 
 .dash-widget2 {
@@ -3658,8 +3673,8 @@ table.table-inbox tbody tr.checked {
 }
 
 .dash-widget1 .circle-bar {
-    width: 230px;
-    padding-right: 20px;
+    /*width: 180px;
+    padding-right: 35px;*/
     text-align: center;
 }
 
@@ -3683,8 +3698,8 @@ table.table-inbox tbody tr.checked {
 }
 
 .dash-widget1 .circle-bar>div canvas {
-    width: 90px !important;
-    height: 90px !important;
+    width: 100px !important;
+    height: 100px !important;
 }
 
 .dash-widget1 h6 {
@@ -3707,7 +3722,7 @@ table.table-inbox tbody tr.checked {
 }
 
 .dash-details {
-    padding-top: 0px;
+    padding-top: 15px;
 }
 
 .dash-details h4 {
@@ -3725,10 +3740,10 @@ table.table-inbox tbody tr.checked {
 
 .dash-widget1 ul li {
     padding: 6px 6px;
-    display: inline-block;
     font-size: 14px;
     font-weight: 500;
     color: #777;
+    display: inline-block;
 }
 
 .dash-widget1 .dash-btn {
@@ -3972,10 +3987,6 @@ table.table-inbox tbody tr.checked {
     }
     .dash-circle .col-12 {
         display: flex;
-    }
-    .dash-widget1 {
-        border-bottom: 1px solid #eaeaea;
-        border-right: none;
     }
     .dash-widget1 ul li {
         width: 40%;

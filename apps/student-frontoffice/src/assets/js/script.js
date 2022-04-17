@@ -226,36 +226,53 @@ Version      : 1.0
 				});
 			}
 		});
-		$('.circle-bar2').each(function () {
+		$('.circle-danger').each(function () {
 			var elementPos = $(this).offset().top;
 			var topOfWindow = $(window).scrollTop();
-			var percent = $(this).find('.circle-graph2').attr('data-percent');
+			var percent = $(this).find('.circle-graph-danger').attr('data-percent');
 			var animate = $(this).data('animate');
 			if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
 				$(this).data('animate', true);
-				$(this).find('.circle-graph2').circleProgress({
+				$(this).find('.circle-graph-danger').circleProgress({
 					value: percent / 100,
-					size : 400,
+					size : 500,
 					thickness: 30,
 					fill: {
-						color: '#6e6bfa'
+						color: '#e84646'
 					}
 				});
 			}
 		});
-		$('.circle-bar3').each(function () {
+		$('.circle-warning').each(function () {
 			var elementPos = $(this).offset().top;
 			var topOfWindow = $(window).scrollTop();
-			var percent = $(this).find('.circle-graph3').attr('data-percent');
+			var percent = $(this).find('.circle-graph-warning').attr('data-percent');
 			var animate = $(this).data('animate');
 			if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
 				$(this).data('animate', true);
-				$(this).find('.circle-graph3').circleProgress({
+				$(this).find('.circle-graph-warning').circleProgress({
 					value: percent / 100,
 					size : 400,
 					thickness: 30,
 					fill: {
-						color: '#6e6bfa'
+						color: '#FFBC53'
+					}
+				});
+			}
+		});
+		$('.circle-success').each(function () {
+			var elementPos = $(this).offset().top;
+			var topOfWindow = $(window).scrollTop();
+			var percent = $(this).find('.circle-graph-success').attr('data-percent');
+			var animate = $(this).data('animate');
+			if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
+				$(this).data('animate', true);
+				$(this).find('.circle-graph-success').circleProgress({
+					value: percent / 100,
+					size : 500,
+					thickness: 30,
+					fill: {
+						color: '#7bb13c'
 					}
 				});
 			}

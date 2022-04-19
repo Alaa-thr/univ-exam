@@ -329,7 +329,7 @@ table.table td h2 span {
 .card-table .table th {
     border-top: 1px solid #e2e5e8;
     padding: 1rem 0.75rem;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
 }
 
 .table .thead-light th {
@@ -1190,6 +1190,11 @@ button.bg-danger:hover {
 
 .bg-danger-light {
     background-color: #FFBC53 !important;
+    color: #fff !important;
+}
+
+.bg-red-light {
+    background-color: #e63333 !important;
     color: #fff !important;
 }
 

@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ScheduledExamsComponent } from './scheduled-exams/scheduled-exams.component';
+import { TakeExamComponent } from './take-exam/take-exam.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ScheduledExamsComponent } from './scheduled-exams/scheduled-exams.compo
     HeaderComponent,
     FooterComponent,
     ScheduledExamsComponent,
+    TakeExamComponent,
   ],
   imports: [BrowserModule, HttpClientModule],
   providers: [],

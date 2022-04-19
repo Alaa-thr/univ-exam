@@ -401,6 +401,10 @@ table.table td h2 span {
     margin-left: 15px !important;
 }
 
+.m-l-20 {
+    margin-left: 20px !important;
+}
+
 .m-l-40 {
     margin-left: 40px !important;
 }
@@ -2313,6 +2317,7 @@ footer p {
     margin-left: 100px;
     margin-right: 100px;
     padding-top: 60px;
+    padding-bottom: 100px;
     position: relative;
     transition: all 0.4s ease;
 }

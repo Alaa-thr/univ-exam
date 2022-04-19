@@ -10,6 +10,7 @@ import { ScheduledExamsComponent } from './scheduled-exams/scheduled-exams.compo
 import { TakeExamComponent } from './take-exam/take-exam.component';
 import { TakenExamsComponent } from './taken-exams/taken-exams.component';
 import { ExamInformationCardComponent } from './shared/exam-information-card/exam-information-card.component';
+import { WebcamComponent } from './webcam/webcam.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ExamInformationCardComponent } from './shared/exam-information-card/exa
     TakeExamComponent,
     TakenExamsComponent,
     ExamInformationCardComponent,
+    WebcamComponent,
   ],
   imports: [BrowserModule, HttpClientModule],
   providers: [],

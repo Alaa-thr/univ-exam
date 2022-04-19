@@ -12,6 +12,8 @@ import { TakenExamsComponent } from './taken-exams/taken-exams.component';
 import { ExamInformationCardComponent } from './shared/exam-information-card/exam-information-card.component';
 import { WebcamComponent } from './webcam/webcam.component';
 import { NotificationComponent } from './notification/notification.component';
+import { PageTitleComponent } from './shared/page-title/page-title.component';
+import { PaginationComponent } from './shared/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { NotificationComponent } from './notification/notification.component';
     ExamInformationCardComponent,
     WebcamComponent,
     NotificationComponent,
+    PageTitleComponent,
+    PaginationComponent,
   ],
   imports: [BrowserModule, HttpClientModule],
   providers: [],

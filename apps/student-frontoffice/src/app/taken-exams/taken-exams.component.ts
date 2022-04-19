@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./taken-exams.component.css'],
 })
 export class TakenExamsComponent implements OnInit {
+
+  takenExams: any[] = [1,2];
   constructor() {}
 
   ngOnInit(): void {}

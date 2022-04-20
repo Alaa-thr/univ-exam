@@ -14,6 +14,7 @@ import { WebcamComponent } from './webcam/webcam.component';
 import { NotificationComponent } from './notification/notification.component';
 import { PageTitleComponent } from './shared/page-title/page-title.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
+import { AppRoutingModule, ROUTING } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { PaginationComponent } from './shared/pagination/pagination.component';
     PageTitleComponent,
     PaginationComponent,
   ],
-  imports: [BrowserModule, HttpClientModule],
+  imports: [BrowserModule, HttpClientModule, AppRoutingModule, ROUTING],
   providers: [],
   bootstrap: [AppComponent],
 })

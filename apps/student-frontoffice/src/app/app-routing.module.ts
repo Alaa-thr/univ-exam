@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NotificationComponent } from './notification/notification.component';
 import { RouterModule, Routes } from '@angular/router';
-import { ScheduledExamsComponent } from './scheduled-exams/scheduled-exams.component';
-import { TakeExamComponent } from './take-exam/take-exam.component';
-import { TakenExamsComponent } from './taken-exams/taken-exams.component';
-import { WebcamComponent } from './webcam/webcam.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
+import { WebcamComponent, NotificationComponent, TakenExamsComponent, TakeExamComponent, ScheduledExamsComponent } from './modules';
+import { PageNotFoundComponent } from './core/components';
 
 const APP_ROUTING: Routes = [ 
     

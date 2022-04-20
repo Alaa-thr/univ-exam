@@ -6,6 +6,7 @@ import { ScheduledExamsComponent } from './scheduled-exams/scheduled-exams.compo
 import { TakeExamComponent } from './take-exam/take-exam.component';
 import { TakenExamsComponent } from './taken-exams/taken-exams.component';
 import { WebcamComponent } from './webcam/webcam.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const APP_ROUTING: Routes = [ 
     
@@ -16,6 +17,7 @@ const APP_ROUTING: Routes = [
   {path: 'webcam', component: WebcamComponent},
 
   {path: '', redirectTo: 'scheduled-exams', pathMatch: 'full'},
+  { path: '**', component: PageNotFoundComponent }
 ]
 export const ROUTING = RouterModule.forRoot(APP_ROUTING);
 

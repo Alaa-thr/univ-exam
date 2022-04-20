@@ -15,6 +15,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { PageTitleComponent } from './shared/page-title/page-title.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
 import { AppRoutingModule, ROUTING } from './app-routing.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AppRoutingModule, ROUTING } from './app-routing.module';
     NotificationComponent,
     PageTitleComponent,
     PaginationComponent,
+    PageNotFoundComponent,
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule, ROUTING],
   providers: [],

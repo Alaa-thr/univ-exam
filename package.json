@@ -10,7 +10,8 @@
     "test": "nx test",
     "backoffice:start": "nx serve backoffice --o --port 4201",
     "student-frontoffice:start": "nx serve student-frontoffice --o --port 4202",
-    "api:start": "nx serve api"
+    "api:start": "nx serve api",
+    "api:generate-resource": "nx g --project=api --type=rest --crud=true @nrwl/nest:resource"
   },
   "private": true,
   "dependencies": {
@@ -24,10 +25,13 @@
     "@angular/router": "~13.3.0",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
+    "@nestjs/jwt": "^8.0.0",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.3",
     "@nrwl/angular": "13.10.1",
     "dotenv": "^16.0.0",
+    "passport-jwt": "^4.0.0",
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.4.0",
@@ -55,6 +59,7 @@
     "@nrwl/workspace": "13.10.1",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.7",
+    "@types/passport-jwt": "^3.0.6",
     "@typescript-eslint/eslint-plugin": "~5.18.0",
     "@typescript-eslint/parser": "~5.18.0",
     "cypress": "^9.1.0",

@@ -1,9 +1,6 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersRepository } from './users.repository';
-import { UserAuthService } from './user-auth.service';
+import { UserAuthService,UsersRepository,UsersController,UsersService } from 'users';
 import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 

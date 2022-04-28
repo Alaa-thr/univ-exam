@@ -1,7 +1,6 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { EntityRepository, Repository } from "typeorm";
-import { RegisterUserDto } from "./dto/register-user.dto";
-import { UserEntity } from "./entities/user.entity";
+import { UserEntity, RegisterUserDto } from "users";
 
 @Injectable()
 @EntityRepository(UserEntity)

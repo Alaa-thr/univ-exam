@@ -1,8 +1,8 @@
-import { PersonNotificationEntity } from "shared";
+import { PersonEntity } from "shared";
 import { Column, Entity } from "typeorm";
 
 @Entity('students')
-export class StudentEntity extends PersonNotificationEntity{
+export class StudentEntity extends PersonEntity{
 
     @Column({
         unique: true,

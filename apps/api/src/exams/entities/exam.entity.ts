@@ -23,7 +23,9 @@ export class ExamEntity{
     @Column('time')
     endHoud: Date;
 
-    @Column()
+    @Column({
+        default: false
+    })
     isPublished: boolean;
 
     @Column({
@@ -33,7 +35,9 @@ export class ExamEntity{
     })
     examType: ExamTypeEnum;
 
-    @Column()
+    @Column({
+        default: false
+    })
     answersArePublished: boolean;
 
     @CreateDateColumn({

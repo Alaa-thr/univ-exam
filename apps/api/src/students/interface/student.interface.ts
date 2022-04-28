@@ -1,3 +1,3 @@
-export interface StudentInterface {
+export interface IStudent {
     
 }

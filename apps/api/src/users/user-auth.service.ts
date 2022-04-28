@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
-import { UserInterface,LoginUserDto,RegisterUserDto,UsersRepository } from 'users';
+import { IUser,LoginUserDto,RegisterUserDto,UsersRepository } from 'users';
 
 @Injectable()
 export class UserAuthService {
@@ -11,7 +11,7 @@ export class UserAuthService {
     private readonly jwtService : JwtService,
   ){ }
 
-  public async register(data: RegisterUserDto): Promise<Partial<UserInterface>> {
+  public async register(data: RegisterUserDto): Promise<Partial<IUser>> {
 
     const {email, password} = data;
     const cryptedPassword = await this.cryptPassword(password);
@@ -39,7 +39,7 @@ export class UserAuthService {
     return cryptedPassword;
   }
 
-  private async checkUserEmail(email: string): Promise<UserInterface>{
+  private async checkUserEmail(email: string): Promise<IUser>{
     const user = await this.userRepo.findUser(email);
     if(!user){
       throw new UnauthorizedException('Username or Password is invalid');

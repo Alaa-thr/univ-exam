@@ -1,6 +1,6 @@
 import { ExamTypeEnum } from "exams/enum/exam-type.enum";
 
-export interface ExamInterface {
+export interface IExam {
     
     id: string;
     title: string;

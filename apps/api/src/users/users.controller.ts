@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UserInterface, UserAuthService,LoginUserDto,RegisterUserDto,UsersService } from 'users';
+import { IUser, UserAuthService,LoginUserDto,RegisterUserDto,UsersService } from 'users';
 
 @Controller('users')
 export class UsersController {
@@ -17,7 +17,7 @@ export class UsersController {
   ) {}
 
   @Post('register')
-  async register(@Body() data: RegisterUserDto): Promise<Partial<UserInterface>> {
+  async register(@Body() data: RegisterUserDto): Promise<Partial<IUser>> {
     return await this.userAuthService.register(data);
   }
 

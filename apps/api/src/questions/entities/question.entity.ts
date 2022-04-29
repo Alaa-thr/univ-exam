@@ -31,7 +31,6 @@ export class QuestionEntity{
 
     @ManyToOne(
         () => ExamEntity,
-        exam => exam.id,
         { 
             onDelete: 'CASCADE' 
         }

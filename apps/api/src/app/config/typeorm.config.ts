@@ -1,6 +1,7 @@
 
 import{ TypeOrmModuleOptions } from "@nestjs/typeorm";
 import { UserEntity } from "@users";
+import { AnswerEntity } from "answers";
 import * as dotenv from 'dotenv';
 import { ExamEntity } from "exams";
 import { NotificationEntity } from "notifications";
@@ -16,6 +17,6 @@ export const typeOrmOptions: TypeOrmModuleOptions ={
     username: process.env.DB_USERNAME ,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    entities: [UserEntity, StudentEntity, NotificationEntity, ExamEntity, QuestionEntity],
+    entities: [UserEntity, StudentEntity, NotificationEntity, ExamEntity, QuestionEntity, AnswerEntity],
     synchronize: true, 
 }

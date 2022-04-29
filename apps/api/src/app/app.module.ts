@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AnswersModule } from 'answers';
 import { ExamsModule } from 'exams';
 import { QuestionsModule } from 'questions';
 import { StudentsModule } from 'students/students.module';
@@ -15,7 +16,8 @@ import { typeOrmOptions } from './config/typeorm.config';
     UsersModule,
     StudentsModule,
     ExamsModule,
-    QuestionsModule
+    QuestionsModule,
+    AnswersModule
   ],
   controllers: [AppController],
   providers: [AppService],

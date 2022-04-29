@@ -1,6 +1,6 @@
 
 import { ExamTypeEnum } from "exams/enum/exam-type.enum";
-import { StudentEntity } from "students";
+import { StudentEntity } from "students/entities/student.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('exams')

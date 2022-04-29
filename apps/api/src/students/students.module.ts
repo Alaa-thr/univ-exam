@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
-import { StudentsService,StudentsController,StudentsRepository } from 'students';
+
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { StudentsController } from './students.controller';
+import { StudentsRepository } from './students.repository';
+import { StudentsService } from './students.service';
 
 @Module({
   imports: [

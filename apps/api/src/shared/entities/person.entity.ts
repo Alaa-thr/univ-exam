@@ -1,7 +1,7 @@
 import { UserEntity } from "@users";
 import { Column, CreateDateColumn, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-export abstract class PersonEntity {
+export abstract class Person {
 
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -34,7 +34,7 @@ export abstract class PersonEntity {
     @UpdateDateColumn()
     updated_at: Date;
 
-    @OneToOne(() => UserEntity)
+    @OneToOne(() => UserEntity, user=>user.student)
     @JoinColumn()
     user: UserEntity;
 }

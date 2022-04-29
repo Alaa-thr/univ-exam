@@ -1,7 +1,9 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { StudentEntity } from "students/entities/student.entity";
+import { Column, CreateDateColumn, Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { IUser } from "users/interface/user.interface";
 
 @Entity('users')
-export class UserEntity{
+export class UserEntity implements IUser{
 
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -22,5 +24,8 @@ export class UserEntity{
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    @OneToOne(() => StudentEntity, student=> student.user)
+    student: StudentEntity;
 
 }

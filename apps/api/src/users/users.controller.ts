@@ -7,7 +7,9 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { IUser, UserAuthService,LoginUserDto,RegisterUserDto,UsersService } from 'users';
+import { IStudent } from 'students/interface/student.interface';
+import { IUser, UserAuthService,LoginUserDto,UsersService } from 'users';
+import { RegisterStudentUserDto } from './dto/register-student-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -16,19 +18,14 @@ export class UsersController {
     private readonly userAuthService: UserAuthService
   ) {}
 
-  @Post('register')
-  async register(@Body() data: RegisterUserDto): Promise<Partial<IUser>> {
-    return await this.userAuthService.register(data);
-  }
+  /*@Post('register/student')
+  async registerStudent(@Body() data: RegisterStudentUserDto): Promise<IStudent> {
+    return await this.userAuthService.registerStudent(data);
+  }*/
 
   @Post('login')
   async login(@Body() data: LoginUserDto) {
     return await this.userAuthService.login(data);
-  }
-
-  @Post()
-  create(@Body() createUserDto: RegisterUserDto) {
-    return this.usersService.create(createUserDto);
   }
 
   @Get()

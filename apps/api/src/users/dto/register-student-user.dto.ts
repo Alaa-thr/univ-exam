@@ -1,9 +1,9 @@
-import { Type } from "class-transformer";
-import { IsNotEmpty, IsEmail, Length } from "class-validator";
+import { IsEmail, IsNotEmpty, Length } from "class-validator";
 import { CreateStudentDto } from "students/dto/create-student.dto";
 import { IUser } from "users/interface/user.interface";
+import {  Type } from 'class-transformer';
 
-export class RegisterUserDto implements Omit<IUser, 'id'|'created_at'|'updated_at'>{
+export class RegisterStudentUserDto implements Omit<IUser, 'id'|'created_at'|'updated_at'>{
     
     @IsNotEmpty()
     @IsEmail()
@@ -15,5 +15,9 @@ export class RegisterUserDto implements Omit<IUser, 'id'|'created_at'|'updated_a
     //     message: "Password is too weak, choose a stronger password between 6 and 12 characters"
     //   })
     password: string;
+
+    @IsNotEmpty()
+    @Type(()=>CreateStudentDto)
+    student: CreateStudentDto;
     
 }

@@ -4,6 +4,7 @@ import { AnswersModule } from 'answers';
 import { ExamsModule } from 'exams';
 import { QuestionsModule } from 'questions';
 import { StudentsModule } from 'students/students.module';
+import { StudentsService } from 'students/students.service';
 import { UsersModule } from 'users';
 
 import { AppController } from './app.controller';

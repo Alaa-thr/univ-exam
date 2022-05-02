@@ -1,0 +1,59 @@
+<div class="main-wrapper login-body">
+    <div class="login-wrapper">
+        <div class="container">
+            <div class="loginbox">
+                <div class="login-left">
+                    <img class="img-fluid" src="assets/img/logo-white.png" alt="Logo">
+                </div>
+                <div class="login-right">
+                    <div class="login-right-wrap">
+                        <h1>Login</h1>
+                        <p class="account-subtitle">Access to your account</p>
+
+                        <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+                            <div class="form-group">
+                                <input 
+                                    class="form-control" 
+                                    type="text" 
+                                    placeholder="Email"
+                                    ngModel
+                                    email
+                                    required
+                                    #emailInput="ngModel"
+                                    name="email"
+                                />
+                                <div 
+                                    class="alert alert-danger"
+                                    *ngIf="(emailInput.invalid && emailInput.touched) || errorMessage" 
+                                >{{errorMessage}}</div>
+                            </div>
+                            <div class="form-group">
+                                <input 
+                                    class="form-control" 
+                                    type="password" 
+                                    placeholder="Password"
+                                    ngModel
+                                    required
+                                    #passwordInput="ngModel"
+                                    name="password"
+                                />
+                                <div 
+                                    class="alert alert-danger"
+                                    *ngIf="passwordInput.invalid && passwordInput.touched" 
+                                >erorr</div>
+                            </div>
+                            <div class="form-group">
+                                <button 
+                                    class="btn btn-primary btn-block" 
+                                    type="submit"
+                                    [disabled]="loginForm.invalid"
+                                >Login</button>
+                            </div>
+                        </form>
+                        <!--div class="text-center forgotpass"><a href="forgot-password.html">Forgot Password?</a></div-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

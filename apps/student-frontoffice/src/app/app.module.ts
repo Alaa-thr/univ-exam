@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule, ROUTING } from '../routing/app-routing.module';
 
-import { HeaderComponent, FooterComponent, PageNotFoundComponent} from '../core/components';
+import { HeaderComponent, FooterComponent, PageNotFoundComponent} from './core/components';
 import { ExamInformationCardComponent, PageTitleComponent, PaginationComponent } from '../shared/components';
 import { WebcamComponent, NotificationComponent, TakenExamsComponent, TakeExamComponent, ScheduledExamsComponent } from '../modules';
 

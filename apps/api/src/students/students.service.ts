@@ -1,11 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
+import { IStudent } from './interface/student.interface';
+import { StudentsRepository } from './students.repository';
 
 @Injectable()
 export class StudentsService {
-  create(createStudentDto: CreateStudentDto) {
-    return 'This action adds a new student';
+
+  constructor(private readonly studentRepo: StudentsRepository){}
+
+  async create(data: CreateStudentDto): Promise<IStudent> {
+    try{
+      return await this.studentRepo.saveStudent(data)
+    }catch(error){
+      console.log('student service',error)
+      throw new InternalServerErrorException("Something went wrong, student not created service.");
+    } 
   }
 
   findAll() {

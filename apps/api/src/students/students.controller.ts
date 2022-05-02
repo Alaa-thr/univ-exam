@@ -15,10 +15,10 @@ import { StudentsService } from './students.service';
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
-  @Post()
+  /*@Post()
   create(@Body() createStudentDto: CreateStudentDto) {
     return this.studentsService.create(createStudentDto);
-  }
+  }*/
 
   @Get()
   findAll() {

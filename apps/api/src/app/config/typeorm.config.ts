@@ -17,6 +17,6 @@ export const typeOrmOptions: TypeOrmModuleOptions ={
     username: process.env.DB_USERNAME ,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    entities: [UserEntity, StudentEntity, NotificationEntity, ExamEntity, QuestionEntity, AnswerEntity],
+    entities: [StudentEntity, UserEntity, NotificationEntity, ExamEntity, QuestionEntity, AnswerEntity],
     synchronize: true, 
 }

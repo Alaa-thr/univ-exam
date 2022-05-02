@@ -1,3 +1,5 @@
+import { IStudent } from "students/interface/student.interface";
+
 export interface IUser {
     
     id: string;
@@ -5,4 +7,5 @@ export interface IUser {
     password: string;
     created_at: Date;
     updated_at: Date;
+    student: IStudent;
 }

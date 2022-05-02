@@ -97,3 +97,5 @@ Nx Cloud pairs with Nx in order to enable you to build and test code more rapidl
 Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
 
 Visit [Nx Cloud](https://nx.app/) to learn more.
+
+Index.ts => Typescript module resolution picks up index.ts file from folder name if it is there and try to import packages. (the in index.ts will do the export of the component (notification.component.ts, webcam.component.ts ...) from their folders and put them in the same level of the index.ts (./modules), so that's why we can import the component only by typing ./modules)

@@ -1,6 +1,4 @@
-import { Type } from "class-transformer";
 import { IsNotEmpty, IsEmail, Length } from "class-validator";
-import { CreateStudentDto } from "students/dto/create-student.dto";
 import { IUser } from "users/interface/user.interface";
 
 export class RegisterUserDto implements Omit<IUser, 'id'|'created_at'|'updated_at'|'student'>{

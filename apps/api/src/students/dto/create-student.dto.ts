@@ -1,3 +1,4 @@
+
 import { IsAlpha, IsDate, IsNotEmpty, IsNumber } from "class-validator";
 import { IStudent } from "students/interface/student.interface";
 
@@ -22,4 +23,5 @@ export class CreateStudentDto implements Omit<IStudent, 'id'|'created_at'|'updat
     @IsNotEmpty()
     @IsNumber()
     studentNumber: number;
+
 }

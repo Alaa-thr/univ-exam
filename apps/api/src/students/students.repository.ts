@@ -16,4 +16,5 @@ export class StudentsRepository extends Repository<StudentEntity>{
             throw new InternalServerErrorException('Something went wrong, student not created repo');
         }
     }
+
 }

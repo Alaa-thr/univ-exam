@@ -1,4 +1,3 @@
-
 export interface IStudent {
     
     id: string;

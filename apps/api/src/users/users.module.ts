@@ -4,12 +4,10 @@ import { UserAuthService,UsersRepository,UsersController,UsersService } from 'us
 import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 import { StudentsModule } from 'students/students.module';
-import { StudentEntity } from 'students/entities/student.entity';
 
 dotenv.config();
 @Module({
-  imports: [
-    
+  imports: [  
     TypeOrmModule.forFeature([UsersRepository]),
     JwtModule.register({
       secret: process.env.SECRET,
@@ -18,8 +16,7 @@ dotenv.config();
         expiresIn: '1d',
       }
     }),
-    StudentsModule
-    
+    StudentsModule   
   ],
   controllers: [UsersController],
   providers: [UsersService, UserAuthService],

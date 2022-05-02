@@ -8,6 +8,7 @@ import { RegisterStudentUserDto } from "./dto/register-student-user.dto";
 export class UsersRepository extends Repository<UserEntity> {
 
     public async saveUser(data: RegisterStudentUserDto):Promise<IUser> {     
+
         try{
             return await this.save(data);
         }catch(error){

@@ -12,6 +12,10 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
+  const corsOption = {
+    origin: ['http://localhost:4202']
+  }
+  app.enableCors(corsOption);
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('swagger-test', app, document);

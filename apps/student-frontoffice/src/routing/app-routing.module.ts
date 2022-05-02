@@ -40,7 +40,7 @@ const APP_ROUTING: Routes = [
   },
   {
     path: '', 
-    component: PageNotFoundComponent,
+    component: ScheduledExamsComponent,
     canActivate: [LoginGuard] 
   },
   {

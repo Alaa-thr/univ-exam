@@ -5,6 +5,7 @@ import { WebcamComponent, NotificationComponent, TakenExamsComponent, TakeExamCo
 import { PageNotFoundComponent } from '../app/core/components';
 import { LoginGuard } from '../app/core/guards/login.guard';
 import { LogoutGuard } from '../app/core/guards/logout.guard';
+import { LoginComponent } from '../app/core/components/login/login.component';
 
 const APP_ROUTING: Routes = [ 
     
@@ -33,9 +34,14 @@ const APP_ROUTING: Routes = [
     component: WebcamComponent
   },
   {
+    path: 'login', 
+    component: LoginComponent,
+    canActivate: [LogoutGuard] 
+  },
+  {
     path: '', 
     component: PageNotFoundComponent,
-    canActivate: [LogoutGuard] 
+    canActivate: [LoginGuard] 
   },
   {
     path: '**', 

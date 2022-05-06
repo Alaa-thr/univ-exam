@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { WebcamComponent, NotificationComponent, TakenExamsComponent, TakeExamComponent, ScheduledExamsComponent } from '../modules';
-import { PageNotFoundComponent } from '../app/core/components';
-import { LoginGuard } from '../app/core/guards/login.guard';
-import { LogoutGuard } from '../app/core/guards/logout.guard';
-import { LoginComponent } from '../app/core/components/login/login.component';
+import { PageNotFoundComponent } from '../core/components';
+import { LoginGuard } from '../core/guards/login.guard';
+import { LogoutGuard } from '../core/guards/logout.guard';
+import { LoginComponent } from '../core/components/login/login.component';
 
 const APP_ROUTING: Routes = [ 
     

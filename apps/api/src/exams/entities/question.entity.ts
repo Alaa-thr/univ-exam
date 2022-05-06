@@ -30,9 +30,6 @@ export class QuestionEntity implements IQuestion{
     @UpdateDateColumn()
     updated_at: Date;
 
-    @Column()
-    examId: string;
-
     @ManyToOne(
         () => ExamEntity,
         exam => exam.questions,

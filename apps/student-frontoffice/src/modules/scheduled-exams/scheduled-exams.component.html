@@ -5,9 +5,8 @@
         </div>
     </div>
 </div>
-<univ-exam-exam-information-card 
+<univ-exam-exam-information-card   
     class="row"
-    *ngFor="let scheduledExamFather of scheduledExams;"
-    [scheduledExam] = "scheduledExamFather"
+    [exams] = "scheduledExams"
 >
 </univ-exam-exam-information-card>

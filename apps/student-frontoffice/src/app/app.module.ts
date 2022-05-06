@@ -14,6 +14,7 @@ import { LoginComponent } from './core/components/login/login.component';
 import { ScheduledExamsService } from '../modules/scheduled-exams/scheduled-exams.service';
 import { LoginInterceptorProvider } from './core/interceptors/login.interceptor';
 import { CapitalizeFirstLetterPipe } from './core/pipes/capitalize-first-letter.pipe';
+import { TakenExamsService } from '../modules/taken-exams/taken-exams.service';
 
 
 @NgModule({
@@ -41,7 +42,7 @@ import { CapitalizeFirstLetterPipe } from './core/pipes/capitalize-first-letter.
     ROUTING,
      
   ],
-  providers: [LoginGuard,LogoutGuard,ScheduledExamsService,LoginInterceptorProvider],
+  providers: [LoginGuard,LogoutGuard,ScheduledExamsService,LoginInterceptorProvider,TakenExamsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

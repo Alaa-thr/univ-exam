@@ -19,7 +19,7 @@ export class ScheduledExamsComponent implements OnInit {
         this.scheduledExams = response;
         console.log("this.scheduledExams ",this.scheduledExams);
       },(error)=>{
-        console.log('ScheduledExams Component error', error)
+        console.log('ScheduledExams Component error', error);
       }
     );
   }

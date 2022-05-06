@@ -8,11 +8,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ExamInformationCardComponent implements OnInit {
 
-  @Input() scheduledExam: any;
+  @Input() exams: any[];
   circleClass: string = 'circle-warning';
   circleGraphClass: string = 'circle-graph-warning';
   dataPercent: number = 0;
-  constructor() {}
+  constructor() {
+    this.exams = [];
+  }
 
   ngOnInit(): void {}
 
@@ -27,15 +29,15 @@ export class ExamInformationCardComponent implements OnInit {
       this.dataPercent = 0;
       return true;
     }else{
+      this.dataPercent = (grade/20)*100;
       if(grade > 10){
         this.circleClass = 'circle-success';
         this.circleGraphClass = 'circle-graph-success';
-        this.dataPercent = grade;
+        
         return true;
       }else{
         this.circleClass = 'circle-danger';
         this.circleGraphClass = 'circle-graph-danger';
-        this.dataPercent = grade;
         return true;
       }
     }

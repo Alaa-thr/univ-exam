@@ -4,6 +4,7 @@ import { UserAuthService,UsersRepository,UsersController,UsersService } from 'us
 import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 import { StudentsModule } from 'students/students.module';
+import { TokenValidationStrategy } from './strategy/token-validation.strategy';
 
 dotenv.config();
 @Module({
@@ -19,6 +20,6 @@ dotenv.config();
     StudentsModule   
   ],
   controllers: [UsersController],
-  providers: [UsersService, UserAuthService],
+  providers: [UsersService, UserAuthService,TokenValidationStrategy],
 })
 export class UsersModule {}

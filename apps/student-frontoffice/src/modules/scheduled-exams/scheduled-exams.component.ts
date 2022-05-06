@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ScheduledExamsService } from './scheduled-exams.service';
 
 @Component({
   selector: 'univ-exam-scheduled-exams',
@@ -7,8 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScheduledExamsComponent implements OnInit {
 
-  scheduledExams: any[] = [1,2];
-  constructor() {}
+  scheduledExams: any[];
+  constructor(private readonly scheduledExamsService: ScheduledExamsService) {
+    this.scheduledExams = [];
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.scheduledExamsService.getScheduledExams().subscribe(
+      (response) => {
+        this.scheduledExams = response;
+        console.log("this.scheduledExams ",this.scheduledExams);
+      },(error)=>{
+        console.log('ScheduledExams Component error', error)
+      }
+    );
+  }
 }

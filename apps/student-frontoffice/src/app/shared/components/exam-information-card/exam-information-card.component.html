@@ -1,0 +1,112 @@
+<div class="col-12 col-md-6 col-lg-4 d-flex">
+    <div class="card flex-fill">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <h5 class="card-title">{{scheduledExam.exam.examType | capitalizeFisrtLetter}}</h5>
+                </div>
+                <div class="col-6">
+                    <span class="float-end"><i class="fas fa-calendar-alt"></i> {{getDate(scheduledExam.exam.date)}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body text-center">
+            <div class="dash-widget1 col-12">
+                <div 
+                    class="circle-bar" 
+                    *ngIf="getCircleClass(scheduledExam.isDone, scheduledExam.grade)" 
+                    [ngClass]="circleClass">
+                        <div  
+                            [ngClass]="circleGraphClass" 
+                            [attr.data-percent]="dataPercent">
+                            <b *ngIf="scheduledExam.grade === 0">0</b>
+                            <b *ngIf="scheduledExam.grade !== 0">{{scheduledExam.grade}} / 20</b>
+                        </div>
+                </div>
+                <div class="dash-details">
+                    <h4>{{scheduledExam.grade.title}}</h4>
+                    <ul>
+                        <li><i class="fas fa-clock"></i> {{scheduledExam.exam.startHour}} - {{scheduledExam.exam.endHoud}}</li>
+                        <li><i class="fas fa-hourglass-end"></i> {{ calculeTime(scheduledExam.exam.startHour,scheduledExam.exam.endHoud) }} Minutes</li>
+                        <li><i class="fa fa-question-circle"></i> 15 Questions</li>
+                    </ul>
+                    <div class="dash-btn">
+                        <button type="submit" class="btn btn-info">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-md-6 col-lg-4 d-flex">
+    <div class="card flex-fill">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <h5 class="card-title">Continuous Assessment</h5>
+                </div>
+                <div class="col-6">
+                    <span class="float-end"><i class="fas fa-calendar-alt"></i> 14-05-2022</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body text-center">
+            <div class="dash-widget1 col-12">
+                <div class="circle-bar circle-danger">
+                    <div class="circle-graph-danger" data-percent="40">
+                        <b>9 / 20</b>
+                    </div>
+                </div>
+                <div class="dash-details">
+                    <h4>Project Managemenet</h4>
+                    <ul>
+                        <li><i class="fas fa-clock"></i> 2.30pm - 3.30pm</li>
+                        <li><i class="fas fa-hourglass-end"></i> 60 Minutes</li>
+                        <li><i class="fa fa-list-ul"></i> 3 Sections</li>
+                        <li><i class="fa fa-question-circle"></i> 15 Questions</li>
+                        <li><i class='fas fa-user-edit'></i> Mr Mohammed TEDLAOUI</li>
+                    </ul>
+                    <div class="dash-btn">
+                        <button type="submit" class="btn btn-info">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-md-6 col-lg-4">
+    <div class="card flex-fill">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <h5 class="card-title">Test</h5>
+                </div>
+                <div class="col-6">
+                    <span class="float-end"><i class="fas fa-calendar-alt"></i> 14-05-2022</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body text-center">
+            <div class="dash-widget1 col-12">
+                <div class="circle-bar circle-warning ">
+                    <div class="circle-graph-warning" data-percent="0">
+                        <b>0</b>
+                    </div>
+                </div>
+                <div class="dash-details">
+                    <h4>Java</h4>
+                    <ul>
+                        <li><i class="fas fa-clock"></i> 2.30pm - 3.30pm</li>
+                        <li><i class="fas fa-hourglass-end"></i> 60 Minutes</li>
+                        <li><i class="fa fa-list-ul"></i> 3 Sections</li>
+                        <li><i class="fa fa-question-circle"></i> 15 Questions</li>
+                        <li><i class='fas fa-user-edit'></i> Mr Zakaria NABI</li>
+                    </ul>
+                    <div class="dash-btn">
+                        <button type="submit" class="btn btn-info">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 export * from './entities/exam.entity';
 export * from './exams.repository';
-export * from './interface/exam.interface';
+export * from './interfaces/exam.interface';
 export * from './dto/create-exam.dto';
 export * from './dto/update-exam.dto';
 export * from './exams.service';

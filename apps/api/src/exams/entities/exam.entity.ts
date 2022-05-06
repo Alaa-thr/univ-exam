@@ -1,10 +1,12 @@
 
 import { ExamTypeEnum } from "exams/enum/exam-type.enum";
-import { StudentEntity } from "students/entities/student.entity";
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { IExam } from "exams/interfaces/exam.interface";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { QuestionEntity } from "./question.entity";
+import { StudentExamEntity } from "./studentExam.entity";
 
 @Entity('exams')
-export class ExamEntity{
+export class ExamEntity implements IExam{
 
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -48,7 +50,15 @@ export class ExamEntity{
     @UpdateDateColumn()
     updated_at: Date;
 
-    @ManyToMany(() => StudentEntity)
-    @JoinTable()
-    students: StudentEntity[];
+    @OneToMany(
+        () => QuestionEntity,
+        question => question.exam
+    )
+    questions: QuestionEntity[];
+
+    @OneToMany(
+        () => StudentExamEntity, 
+        studentExam => studentExam.exam
+    )
+    studentExams: StudentExamEntity[];
 }

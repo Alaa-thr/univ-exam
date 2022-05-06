@@ -1,7 +1,8 @@
 
+import { StudentExamEntity } from "exams/entities/studentExam.entity";
 import { Person } from "shared";
 import { IStudent } from "students/interface/student.interface";
-import { Column, Entity} from "typeorm";
+import { Column, Entity, OneToMany} from "typeorm";
 
 @Entity('students')
 export class StudentEntity extends Person implements IStudent{
@@ -12,4 +13,10 @@ export class StudentEntity extends Person implements IStudent{
         nullable: false
     })
     studentNumber: number;
+
+    @OneToMany(
+        ()=> StudentExamEntity,
+        studentExam => studentExam.student 
+    )
+    studentExams: StudentExamEntity[];
 }

@@ -1,14 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { CreateExamDto ,UpdateExamDto } from 'exams';
+import { CreateExamDto ,UpdateExamDto, IExam } from 'exams';
+import { IStudent } from 'students/interface/student.interface';
+import {ExamsRepository} from './exams.repository';
+import { IStudentExam } from './interfaces/student-exam.interface';
 
 @Injectable()
 export class ExamsService {
+
+  constructor(private readonly examRepo: ExamsRepository){}
   create(createExamDto: CreateExamDto) {
     return 'This action adds a new student';
   }
 
-  findAll() {
-    return `This action returns all exams`;
+  async findAllScheduledExams(studentId: string): Promise<IStudentExam[]> {
+    return await this.examRepo.findAllScheduledExams(studentId);
+  }
+
+  async findAllTakenExams(studentId: string): Promise<IStudentExam[]> {
+    return await this.examRepo.findAllTakenExams(studentId);
   }
 
   findOne(id: number) {

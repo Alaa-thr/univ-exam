@@ -19,8 +19,10 @@ export class UsersRepository extends Repository<UserEntity> {
 
     public async findUser(email: string):Promise<IUser>{
         try{
-            return await this.findOne({email});
+            const user = await this.findOne({email});
+            return user;
         }catch(error){
+            console.log('user repo',error);
             throw new InternalServerErrorException('Something went wrong, user not found');
         }
     }

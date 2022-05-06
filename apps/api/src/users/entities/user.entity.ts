@@ -25,6 +25,9 @@ export class UserEntity implements IUser{
     @UpdateDateColumn()
     updated_at: Date;
 
+    @Column()
+    studentId: string;
+
     @OneToOne(() => StudentEntity)
     @JoinColumn()
     student: StudentEntity;

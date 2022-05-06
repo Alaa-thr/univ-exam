@@ -3,7 +3,7 @@ import { CreateStudentDto } from "students/dto/create-student.dto";
 import { IUser } from "users/interface/user.interface";
 import {  Type } from 'class-transformer';
 
-export class RegisterStudentUserDto implements Omit<IUser, 'id'|'created_at'|'updated_at'|'studentId'>{
+export class RegisterStudentUserDto implements Omit<IUser, 'id'|'created_at'|'updated_at'|'student'>{
     
     @IsNotEmpty()
     @IsEmail()

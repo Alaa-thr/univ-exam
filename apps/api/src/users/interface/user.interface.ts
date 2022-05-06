@@ -1,3 +1,4 @@
+import { IStudent } from "students/interface/student.interface";
 
 
 export interface IUser {
@@ -7,5 +8,5 @@ export interface IUser {
     password: string;
     created_at: Date;
     updated_at: Date;
-    studentId: string;
+    student: IStudent;
 }

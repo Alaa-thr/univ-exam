@@ -29,15 +29,15 @@ export class ExamsController {
 
   @Get('scheduled-exams')
   async findAllScheduledExams(@User() userLogged: IUser): Promise<IStudentExam[]> {
-    const {studentId} = userLogged;
+    const {student} = userLogged;
     console.log("userLogged : ",userLogged)
-    return await this.examsService.findAllScheduledExams(studentId);
+    return await this.examsService.findAllScheduledExams(student.id);
   }
 
   @Get('taken-exams')
   async findAllTakenExams(@User() userLogged: IUser): Promise<IStudentExam[]> {
-    const {studentId} = userLogged;
-    return await this.examsService.findAllTakenExams(studentId);
+    const {student} = userLogged;
+    return await this.examsService.findAllTakenExams(student.id);
   }
 
   @Get(':id')

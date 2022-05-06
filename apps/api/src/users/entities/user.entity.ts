@@ -25,10 +25,12 @@ export class UserEntity implements IUser{
     @UpdateDateColumn()
     updated_at: Date;
 
-    @Column()
-    studentId: string;
-
-    @OneToOne(() => StudentEntity)
+    @OneToOne(
+        () => StudentEntity,
+        {
+            eager: true
+        }
+    )
     @JoinColumn()
     student: StudentEntity;
 

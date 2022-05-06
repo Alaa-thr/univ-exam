@@ -14,22 +14,20 @@
                             <div class="form-group">
                                 <input 
                                     class="form-control" 
+                                    [ngClass]="{'is-invalid': errorMessage}" 
                                     type="text" 
                                     placeholder="Email"
                                     ngModel
-                                    email
                                     required
+                                    email
                                     #emailInput="ngModel"
                                     name="email"
                                 />
-                                <div 
-                                    class="alert alert-danger"
-                                    *ngIf="(emailInput.invalid && emailInput.touched) || errorMessage" 
-                                >{{errorMessage}}</div>
                             </div>
                             <div class="form-group">
                                 <input 
                                     class="form-control" 
+                                    [ngClass]="{'is-invalid': errorMessage}"
                                     type="password" 
                                     placeholder="Password"
                                     ngModel
@@ -37,10 +35,11 @@
                                     #passwordInput="ngModel"
                                     name="password"
                                 />
-                                <div 
-                                    class="alert alert-danger"
-                                    *ngIf="passwordInput.invalid && passwordInput.touched" 
-                                >erorr</div>
+                            </div>
+                            <div 
+                                class="alert alert-danger"
+                                *ngIf="errorMessage" 
+                                >{{errorMessage}}
                             </div>
                             <div class="form-group">
                                 <button 

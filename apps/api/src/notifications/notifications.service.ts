@@ -1,14 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateNotificationDto,CreateNotificationDto } from 'notifications';
+import { UpdateNotificationDto,CreateNotificationDto,INotification,NotificationsRepository } from 'notifications';
 
 @Injectable()
 export class NotificationsService {
+
+  constructor(
+    private readonly notificationRepo: NotificationsRepository
+  ){}
   create(createNotificationDto: CreateNotificationDto) {
     return 'This action adds a new notification';
   }
 
-  findAll() {
-    return `This action returns all notifications`;
+  async findAll(userId: string):Promise<INotification[]> {
+    return await this.notificationRepo.findAll(userId);
+  }
+
+  async remove(userId: string,notifId: string): Promise<boolean> {
+    const deteledNotif = await this.notificationRepo.removeNotif(userId,notifId);
+    if(deteledNotif){
+      return true;
+    }
+    return false;
   }
 
   findOne(id: number) {
@@ -19,7 +31,5 @@ export class NotificationsService {
     return `This action updates a #${id} notification`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} notification`;
-  }
+  
 }

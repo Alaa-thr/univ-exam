@@ -1,4 +1,4 @@
-import { UserEntity } from "@users";
+import { IUser } from "@users";
 
 export interface INotification{
     
@@ -6,5 +6,5 @@ export interface INotification{
     description: string;
     created_at: Date;
     updated_at: Date;
-    user: UserEntity;
+    user: IUser;
 }

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExamsModule } from 'exams';
+import { NotificationsModule } from 'notifications';
 import { StudentsModule } from 'students/students.module';
-import { StudentsService } from 'students/students.service';
 import { UsersModule } from 'users';
 
 import { AppController } from './app.controller';
@@ -15,6 +15,7 @@ import { typeOrmOptions } from './config/typeorm.config';
     UsersModule,
     StudentsModule,
     ExamsModule,
+    NotificationsModule
   ],
   controllers: [AppController],
   providers: [AppService],

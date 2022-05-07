@@ -209,23 +209,6 @@ Version      : 1.0
 
 	// Circle Progress Bar
 	function animateElements() {
-		$('.circle-bar1').each(function () {
-			var elementPos = $(this).offset().top;
-			var topOfWindow = $(window).scrollTop();
-			var percent = $(this).find('.circle-graph1').attr('data-percent');
-			var animate = $(this).data('animate');
-			if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
-				$(this).data('animate', true);
-				$(this).find('.circle-graph1').circleProgress({
-					value: percent / 100,
-					size : 400,
-					thickness: 30,
-					fill: {
-						color: '#6e6bfa'
-					}
-				});
-			}
-		});
 		$('.circle-danger').each(function () {
 			var elementPos = $(this).offset().top;
 			var topOfWindow = $(window).scrollTop();
@@ -248,7 +231,7 @@ Version      : 1.0
 			var topOfWindow = $(window).scrollTop();
 			var percent = $(this).find('.circle-graph-warning').attr('data-percent');
 			var animate = $(this).data('animate');
-			if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
+			if (elementPos < topOfWindow + $(window).height() - 30  && !animate) {
 				$(this).data('animate', true);
 				$(this).find('.circle-graph-warning').circleProgress({
 					value: percent / 100,
@@ -278,11 +261,12 @@ Version      : 1.0
 			}
 		});
 	}	
-	
-	if($('.circle-bar').length > 0) {
-		animateElements();
-	}
-	$(window).scroll(animateElements);
+
+	$(window).on('mousemove',function(){
+		if($('.circle-bar').length > 0) {
+			animateElements();
+		}
+	});
 	
 	// Preloader
 	
@@ -290,7 +274,7 @@ Version      : 1.0
 		if($('#loader').length > 0) {
 			$('#loader').delay(350).fadeOut('slow');
 			$('body').delay(350).css({ 'overflow': 'visible' });
-		}
+		}	
 	})
 
 	// Inspect keyCode

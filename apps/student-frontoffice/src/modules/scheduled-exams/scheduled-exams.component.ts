@@ -17,7 +17,6 @@ export class ScheduledExamsComponent implements OnInit {
     this.scheduledExamsService.getScheduledExams().subscribe(
       (response) => {
         this.scheduledExams = response;
-        console.log("this.scheduledExams ",this.scheduledExams);
       },(error)=>{
         console.log('ScheduledExams Component error', error);
       }

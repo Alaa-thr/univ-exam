@@ -15,7 +15,8 @@ import { ScheduledExamsService } from '../modules/scheduled-exams/scheduled-exam
 import { LoginInterceptorProvider } from '../core/interceptors/login.interceptor';
 import { CapitalizeFirstLetterPipe } from '../core/pipes/capitalize-first-letter.pipe';
 import { TakenExamsService } from '../modules/taken-exams/taken-exams.service';
-
+import { NotificationService } from '../modules/notification/notification.service';
+import { NgxPaginationModule} from 'ngx-pagination'
 
 @NgModule({
   declarations: [
@@ -40,9 +41,10 @@ import { TakenExamsService } from '../modules/taken-exams/taken-exams.service';
     HttpClientModule, 
     AppRoutingModule, 
     ROUTING,
+    NgxPaginationModule
      
   ],
-  providers: [LoginGuard,LogoutGuard,ScheduledExamsService,LoginInterceptorProvider,TakenExamsService],
+  providers: [LoginGuard,LogoutGuard,ScheduledExamsService,LoginInterceptorProvider,TakenExamsService, NotificationService],
   bootstrap: [AppComponent],
   
 })

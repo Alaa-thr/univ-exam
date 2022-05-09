@@ -4291,3 +4291,7 @@ table.table-inbox tbody tr.checked {
 .width-80 {
     width: 80%;
 }
+
+.ngx-pagination{
+    float: right;
+}

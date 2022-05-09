@@ -13,128 +13,23 @@
                     <table class="datatable table table-hover table-center mb-0 ">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Address</th>
+                                <th>Time</th>
+                                <th>Description</th>
                                 <th class="text-end">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>PRE2209</td>
-                                <td>911 Deer Ridge Drive,USA</td>
+                            <tr *ngFor="let notif of notifications | paginate:{
+                                id:'list-pagination',
+                                itemsPerPage: 1,
+                                currentPage: currentpage,
+                                totalItems: totalRecords
+                            }">
+                                <td><small>{{notif.created_at | date:"dd/MM/yyyy HH:mm:ss"}}</small></td>
+                                <td>{{notif.description}}</td>
                                 <td class="text-end">
                                     <div class="actions">
-                                        <a href="#" class="btn btn-sm bg-red-light">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRE2209</td>
-                                <td>911 Deer Ridge Drive,USA</td>
-                                <td class="text-end">
-                                    <div class="actions">
-                                        <a href="#" class="btn btn-sm bg-red-light">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRE2209</td>
-                                <td>911 Deer Ridge Drive,USA</td>
-                                <td class="text-end">
-                                    <div class="actions">
-                                        <a href="#" class="btn btn-sm bg-red-light">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRE2209</td>
-                                <td>911 Deer Ridge Drive,USA</td>
-                                <td class="text-end">
-                                    <div class="actions">
-                                        <a href="#" class="btn btn-sm bg-red-light">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRE2209</td>
-                                <td>911 Deer Ridge Drive,USA</td>
-                                <td class="text-end">
-                                    <div class="actions">
-                                        <a href="#" class="btn btn-sm bg-red-light">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRE2209</td>
-                                <td>911 Deer Ridge Drive,USA</td>
-                                <td class="text-end">
-                                    <div class="actions">
-                                        <a href="#" class="btn btn-sm bg-red-light">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRE2209</td>
-                                <td>911 Deer Ridge Drive,USA</td>
-                                <td class="text-end">
-                                    <div class="actions">
-                                        <a href="#" class="btn btn-sm bg-red-light">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRE2209</td>
-                                <td>911 Deer Ridge Drive,USA</td>
-                                <td class="text-end">
-                                    <div class="actions">
-                                        <a href="#" class="btn btn-sm bg-red-light">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRE2209</td>
-                                <td>911 Deer Ridge Drive,USA</td>
-                                <td class="text-end">
-                                    <div class="actions">
-                                        <a href="#" class="btn btn-sm bg-red-light">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRE2209</td>
-                                <td>911 Deer Ridge Drive,USA</td>
-                                <td class="text-end">
-                                    <div class="actions">
-                                        <a href="#" class="btn btn-sm bg-red-light">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>PRE2209</td>
-                                <td>911 Deer Ridge Drive,USA</td>
-                                <td class="text-end">
-                                    <div class="actions">
-                                        <a href="#" class="btn btn-sm bg-red-light">
+                                        <a (click)="deleteNotification(notif.id)" class="btn btn-sm bg-red-light">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </div>
@@ -144,7 +39,12 @@
                     </table>
                 </div>
             </div>
-            <univ-exam-pagination></univ-exam-pagination>
+            <pagination-controls 
+                id="list-pagination"
+                previousLabel=""
+                nextLabel="" 
+                (pageChange)="currentpage = $event"
+            ></pagination-controls>
         </div>
     </div>
 </div>

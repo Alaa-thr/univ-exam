@@ -18,13 +18,7 @@ import { IStudentExam } from './interfaces/student-exam.interface';
 @Controller('exams')
 @UseGuards(JwtAuthGuard)
 export class ExamsController {
-  constructor(private readonly examsService: ExamsService) {}
-
-  @Post()
-  create(
-    @Body() createExamDto: CreateExamDto
-  ) { 
-    return this.examsService.create(createExamDto);
+  constructor(private readonly examsService: ExamsService) {
   }
 
   @Get('scheduled-exams')
@@ -37,6 +31,22 @@ export class ExamsController {
   async findAllTakenExams(@User() userLogged: IUser): Promise<IStudentExam[]> {
     const {student} = userLogged;
     return await this.examsService.findAllTakenExams(student.id);
+  }
+
+  @Get('taken-exams/:id')
+  findTakenExamsById(
+    @Param('id') examId: string,
+    @User() userLogged: IUser
+  ) {
+    const {student} = userLogged;
+    return this.examsService.findTakenExamsById(student.id,examId);
+  }
+
+  @Post()
+  create(
+    @Body() createExamDto: CreateExamDto
+  ) { 
+    return this.examsService.create(createExamDto);
   }
 
   @Get(':id')

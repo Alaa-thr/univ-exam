@@ -1,11 +1,11 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { EntityRepository, getConnection, Repository } from "typeorm";
-import { IStudentExam } from "./interfaces/student-exam.interface";
-import { StudentExamEntity } from "./entities/studentExam.entity";
+import { EntityRepository, Repository } from "typeorm";
+import { IStudentExam } from "../interfaces/student-exam.interface";
+import { StudentExamEntity } from "../entities/studentExam.entity";
 
 @Injectable()
 @EntityRepository(StudentExamEntity)
-export class ExamsRepository extends Repository<StudentExamEntity>{
+export class StudentExamRepository extends Repository<StudentExamEntity>{
 
     async findAllScheduledExams(studentId: string): Promise<IStudentExam[]>{
         return await this.findExams(studentId,false)
@@ -22,6 +22,7 @@ export class ExamsRepository extends Repository<StudentExamEntity>{
             .leftJoin("exam.questions","question")
             .where("exmStdnt.student = :id",{id: studentId})
             .andWhere("exmStdnt.isDone = :done", {done: isDone})
+            .andWhere("exam.isPublished = :isPublished", {isPublished: true})
             .loadRelationCountAndMap('exam.questoin_count', 'exam.questions')
             .getMany();
         }catch(error){

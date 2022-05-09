@@ -2,7 +2,8 @@
 import { ExamEntity } from "exams";
 import { InputTypeEnum } from "exams/enum/input-type.enum";
 import { IQuestion } from "exams/interfaces/question.interface";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { AnswerEntity } from "./answer.entity";
 
 @Entity('questions')
 export class QuestionEntity implements IQuestion{
@@ -39,5 +40,11 @@ export class QuestionEntity implements IQuestion{
     )
     @JoinColumn()
     exam: ExamEntity;
+
+    @OneToMany(
+        () => AnswerEntity,
+        answer => answer.question
+    )
+    answers: AnswerEntity[];
  
 }

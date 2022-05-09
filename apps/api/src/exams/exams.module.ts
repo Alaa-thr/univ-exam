@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ExamsService,ExamsController,ExamsRepository } from 'exams';
+import { ExamsService,ExamsController,StudentExamRepository } from 'exams';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ExamRepository } from './repositiries/exams.repository';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ExamsRepository]),
+    TypeOrmModule.forFeature([ExamRepository,StudentExamRepository]),
   ],
   controllers: [ExamsController],
   providers: [ExamsService],

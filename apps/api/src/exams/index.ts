@@ -1,5 +1,5 @@
 export * from './entities/exam.entity';
-export * from './exams.repository';
+export * from './repositiries/student-exam.repository';
 export * from './interfaces/exam.interface';
 export * from './dto/create-exam.dto';
 export * from './dto/update-exam.dto';

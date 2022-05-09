@@ -21,6 +21,11 @@ export class AnswerEntity implements IAnswer{
     })
     isCorrect: boolean;
 
+    @Column({
+        default: 0,
+    })
+    point: number;
+
     @CreateDateColumn({
         update: false
     })

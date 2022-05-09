@@ -17,6 +17,8 @@ import { CapitalizeFirstLetterPipe } from '../core/pipes/capitalize-first-letter
 import { TakenExamsService } from '../modules/taken-exams/taken-exams.service';
 import { NotificationService } from '../modules/notification/notification.service';
 import { NgxPaginationModule} from 'ngx-pagination'
+import { ExamDetailsComponent } from '../modules/exam-details/exam-details.component';
+import { ExamDetailsService } from '../modules/exam-details/exam-details.service';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { NgxPaginationModule} from 'ngx-pagination'
     PageNotFoundComponent,
     LoginComponent,
     CapitalizeFirstLetterPipe,
+    ExamDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,7 @@ import { NgxPaginationModule} from 'ngx-pagination'
     NgxPaginationModule
      
   ],
-  providers: [LoginGuard,LogoutGuard,ScheduledExamsService,LoginInterceptorProvider,TakenExamsService, NotificationService],
+  providers: [LoginGuard,LogoutGuard,ScheduledExamsService,LoginInterceptorProvider,TakenExamsService, NotificationService, ExamDetailsService],
   bootstrap: [AppComponent],
   
 })

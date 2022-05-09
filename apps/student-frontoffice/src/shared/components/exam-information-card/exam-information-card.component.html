@@ -32,7 +32,8 @@
                         <!--li><i class='fas fa-user-edit'></i> Mr Mohammed TEDLAOUI</li-->
                     </ul>
                     <div class="dash-btn">
-                        <button type="submit" class="btn btn-info">Start</button>
+                        <button type="submit" class="btn btn-info" *ngIf="!exm.isDone">Start</button>
+                        <button type="submit" class="btn btn-info" *ngIf="exm.isDone" [routerLink]="[exm.exam.id]">View</button>
                     </div>
                 </div>
             </div>

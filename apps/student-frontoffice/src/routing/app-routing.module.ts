@@ -6,6 +6,7 @@ import { PageNotFoundComponent } from '../core/components';
 import { LoginGuard } from '../core/guards/login.guard';
 import { LogoutGuard } from '../core/guards/logout.guard';
 import { LoginComponent } from '../core/components/login/login.component';
+import { ExamDetailsComponent } from '../modules/exam-details/exam-details.component';
 
 const APP_ROUTING: Routes = [ 
     
@@ -15,20 +16,28 @@ const APP_ROUTING: Routes = [
     canActivate: [LoginGuard]
   },
   {
-    path: 'scheduled-exams', 
-    component: ScheduledExamsComponent,
-    canActivate: [LoginGuard]
+    path: 'exam',
+    canActivate: [LoginGuard],
+    children:[
+      {
+        path: 'scheduled-exams', 
+        component: ScheduledExamsComponent,      
+      },
+      {
+        path: 'take-exam', 
+        component: TakeExamComponent,
+      },
+      {
+        path: 'taken-exams', 
+        component: TakenExamsComponent,
+      },
+      {
+        path: 'taken-exams/:id', 
+        component: ExamDetailsComponent,      
+      },
+    ]
   },
-  {
-    path: 'take-exam', 
-    component: TakeExamComponent,
-    canActivate: [LoginGuard]
-  },
-  {
-    path: 'taken-exams', 
-    component: TakenExamsComponent,
-    canActivate: [LoginGuard]
-  },
+
   {
     path: 'webcam', 
     component: WebcamComponent

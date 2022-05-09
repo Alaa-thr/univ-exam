@@ -30,7 +30,6 @@ export class ExamsController {
   @Get('scheduled-exams')
   async findAllScheduledExams(@User() userLogged: IUser): Promise<IStudentExam[]> {
     const {student} = userLogged;
-    console.log("userLogged : ",userLogged)
     return await this.examsService.findAllScheduledExams(student.id);
   }
 

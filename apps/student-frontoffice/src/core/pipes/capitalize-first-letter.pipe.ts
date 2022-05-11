@@ -6,7 +6,12 @@ import { Pipe, PipeTransform } from "@angular/core";
 export class CapitalizeFirstLetterPipe implements PipeTransform {
 
     transform(value: string, ...args: string[]): string {
-      return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+      const words = value.split(" ");
+      let result = "";
+        for(let i = 0; i < words.length; i++){
+            result+= words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase()+" ";
+        }
+      return result;
     }
   
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ExamDetailsService } from './exam-details.service';
 
 @Component({
@@ -8,18 +9,31 @@ import { ExamDetailsService } from './exam-details.service';
 })
 export class ExamDetailsComponent implements OnInit {
 
-  scheduledExams: any[];
-  constructor(private readonly examDetailsService: ExamDetailsService) {
-    this.scheduledExams = [];
+  examDetails: any;
+  studentAnswers: any[];
+  
+  constructor(
+    private readonly examDetailsService: ExamDetailsService,
+    private readonly activatedRoute: ActivatedRoute
+  ) {
+    this.studentAnswers = [];
   }
 
   ngOnInit(): void {
-    this.examDetailsService.getScheduledExams().subscribe(
-      (response) => {
-        this.scheduledExams = response;
-      },(error)=>{
-        console.log('ScheduledExams Component error', error);
+    this.activatedRoute.params.subscribe(
+      (params) => { 
+        const examId = params['id'];
+        this.examDetailsService.getTakenExamsById(examId).subscribe(
+          (response) => {
+            this.examDetails = response.examDetails;
+            this.studentAnswers = response.studentAnswewr;
+            console.log(this.studentAnswers)
+            console.log(this.examDetails)
+          },(error)=>{
+            console.log('ExamDetails Component error', error);
+          }
+        );
       }
-    );
+    )  
   }
 }

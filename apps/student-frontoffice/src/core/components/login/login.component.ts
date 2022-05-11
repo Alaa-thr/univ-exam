@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
         const token = response.token;
         this.authService.setLoggedValue(true);// declanché l'evenement
         localStorage.setItem('access_token', token);
-        this.router.navigate(['scheduled-exams']);
+        this.router.navigate(['exam/scheduled-exams']);
       },
       (error)=>{
         this.errorMessage = error.error.message;

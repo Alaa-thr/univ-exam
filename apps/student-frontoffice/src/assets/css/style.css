@@ -4295,3 +4295,11 @@ table.table-inbox tbody tr.checked {
 .ngx-pagination{
     float: right;
 }
+
+.mb-6{
+    margin-bottom: 5rem!important;
+}
+
+input[name="checkbox"][ng-readonly="true"]{
+    pointer-events: none;
+}

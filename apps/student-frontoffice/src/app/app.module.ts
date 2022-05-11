@@ -19,6 +19,8 @@ import { NotificationService } from '../modules/notification/notification.servic
 import { NgxPaginationModule} from 'ngx-pagination'
 import { ExamDetailsComponent } from '../modules/exam-details/exam-details.component';
 import { ExamDetailsService } from '../modules/exam-details/exam-details.service';
+import { SeparateWordsPipe } from '../core/pipes/separate-words.pipe';
+import { QuestionMarkPipe } from '../core/pipes/question-mark.pipe';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { ExamDetailsService } from '../modules/exam-details/exam-details.service
     PageNotFoundComponent,
     LoginComponent,
     CapitalizeFirstLetterPipe,
-    ExamDetailsComponent
+    ExamDetailsComponent,
+    SeparateWordsPipe,
+    QuestionMarkPipe
   ],
   imports: [
     BrowserModule,

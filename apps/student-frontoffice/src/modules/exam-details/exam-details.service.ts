@@ -5,12 +5,12 @@ import { Observable } from "rxjs";
 @Injectable()
 export class ExamDetailsService{
 
+    link: string = "http://localhost:3333/api/exams/taken-exams";
     constructor(
         private readonly httpClient: HttpClient
     ){}
 
-    getScheduledExams(): Observable<any>{
-        const link = "http://localhost:3333/api/exams/scheduled-exams";
-        return this.httpClient.get(link);
+    getTakenExamsById(examId: string): Observable<any>{
+        return this.httpClient.get(this.link+`/${examId}`);
     }
 }

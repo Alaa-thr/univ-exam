@@ -18,10 +18,6 @@ export class ExamInformationCardComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getDate(date: Date){
-    return formatDate(date, 'dd-MM-yyyy', 'en-US');
-  }
-
   getCircleClass(isDone:boolean, grade: number): boolean{
     if(!isDone){
       this.circleClass = 'circle-warning';

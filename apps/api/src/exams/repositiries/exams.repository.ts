@@ -7,32 +7,32 @@ import { IExam } from "exams/interfaces/exam.interface";
 @EntityRepository(ExamEntity)
 export class ExamRepository extends Repository<ExamEntity>{
 
-    async findTakenExamsById(studentId: string, examId: string): Promise<any>{
+    async findTakenExamsById(studentId: string, examId: string): Promise<IExam>{
         try{
-            /*
-                // TO TAKE THE EXAM
-                    select * from exam
-                    where exam.id = examId and isPublished = true
-                    join questions.examId = exam.id
-                    join answers.questionId = questions.id
-                
-                //TO SEE THE ANSEWRS OF STUDENT
-                    select * from exam
-                    where exam.id = examId and isPublished = true
-                    join questions.examId = exam.id
-                    join answers.questionId = questions.id
-                    join answers_students_students.answer = answers.id
-                    where answers_students_students.student = studentId
-
-            */
             return await this.createQueryBuilder('exm')
             .leftJoinAndSelect("exm.questions","qst")
             .leftJoinAndSelect("qst.answers","answr")
-            //.leftJoinAndSelect("answr.students","student")
+            .leftJoin('exm.studentExams', 'studentExams')
             .where("exm.id = :id",{id:examId})
             .andWhere("exm.isPublished = :isPublished", {isPublished: true})
-            //.andWhere("student.id = :sId",{sId: studentId})
+            .andWhere("studentExams.studentId = :sId",{sId: studentId})
+            .addSelect("studentExams.grade")
             .getOne();
+
+        }catch(error){
+            console.log('exam repo error', error)
+            throw new InternalServerErrorException("Something went wrong, exams cannot be recoverd.") 
+        }
+    }
+    async findStudentAnswersById(studentId: string, examId: string): Promise<any>{
+        try{
+            return await this.createQueryBuilder('exm')
+            .leftJoinAndSelect("exm.questions","qst")
+            .leftJoinAndSelect("qst.answers","answr")
+            .leftJoin('answr.students', 'student')    
+            .where("exm.id = :id",{id:examId})
+            .andWhere("student.id = :sId",{sId: studentId})
+            .getMany();
 
         }catch(error){
             console.log('exam repo error', error)

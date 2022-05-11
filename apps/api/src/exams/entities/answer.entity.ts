@@ -17,14 +17,9 @@ export class AnswerEntity implements IAnswer{
 
     @Column({
         default: false,
-        select: false
+        /*select: false*/
     })
     isCorrect: boolean;
-
-    @Column({
-        default: 0,
-    })
-    point: number;
 
     @CreateDateColumn({
         update: false

@@ -12,8 +12,9 @@ import { IUser } from '@users';
 import { ExamsService,CreateExamDto,UpdateExamDto } from 'exams';
 import { User } from 'shared/decorators/user.decorator';
 import { JwtAuthGuard } from 'users/guards/jwt-auth.guard';
+import { IQuestion } from './interfaces/question.interface';
 import { IStudentExam } from './interfaces/student-exam.interface';
-
+import { IExam } from "exams/interfaces/exam.interface";
 
 @Controller('exams')
 @UseGuards(JwtAuthGuard)
@@ -34,12 +35,12 @@ export class ExamsController {
   }
 
   @Get('taken-exams/:id')
-  findTakenExamsById(
+  async findTakenExamsById(
     @Param('id') examId: string,
     @User() userLogged: IUser
-  ) {
+  ):Promise<{examDetails:IExam,studentAnswewr:IQuestion}> {
     const {student} = userLogged;
-    return this.examsService.findTakenExamsById(student.id,examId);
+    return await this.examsService.findTakenExamsById(student.id,examId);
   }
 
   @Post()

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -11,8 +10,7 @@ export class HeaderComponent implements OnInit {
 
   isLogged: boolean = false;
   constructor(
-    private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -23,8 +21,6 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(){
-    this.authService.logout();
-    this.authService.setLoggedValue(false);// declanché l'evenement
-    this.router.navigate(['login']);
+    this.authService.logout();  
   }
 }

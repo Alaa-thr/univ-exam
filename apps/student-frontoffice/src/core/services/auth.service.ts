@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
@@ -11,7 +12,8 @@ export class AuthService{
     userIsLogged = this.behavior.asObservable();
 
     constructor(
-        private readonly httpClient: HttpClient
+        private readonly httpClient: HttpClient,
+        private readonly router: Router
     ){}
 
     login(data:any): Observable<any>{
@@ -21,7 +23,9 @@ export class AuthService{
 
     logout(): void{
         try{
+            this.setLoggedValue(false);// declanché l'evenement
             localStorage.removeItem('access_token');
+            this.router.navigate(['login']);
         }catch(error){
             console.log('error logout', error);
         }   

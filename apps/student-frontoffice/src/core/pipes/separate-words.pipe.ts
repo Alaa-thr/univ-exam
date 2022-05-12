@@ -6,12 +6,15 @@ import { Pipe, PipeTransform } from "@angular/core";
 export class SeparateWordsPipe implements PipeTransform {
 
     transform(value: string, ...args: string[]): string {
+      if(value){
         const words = value.split("_");
         let result = "";
         for(let i = 0; i < words.length; i++){
             result+= words[i]+" ";
         }
-      return result;
+        return result;
+      }
+      return value;
     }
   
   }

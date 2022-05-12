@@ -3,7 +3,7 @@
         <div class="card-header">
             <div class="row align-items-center">
                 <div class="col-6">
-                    <h5 class="card-title">{{exm.exam.examType | SeparateWords |capitalizeFisrtLetter }}</h5>
+                    <h5 class="card-title">{{exm.exam.examType | SeparateWords |capitalizeLetter: 'first' }}</h5>
                 </div>
                 <div class="col-6">
                     <span class="float-end"><i class="fas fa-calendar-alt"></i> {{exm.exam.date | date:"dd/MM/yyyy"}}</span>
@@ -24,7 +24,7 @@
                         </div>
                 </div>
                 <div class="dash-details">
-                    <h4>{{exm.exam.title}}</h4>
+                    <h4>{{exm.exam.title |capitalizeLetter: 'first'}}</h4>
                     <ul>
                         <li><i class="fas fa-clock"></i> {{exm.exam.startHour}} - {{exm.exam.endHoud}}</li><br>
                         <li><i class="fas fa-hourglass-end"></i> {{ calculeTime(exm.exam.startHour,exm.exam.endHoud) }} Minutes</li>
@@ -32,7 +32,7 @@
                         <!--li><i class='fas fa-user-edit'></i> Mr Mohammed TEDLAOUI</li-->
                     </ul>
                     <div class="dash-btn">
-                        <button type="submit" class="btn btn-info" *ngIf="!exm.isDone">Start</button>
+                        <button type="submit" class="btn btn-info" *ngIf="!exm.isDone" [routerLink]="[exm.exam.id]">Start</button>
                         <button type="submit" class="btn btn-info" *ngIf="exm.isDone" [routerLink]="[exm.exam.id]">View</button>
                     </div>
                 </div>

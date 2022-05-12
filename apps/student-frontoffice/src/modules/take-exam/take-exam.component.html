@@ -24,10 +24,15 @@
                         <small class="text-muted-light">TOTAL QUESTIONS</small>
                     </div>
                 </div>
-                <div class="">
-                    <div class="card-body text-center col-12">
-                        <h4 class="mb-0 col-12"><strong>Time left</strong></h4>
-                        <countdown [config]="{ leftTime: leftTime, format: 'hh:mm:ss' }"></countdown>
+                <div class="card">
+                    <div class="card-body text-center m-t-30">
+                        <h4 class="mb-0">
+                            <strong>
+                                <countdown [config]="{ leftTime: leftTime, format: 'hh:mm:ss' }"></countdown>
+                            </strong>
+                        </h4>
+                        <small class="text-muted-light">TIME LEFT</small>
+                        
                     </div>
                 </div>
             </div>

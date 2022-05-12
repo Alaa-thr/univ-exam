@@ -16,6 +16,7 @@ export class ExamDetailsComponent implements OnInit {
     private readonly examDetailsService: ExamDetailsService,
     private readonly activatedRoute: ActivatedRoute
   ) {
+    this.examDetails = [];
     this.studentAnswers = [];
   }
 

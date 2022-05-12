@@ -24,16 +24,16 @@ const APP_ROUTING: Routes = [
         component: ScheduledExamsComponent,      
       },
       {
-        path: 'take-exam', 
-        component: TakeExamComponent,
-      },
-      {
         path: 'taken-exams', 
         component: TakenExamsComponent,
       },
       {
         path: 'taken-exams/:id', 
         component: ExamDetailsComponent,      
+      },
+      {
+        path: 'scheduled-exams/:id', 
+        component: TakeExamComponent,      
       },
     ]
   },

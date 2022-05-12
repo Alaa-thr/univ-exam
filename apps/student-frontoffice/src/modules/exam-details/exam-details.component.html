@@ -1,7 +1,7 @@
 <div class="page-header">
     <div class="row align-items-center">
         <div class="col">
-            <h3 class="page-title">{{examDetails.examType | SeparateWords | capitalizeFisrtLetter}} Algorithme</h3>
+            <h3 class="page-title">{{examDetails.examType | SeparateWords | capitalizeLetter: 'first'}} {{examDetails.title | capitalizeLetter: 'first'}}</h3>
         </div>
     </div>
 </div>
@@ -20,7 +20,7 @@
                 <div class="card">
                     <div class="card-body text-center m-t-30">
                         <h4 class="mb-0"><strong>Grade</strong></h4>
-                        <small class="text-muted-light">{{examDetails.studentExams[0].grade}}/20</small>
+                        <small class="text-muted-light" *ngFor="let examGrade of examDetails.studentExams">{{examGrade.grade}}/20</small>
                     </div>
                 </div>
                 

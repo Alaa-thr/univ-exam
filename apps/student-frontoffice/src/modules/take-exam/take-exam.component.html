@@ -1,7 +1,7 @@
 <div class="page-header">
     <div class="row align-items-center">
         <div class="col">
-            <h3 class="page-title">Take Exam</h3>
+            <h3 class="page-title">{{examDetails.title | capitalizeLetter: 'first'}} {{examDetails.examType | SeparateWords | capitalizeLetter: 'first'}}</h3>
         </div>
     </div>
 </div>
@@ -10,28 +10,24 @@
         <div class="card flex-fill">
             <div class="card-group">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" 
+                        *ngFor="let stdnt of examDetails.studentExams">
                         <h4 class="mb-0"><strong>Full Name: </strong></h4>
-                        <small class="text-muted-light">ALAA TAHRAOUI</small>
-                        <h4 class="mt-3 mb-0"><strong>Level: </strong></h4>
-                        <small class="text-muted-light">MASTER 2</small>
+                        <small class="text-muted-light">{{stdnt.student.firstName | capitalizeLetter: 'full' }} {{stdnt.student.lastName | capitalizeLetter: 'full'}}</small>
+                        <h4 class="mb-0"><strong>Student Number: </strong></h4>
+                        <small class="text-muted-light">{{stdnt.student.studentNumber}}</small>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-body text-center m-t-30">
-                        <h4 class="mb-0"><strong>25</strong></h4>
+                        <h4 class="mb-0"><strong>{{examDetails.questoin_count}}</strong></h4>
                         <small class="text-muted-light">TOTAL QUESTIONS</small>
                     </div>
                 </div>
                 <div class="">
                     <div class="card-body text-center col-12">
                         <h4 class="mb-0 col-12"><strong>Time left</strong></h4>
-                        <div class="countdown col-12" data-date="6-4-2029" data-time="12:00">
-                            <div class="day"><span class="num"></span><span class="word"></span></div>
-                            <div class="hour"><span class="num"></span><span class="word"></span></div>
-                            <div class="min"><span class="num"></span><span class="word"></span></div>
-                            <div class="sec"><span class="num"></span><span class="word"></span></div>
-                        </div>
+                        <countdown [config]="{ leftTime: leftTime, format: 'hh:mm:ss' }"></countdown>
                     </div>
                 </div>
             </div>

@@ -40,40 +40,78 @@
     </div>
 
     <div class="col-12 d-flex">
-        <div class="card flex-fill">
-            <div class="card-header">
-                <h4 class="mb-0">
-                    <strong>#9</strong>
-                    Github command to deploy comits?
-                </h4>
-            </div>
-            <div class="card-body">
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="checkbox"> git Push
-                        </label>
+        <div class="card card-form col-12">
+            <div class="formExam">
+                <div class="left-side col-4">
+                    <div class="left-heading">
+                        <h3>Questions</h3>
+                    </div>
+                    <div class="scroll-exam">
+                        <ul class="progress-barr">
+                            <li 
+                                *ngFor="let qst of examDetails.questions; let i=index"
+                                [ngClass]="{'active': i === 0}">
+                                question {{i+1}}
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="checkbox"> git commit -m "message"
-                        </label>
+                <div class="right-side col-8">
+                    <div class="mainn"
+                        *ngFor="let qst of examDetails.questions; let i=index"
+                        [ngClass]="{'active': i === 0}">
+                        <div>
+                            <div>
+                                <h4 class="mb-0">
+                                    <strong>#{{i+1}}</strong>
+                                    {{qst.text | QuestionMark}}
+                                </h4>
+                            </div>
+                            <hr>
+                            <div class="form-group" 
+                                *ngFor="let answer of qst.answers;" >
+                                <div class="form-check" 
+                                    *ngIf="qst.inputType === 'checkbox'">
+                                        <input type="checkbox" name="checkbox" 
+                                            class="form-check-input" id="{{answer.id}}">
+                                        <label class="form-check-label" for="{{answer.id}}">{{answer.title}}</label>                
+                                </div>
+                            </div>
+                            <div class="form-group" *ngIf="qst.inputType === 'select'">
+                                <select class="form-select mb-6" >
+                                    <option value="{{answer.id}}" 
+                                        *ngFor="let answer of qst.answers">
+                                    {{answer.title}}
+                                    
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div >
+                            <button class="btn btn-outline-primary back_button"
+                                *ngIf="i > 0">
+                                Back</button>
+                            <button class="btn btn-success float-end next_button"
+                                *ngIf="i < examDetails.questions.length-1">
+                                Next</button>
+                            <button class="btn btn-danger float-end submit_button"
+                                *ngIf="i === examDetails.questions.length-1">
+                                Submit</button>
+                        </div>
+                    </div>
+                    <div class="mainn text-center ">
+                        <div class="text congrats" *ngFor="let stdnt of examDetails.studentExams">
+                            <img src="../../assets/img/check.png" width="50" height="50" >
+                            <div class="m-t-12">
+                                <h2>Congratulations!</h2>
+                                <p>Thanks Mr./Mrs. <b>{{stdnt.student.firstName | capitalizeLetter: 'full' }} {{stdnt.student.lastName | capitalizeLetter: 'full'}}</b> your answers have been submitted successfully.</p>
+                            </div>   
+                        </div>
+                        <div >
+                            <button class="btn btn-success" (click)="goHome()">Back Home</button>
+                        </div>    
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="checkbox"> git Pull
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer text-muted">
-                <button type="button" class="btn btn-white">Skip</button>
-                <button type="button" class="btn btn-success float-right"><span>Submit</span> <i
-                        class="fa fa-paper-plane" aria-hidden="true"></i></button>
             </div>
         </div>
     </div>

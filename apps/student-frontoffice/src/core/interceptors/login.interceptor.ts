@@ -15,7 +15,6 @@ export class LoginInterceptor implements HttpInterceptor{
         const token = localStorage.getItem('access_token');
         if(token){
             const isExpired = this.helper.isTokenExpired(token);
-            console.log("token login intreceptor",isExpired)
             if(!isExpired){
                 const newReq = req.clone({
                     setHeaders: {

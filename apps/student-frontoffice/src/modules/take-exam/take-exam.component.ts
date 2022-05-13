@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TakeExamService } from './take-exam.service';
 
 @Component({
@@ -14,13 +14,15 @@ export class TakeExamComponent implements OnInit {
   leftTime: number;
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private readonly takeExamService: TakeExamService
+    private readonly takeExamService: TakeExamService,
+    private readonly router: Router
   ) {
     this.examDetails = [];
     this.leftTime = 0;
   }
 
   ngOnInit(): void {
+    
     this.activatedRoute.params.subscribe(
       (params) => { 
         const examId = params['id'];
@@ -43,6 +45,11 @@ export class TakeExamComponent implements OnInit {
     const min = Math.floor((endValue.getTime()-startValue.getTime())/60000);
     const sec = min*60;
     return sec;
+  }
+
+  goHome(){
+    const link = "exam/scheduled-exams";
+    this.router.navigate([link]);
   }
 
 }

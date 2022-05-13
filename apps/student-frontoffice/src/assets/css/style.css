@@ -351,6 +351,10 @@ table.table td h2 span {
     padding-top: 0 !important;
 }
 
+.p-t-100 {
+    padding-top: 100px !important;
+}
+
 .p-t-2 {
     padding-top: 2 !important;
 }
@@ -420,7 +424,9 @@ table.table td h2 span {
 .m-t-10 {
     margin-top: 10px !important;
 }
-
+.m-t-12 {
+    margin-top: 12px !important;
+}
 .m-t-15 {
     margin-top: 15px !important;
 }

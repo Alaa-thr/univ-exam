@@ -7,6 +7,7 @@ import { LoginGuard } from '../core/guards/login.guard';
 import { LogoutGuard } from '../core/guards/logout.guard';
 import { LoginComponent } from '../core/components/login/login.component';
 import { ExamDetailsComponent } from '../modules/exam-details/exam-details.component';
+import { ExamPreparationComponent } from '../modules/exam-preparation/exam-preparation.component';
 
 const APP_ROUTING: Routes = [ 
     
@@ -32,12 +33,15 @@ const APP_ROUTING: Routes = [
         component: ExamDetailsComponent,      
       },
       {
-        path: 'scheduled-exams/:id', 
+        path: 'scheduled-exams/preparation-exam/:id', 
+        component: ExamPreparationComponent,   
+      },
+      {
+        path: 'scheduled-exams/preparation-exam/:id/start', 
         component: TakeExamComponent,      
       },
     ]
   },
-
   {
     path: 'webcam', 
     component: WebcamComponent

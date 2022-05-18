@@ -65,7 +65,6 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
                 this.goHome();
               }
             })
-            console.log(this.examDetails)
           },(error)=>{
             console.log('ExamDetails Component error', error);
           }
@@ -85,7 +84,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
   ngOnDestroy(): void {
     document.body.removeChild(this.multiStepScript);
   }
-  get questions():FormArray{
+  private get questions():FormArray{
     return this.form.get('questions') as FormArray;
   }
   setSelectedValue(selected: any, questionId: string):void{
@@ -124,12 +123,27 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
     }
     this.selectedOption = false;
     this.setOneAnswerSelectedAtLeast(questionId);
-    console.log('index', questionIndex)
-    console.log("this.questions.value ",this.questions.value)
 
   }
   onSubmit(){
-    console.log("data ",this.form.value)
+    
+    this.takeExamService.addStudentAnswers(this.form.value).subscribe(
+      (respone)=>{
+        this.closeFullscreen();
+        Swal.fire({
+          title: 'Congratulations!',
+          icon: 'success',
+          text: "Your answers have been submitted successfully",
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#3085d6'
+        }).then((result) => {
+          this.goHome();
+        })
+      },
+      (error)=>{
+        console.log('ExamDetails Component error', error);
+      }
+    );
   }
 
   getTimeLeft(startHour: Date, endHour: Date):number{
@@ -140,7 +154,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
     return sec;
   }
 
-  goHome(): void{
+  private goHome(): void{
     const link = "exam/scheduled-exams";
     this.router.navigate([link]);
   }
@@ -155,7 +169,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
     }
   }
 
-  openFullscreen() {
+  private openFullscreen(): void {
     if (this.elem.requestFullscreen) {
       this.elem.requestFullscreen();
     } else if (this.elem.mozRequestFullScreen) {
@@ -169,8 +183,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
       this.elem.msRequestFullscreen();
     }
   }
-/* Close fullscreen */
-  closeFullscreen() {
+  private closeFullscreen(): void {
     if (this.document.exitFullscreen) {
       this.document.exitFullscreen();
     } else if (this.document.mozCancelFullScreen) {

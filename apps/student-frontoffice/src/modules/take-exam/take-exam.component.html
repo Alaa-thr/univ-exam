@@ -112,18 +112,6 @@
                             </div>
                         </div>
                     </form>
-                    <div class="mainn text-center ">
-                        <div class="text congrats" *ngFor="let stdnt of examDetails.studentExams">
-                            <img src="../../assets/img/check.png" width="50" height="50" >
-                            <div class="m-t-12">
-                                <h2>Congratulations!</h2>
-                                <p>Thanks Mr./Mrs. <b>{{stdnt.student.firstName | capitalizeLetter: 'full' }} {{stdnt.student.lastName | capitalizeLetter: 'full'}}</b> your answers have been submitted successfully.</p>
-                            </div>   
-                        </div>
-                        <div >
-                            <button class="btn btn-success" (click)="goHome()">Back Home</button>
-                        </div>    
-                    </div>
                 </div>
             </div>
         </div>

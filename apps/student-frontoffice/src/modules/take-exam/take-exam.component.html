@@ -5,7 +5,7 @@
         </div>
     </div>
 </div>
-<div class="col-12">
+<div class="col-12 bg-white" #fullScreen style=" padding: 30px !important; height: 100%;">
     <div class="col-12 d-flex">
         <div class="card flex-fill">
             <div class="card-group">
@@ -39,10 +39,10 @@
         </div>
     </div>
 
-    <div class="col-12 d-flex">
+    <div class="col-12 d-flex height-65">
         <div class="card card-form col-12">
             <div class="formExam">
-                <div class="left-side col-4">
+                <div class="left-side col-3">
                     <div class="left-heading">
                         <h3>Questions</h3>
                     </div>
@@ -56,7 +56,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="right-side col-8">
+                <div class="right-side col-9">
                     <form [formGroup]="form">
                         <div class="mainn"
                         *ngFor="let qst of examDetails.questions; let i=index"
@@ -93,7 +93,7 @@
                                     </div>
                                 </div> 
                             </div>
-                            <div >
+                            <div class="" style="margin-top: 120px;">
                                 <button class="btn btn-outline-primary back_button"
                                     *ngIf="i > 0"
                                     (click)="setOneAnswerSelectedAtLeast(examDetails.questions[i-1].id)">

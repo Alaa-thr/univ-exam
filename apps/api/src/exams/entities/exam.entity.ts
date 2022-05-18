@@ -23,7 +23,7 @@ export class ExamEntity implements IExam{
     startHour: Date;
 
     @Column('time')
-    endHoud: Date;
+    endHour: Date;
 
     @Column({
         default: false

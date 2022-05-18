@@ -9,7 +9,7 @@ export abstract class Person {
     @Column({
         nullable: false
     })
-    fistName: string;
+    firstName: string;
 
     @Column({
         nullable: false

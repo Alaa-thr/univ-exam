@@ -39,4 +39,29 @@ export class ExamRepository extends Repository<ExamEntity>{
             throw new InternalServerErrorException("Something went wrong, exams cannot be recoverd.") 
         }
     }
+    async findScheduledExamById(studentId: string, examId: string): Promise<IExam>{
+        try{
+            return await this.createQueryBuilder('exm')
+            .leftJoinAndSelect("exm.questions","qst")
+            .leftJoin("qst.answers","answr")
+            .leftJoinAndSelect('exm.studentExams', 'studentExams')
+            .leftJoin("studentExams.student","student")
+            .loadRelationCountAndMap('exam.questoin_count', 'exm.questions')
+            .where("exm.id = :id",{id:examId})
+            .andWhere("exm.isPublished = :isPublished", {isPublished: true})
+            .andWhere("studentExams.studentId = :sId",{sId: studentId})
+            .addSelect([
+                "student.firstName",
+                "student.lastName",
+                "student.studentNumber",
+                "answr.id",
+                "answr.title"
+            ])
+            .getOne();
+
+        }catch(error){
+            console.log('exam repo error', error)
+            throw new InternalServerErrorException("Something went wrong, exams cannot be recoverd.") 
+        }
+    }
 }

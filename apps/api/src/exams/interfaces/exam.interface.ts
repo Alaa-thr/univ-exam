@@ -6,7 +6,7 @@ export interface IExam {
     title: string;
     date: Date;
     startHour: Date;
-    endHoud: Date;
+    endHour: Date;
     isPublished: boolean;
     examType: ExamTypeEnum;
     answersArePublished: boolean;

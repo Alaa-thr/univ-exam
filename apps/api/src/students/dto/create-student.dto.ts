@@ -6,7 +6,7 @@ export class CreateStudentDto implements Omit<IStudent, 'id'|'created_at'|'updat
 
     @IsNotEmpty()
     @IsAlpha()
-    fistName: string;
+    firstName: string;
 
     @IsNotEmpty()
     @IsAlpha()

@@ -43,6 +43,15 @@ export class ExamsController {
     return await this.examsService.findTakenExamsById(student.id,examId);
   }
 
+  @Get('scheduled-exam/:id')
+  async findScheduledExamById(
+    @Param('id') examId: string,
+    @User() userLogged: IUser
+  ):Promise<IExam> {
+    const {student} = userLogged;
+    return await this.examsService.findScheduledExamById(student.id,examId);
+  }
+
   @Post()
   create(
     @Body() createExamDto: CreateExamDto

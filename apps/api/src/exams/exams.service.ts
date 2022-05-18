@@ -31,6 +31,10 @@ export class ExamsService {
     };
   }
 
+  async findScheduledExamById(studentId: string, examId: string): Promise<IExam> {
+    return await this.examRepo.findScheduledExamById(studentId,examId);
+  }
+
   create(createExamDto: CreateExamDto) {
     return 'This action adds a new student';
   }

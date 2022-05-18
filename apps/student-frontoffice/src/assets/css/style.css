@@ -4309,3 +4309,6 @@ table.table-inbox tbody tr.checked {
 input[name="checkbox"][ng-readonly="true"]{
     pointer-events: none;
 }
+.height-65{
+    height: 65%;
+}

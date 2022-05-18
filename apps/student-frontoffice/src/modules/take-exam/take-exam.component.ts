@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { DOCUMENT } from '@angular/common';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { TakeExamService } from './take-exam.service';
@@ -11,17 +12,20 @@ import { TakeExamService } from './take-exam.service';
 })
 export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
 
+  @ViewChild('fullScreen',{static: false}) fullScreenDivRef: any;
   examDetails: any;
   leftTime: number;
   multiStepScript: any;
   form: FormGroup;
   selectedOption: boolean;
   oneAnswerSelectedAtLeast: boolean;
+  elem: any;
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly takeExamService: TakeExamService,
     private readonly router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    @Inject(DOCUMENT) private document: any
   ) {
     this.examDetails = [];
     this.leftTime = 0;
@@ -36,7 +40,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
           ], Validators.minLength(2))
         })
       ])
-    })
+    });
   }
 
   ngOnInit(): void {
@@ -47,6 +51,20 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
           (response) => {
             this.examDetails = response;
             this.leftTime = this.getTimeLeft(this.examDetails.startHour, this.examDetails.endHour);
+            Swal.fire({
+              title: 'Get Started',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Start'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.openFullscreen();
+              }else{
+                this.goHome();
+              }
+            })
             console.log(this.examDetails)
           },(error)=>{
             console.log('ExamDetails Component error', error);
@@ -57,10 +75,11 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   ngAfterViewInit():void{
+    this.elem = this.fullScreenDivRef.nativeElement; 
     this.multiStepScript=document.createElement("script");
     this.multiStepScript.type="text/javascript";
-    this.multiStepScript.src="assets/js/bootstrap-multi-step-form.js"; //external script
-    document.body.appendChild(this.multiStepScript);  
+    this.multiStepScript.src="assets/js/bootstrap-multi-step-form.js";
+    document.body.appendChild(this.multiStepScript);
   }
 
   ngOnDestroy(): void {
@@ -133,6 +152,36 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
       this.oneAnswerSelectedAtLeast = true;
     }else{
       this.oneAnswerSelectedAtLeast = false;
+    }
+  }
+
+  openFullscreen() {
+    if (this.elem.requestFullscreen) {
+      this.elem.requestFullscreen();
+    } else if (this.elem.mozRequestFullScreen) {
+      /* Firefox */
+      this.elem.mozRequestFullScreen();
+    } else if (this.elem.webkitRequestFullscreen) {
+      /* Chrome, Safari and Opera */
+      this.elem.webkitRequestFullscreen();
+    } else if (this.elem.msRequestFullscreen) {
+      /* IE/Edge */
+      this.elem.msRequestFullscreen();
+    }
+  }
+/* Close fullscreen */
+  closeFullscreen() {
+    if (this.document.exitFullscreen) {
+      this.document.exitFullscreen();
+    } else if (this.document.mozCancelFullScreen) {
+      /* Firefox */
+      this.document.mozCancelFullScreen();
+    } else if (this.document.webkitExitFullscreen) {
+      /* Chrome, Safari and Opera */
+      this.document.webkitExitFullscreen();
+    } else if (this.document.msExitFullscreen) {
+      /* IE/Edge */
+      this.document.msExitFullscreen();
     }
   }
 }

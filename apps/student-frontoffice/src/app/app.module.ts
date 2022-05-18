@@ -6,9 +6,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule, ROUTING } from '../routing/app-routing.module';
 import { CountdownModule } from 'ngx-countdown';
 
-import { HeaderComponent, FooterComponent, PageNotFoundComponent} from '../core/components';
-import { ExamInformationCardComponent, PaginationComponent } from '../shared/components';
-import { WebcamComponent, NotificationComponent, TakenExamsComponent, TakeExamComponent, ScheduledExamsComponent } from '../modules';
+import {
+  HeaderComponent,
+  FooterComponent,
+  PageNotFoundComponent,
+} from '../core/components';
+import {
+  ExamInformationCardComponent,
+  PaginationComponent,
+} from '../shared/components';
+import {
+  WebcamComponent,
+  NotificationComponent,
+  TakenExamsComponent,
+  TakeExamComponent,
+  ScheduledExamsComponent,
+} from '../modules';
 import { LogoutGuard } from '../core/guards/logout.guard';
 import { LoginGuard } from '../core/guards/login.guard';
 import { LoginComponent } from '../core/components/login/login.component';
@@ -17,12 +30,13 @@ import { LoginInterceptorProvider } from '../core/interceptors/login.interceptor
 import { CapitalizeLetterPipe } from '../core/pipes/capitalize-letter.pipe';
 import { TakenExamsService } from '../modules/taken-exams/taken-exams.service';
 import { NotificationService } from '../modules/notification/notification.service';
-import { NgxPaginationModule} from 'ngx-pagination'
+import { NgxPaginationModule } from 'ngx-pagination';
 import { ExamDetailsComponent } from '../modules/exam-details/exam-details.component';
 import { ExamDetailsService } from '../modules/exam-details/exam-details.service';
 import { SeparateWordsPipe } from '../core/pipes/separate-words.pipe';
 import { QuestionMarkPipe } from '../core/pipes/question-mark.pipe';
 import { TakeExamService } from '../modules/take-exam/take-exam.service';
+import { ExamPreparationComponent } from '../modules/exam-preparation/exam-preparation.component';
 
 @NgModule({
   declarations: [
@@ -41,30 +55,29 @@ import { TakeExamService } from '../modules/take-exam/take-exam.service';
     CapitalizeLetterPipe,
     ExamDetailsComponent,
     SeparateWordsPipe,
-    QuestionMarkPipe
+    QuestionMarkPipe,
+    ExamPreparationComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule, 
-    AppRoutingModule, 
+    HttpClientModule,
+    AppRoutingModule,
     ROUTING,
     NgxPaginationModule,
-    CountdownModule
-     
+    CountdownModule,
   ],
   providers: [
     LoginGuard,
     LogoutGuard,
     ScheduledExamsService,
     LoginInterceptorProvider,
-    TakenExamsService, 
-    NotificationService, 
+    TakenExamsService,
+    NotificationService,
     ExamDetailsService,
-    TakeExamService
+    TakeExamService,
   ],
   bootstrap: [AppComponent],
-  
 })
 export class AppModule {}

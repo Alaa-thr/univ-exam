@@ -1,9 +1,11 @@
+console.log("ff")
 window.addEventListener("load", (event) => {
   var next_click=document.querySelectorAll(".next_button");
   var main_form=document.querySelectorAll(".mainn");
   var step_list = document.querySelectorAll(".progress-barr li");
   let formnumber=0;
-  
+  console.log("gi")
+  console.log("next_click ",next_click)
   next_click.forEach(function(next_click_form){
       next_click_form.addEventListener('click',function(){
          /* if(!validateform()){

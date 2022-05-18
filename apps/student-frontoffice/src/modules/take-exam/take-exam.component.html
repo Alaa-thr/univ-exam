@@ -51,54 +51,67 @@
                             <li 
                                 *ngFor="let qst of examDetails.questions; let i=index"
                                 [ngClass]="{'active': i === 0}">
-                                question {{i+1}}
+                                question: {{qst.point}} pts
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="right-side col-8">
-                    <div class="mainn"
+                    <form [formGroup]="form">
+                        <div class="mainn"
                         *ngFor="let qst of examDetails.questions; let i=index"
                         [ngClass]="{'active': i === 0}">
-                        <div>
                             <div>
-                                <h4 class="mb-0">
-                                    <strong>#{{i+1}}</strong>
-                                    {{qst.text | QuestionMark}}
-                                </h4>
-                            </div>
-                            <hr>
-                            <div class="form-group" 
-                                *ngFor="let answer of qst.answers;" >
-                                <div class="form-check" 
-                                    *ngIf="qst.inputType === 'checkbox'">
-                                        <input type="checkbox" name="checkbox" 
-                                            class="form-check-input" id="{{answer.id}}">
-                                        <label class="form-check-label" for="{{answer.id}}">{{answer.title}}</label>                
+                                <div>
+                                    <h4 class="mb-0">
+                                        <strong>#{{i+1}}</strong>
+                                        {{qst.text | QuestionMark}}
+                                    </h4>
                                 </div>
+                                <hr>
+                                <div>
+                                    <div class="form-group" 
+                                        *ngFor="let answer of qst.answers;">
+                                        <div class="form-check" 
+                                            *ngIf="qst.inputType === 'checkbox'">
+                                            <input type="checkbox" name="checkbox"
+                                                class="form-check-input"
+                                                id="{{answer.id}}"
+                                                (change)="addAnswerToQuestion(answer.id,qst.id)">
+                                            <label class="form-check-label" for="{{answer.id}}">{{answer.title}}</label>                
+                                        </div>
+                                    </div>
+                                    <div class="form-group" *ngIf="qst.inputType === 'select'">
+                                        <select class="form-select mb-6" 
+                                            (change)="setSelectedValue($event,qst.id)">
+                                            <option value="">Select an answer</option>
+                                            <option *ngFor="let answer of qst.answers"
+                                                [ngValue]="answer.id">
+                                                {{answer.title}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div> 
                             </div>
-                            <div class="form-group" *ngIf="qst.inputType === 'select'">
-                                <select class="form-select mb-6" >
-                                    <option value="{{answer.id}}" 
-                                        *ngFor="let answer of qst.answers">
-                                    {{answer.title}}
-                                    
-                                    </option>
-                                </select>
+                            <div >
+                                <button class="btn btn-outline-primary back_button"
+                                    *ngIf="i > 0"
+                                    (click)="setOneAnswerSelectedAtLeast(examDetails.questions[i-1].id)">
+                                    Back</button>
+                                <button class="btn btn-success float-end next_button"
+                                    *ngIf="i < examDetails.questions.length-1"
+                                    [disabled]="oneAnswerSelectedAtLeast"
+                                    (click)="setOneAnswerSelectedAtLeast(examDetails.questions[i+1].id)">
+                                    Next</button>   
+                                <button class="btn btn-danger float-end submit_button"
+                                    *ngIf="i === examDetails.questions.length-1"
+                                    type="submit"
+                                    (click)="onSubmit()"
+                                    [disabled]="oneAnswerSelectedAtLeast">
+                                    Submit</button>
                             </div>
                         </div>
-                        <div >
-                            <button class="btn btn-outline-primary back_button"
-                                *ngIf="i > 0">
-                                Back</button>
-                            <button class="btn btn-success float-end next_button"
-                                *ngIf="i < examDetails.questions.length-1">
-                                Next</button>
-                            <button class="btn btn-danger float-end submit_button"
-                                *ngIf="i === examDetails.questions.length-1">
-                                Submit</button>
-                        </div>
-                    </div>
+                    </form>
                     <div class="mainn text-center ">
                         <div class="text congrats" *ngFor="let stdnt of examDetails.studentExams">
                             <img src="../../assets/img/check.png" width="50" height="50" >

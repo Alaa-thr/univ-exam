@@ -1,5 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'univ-exam-exam-information-card',
@@ -12,7 +13,7 @@ export class ExamInformationCardComponent implements OnInit {
   circleClass: string = 'circle-warning';
   circleGraphClass: string = 'circle-graph-warning';
   dataPercent: number = 0;
-  constructor() {
+  constructor(private readonly router: Router) {
     this.exams = [];
   }
 
@@ -44,5 +45,10 @@ export class ExamInformationCardComponent implements OnInit {
     const endValue = new Date("01/01/2007 " + endHour);
     const min = Math.floor((endValue.getTime()-startValue.getTime())/60000);
     return min;
+  }
+
+  goTakeExam(examId: string){
+    const link ="exam/scheduled-exams/"+examId;
+    this.router.navigateByUrl(link);
   }
 }

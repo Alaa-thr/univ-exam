@@ -39,8 +39,8 @@ export class ExamsService {
     return 'This action adds a new student';
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  async findOne(id: string): Promise<IExam> {
+    return await this.examRepo.findExamById(id);
   }
 
   update(id: number, updateExamDto: UpdateExamDto) {

@@ -1,6 +1,7 @@
-import { formatDate } from '@angular/common';
+
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { calculeTime } from '../../functions/commonFunction';
 
 @Component({
   selector: 'univ-exam-exam-information-card',
@@ -40,11 +41,8 @@ export class ExamInformationCardComponent implements OnInit {
     }
   }
 
-  calculeTime(startHour: Date, endHour: Date){
-    const startValue = new Date("01/01/2007 " + startHour);
-    const endValue = new Date("01/01/2007 " + endHour);
-    const min = Math.floor((endValue.getTime()-startValue.getTime())/60000);
-    return min;
+  getTime(startHour: Date, endHour: Date){
+    return calculeTime(startHour,endHour);
   }
 
   goTakeExam(examId: string){

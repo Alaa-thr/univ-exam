@@ -27,7 +27,7 @@
                     <h4>{{exm.exam.title |capitalizeLetter: 'first'}}</h4>
                     <ul>
                         <li><i class="fas fa-clock"></i> {{exm.exam.startHour}} - {{exm.exam.endHour}}</li><br>
-                        <li><i class="fas fa-hourglass-end"></i> {{ calculeTime(exm.exam.startHour,exm.exam.endHour) }} Minutes</li>
+                        <li><i class="fas fa-hourglass-end"></i> {{ getTime(exm.exam.startHour,exm.exam.endHour) }} Minutes</li>
                         <li><i class="fa fa-question-circle"></i> {{exm.exam.questoin_count}} Questions</li>
                         <!--li><i class='fas fa-user-edit'></i> Mr Mohammed TEDLAOUI</li-->
                     </ul>

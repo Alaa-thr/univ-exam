@@ -37,6 +37,7 @@ import { SeparateWordsPipe } from '../core/pipes/separate-words.pipe';
 import { QuestionMarkPipe } from '../core/pipes/question-mark.pipe';
 import { TakeExamService } from '../modules/take-exam/take-exam.service';
 import { ExamPreparationComponent } from '../modules/exam-preparation/exam-preparation.component';
+import { ExamPreparationService } from '../modules/exam-preparation/exam-preparation.service';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { ExamPreparationComponent } from '../modules/exam-preparation/exam-prepa
     NotificationService,
     ExamDetailsService,
     TakeExamService,
+    ExamPreparationService
   ],
   bootstrap: [AppComponent],
 })

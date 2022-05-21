@@ -52,16 +52,21 @@ export class ExamsController {
     return await this.examsService.findScheduledExamById(student.id,examId);
   }
 
-  @Post()
-  create(
-    @Body() createExamDto: CreateExamDto
-  ) { 
-    return this.examsService.create(createExamDto);
+  @Post('take-exam')
+  async addStudentAnswers(
+    @Body() createStudentAnswersDto: UpdateExamDto,
+    @User() userLogged: IUser
+  ):Promise<IExam> {
+    const {student} = userLogged;
+    console.log("createStudentAnswersDto",createStudentAnswersDto);
+    return null;
+    
+    //return await this.examsService.findScheduledExamById(student.id,examId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.examsService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<IExam> {
+    return await this.examsService.findOne(id);
   }
 
   @Patch(':id')

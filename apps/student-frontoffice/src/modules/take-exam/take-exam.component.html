@@ -28,7 +28,7 @@
                     <div class="card-body text-center m-t-30">
                         <h4 class="mb-0">
                             <strong>
-                                <countdown [config]="{ leftTime: leftTime, format: 'hh:mm:ss' }"></countdown>
+                                <countdown [config]="configCountDown" (event)="handleCountDown($event)"></countdown>
                             </strong>
                         </h4>
                         <small class="text-muted-light">TIME LEFT</small>

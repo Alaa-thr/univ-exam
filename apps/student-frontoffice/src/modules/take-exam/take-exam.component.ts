@@ -3,6 +3,7 @@ import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { calculeTime } from '../../shared/functions/commonFunction';
 import { TakeExamService } from './take-exam.service';
 
 @Component({
@@ -20,6 +21,9 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
   selectedOption: boolean;
   oneAnswerSelectedAtLeast: boolean;
   elem: any;
+  configCountDown: any;
+  timeDone: number;
+
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly takeExamService: TakeExamService,
@@ -31,6 +35,8 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
     this.leftTime = 0;
     this.oneAnswerSelectedAtLeast = true;
     this.selectedOption = false;
+    this.configCountDown = {leftTime: this.leftTime, notify:[3000], demand:true};
+    this.timeDone = 0;
     this.form = this.fb.group({
       'questions': this.fb.array([
         this.fb.group({
@@ -134,7 +140,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
           title: 'Congratulations!',
           icon: 'success',
           text: "Your answers have been submitted successfully",
-          confirmButtonText: 'OK',
+          confirmButtonText: 'Back Home',
           confirmButtonColor: '#3085d6'
         }).then((result) => {
           this.goHome();
@@ -147,9 +153,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
   }
 
   getTimeLeft(startHour: Date, endHour: Date):number{
-    const startValue = new Date("01/01/2007 " + startHour);
-    const endValue = new Date("01/01/2007 " + endHour);
-    const min = Math.floor((endValue.getTime()-startValue.getTime())/60000);
+    const min = calculeTime(startHour,endHour);
     const sec = min*60;
     return sec;
   }
@@ -182,19 +186,35 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
       /* IE/Edge */
       this.elem.msRequestFullscreen();
     }
+    this.configCountDown = {leftTime: this.leftTime, notify:[3000], demand:false};
   }
   private closeFullscreen(): void {
     if (this.document.exitFullscreen) {
       this.document.exitFullscreen();
     } else if (this.document.mozCancelFullScreen) {
-      /* Firefox */
       this.document.mozCancelFullScreen();
     } else if (this.document.webkitExitFullscreen) {
-      /* Chrome, Safari and Opera */
       this.document.webkitExitFullscreen();
     } else if (this.document.msExitFullscreen) {
-      /* IE/Edge */
       this.document.msExitFullscreen();
     }
+  }
+  handleCountDown(event:any){
+    if(event.action == "done" && this.timeDone){
+      this.closeFullscreen();
+      Swal.fire({
+        title: 'Time is Done',
+        text: "Your answers have been submitted successfully ",
+        icon: 'warning',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Back Home'
+      }).then((result) => {
+        this.goHome();
+      })
+    }
+    this.timeDone++;
+  }
+  private setLeftTimeInLocalStorage(){
+    
   }
 }

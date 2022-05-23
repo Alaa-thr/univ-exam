@@ -56,6 +56,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
         this.takeExamService.getScheduledExamById(examId).subscribe(
           (response) => {
             this.examDetails = response;
+            console.log(this.examDetails)
             this.leftTime = this.getTimeLeft(this.examDetails.startHour, this.examDetails.endHour);
             Swal.fire({
               title: 'Get Started',
@@ -67,6 +68,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
             }).then((result) => {
               if (result.isConfirmed) {
                 this.openFullscreen();
+                this.startExam(examId);
               }else{
                 this.goHome();
               }
@@ -78,7 +80,6 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
       }
     ); 
   }
-
   ngAfterViewInit():void{
     this.elem = this.fullScreenDivRef.nativeElement; 
     this.multiStepScript=document.createElement("script");
@@ -89,9 +90,6 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
 
   ngOnDestroy(): void {
     document.body.removeChild(this.multiStepScript);
-  }
-  private get questions():FormArray{
-    return this.form.get('questions') as FormArray;
   }
   setSelectedValue(selected: any, questionId: string):void{
     this.selectedOption = true;
@@ -151,18 +149,26 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
       }
     );
   }
-
   getTimeLeft(startHour: Date, endHour: Date):number{
     const min = calculeTime(startHour,endHour);
     const sec = min*60;
     return sec;
   }
-
-  private goHome(): void{
-    const link = "exam/scheduled-exams";
-    this.router.navigate([link]);
+  handleCountDown(event:any){
+    if(event.action == "done" && this.timeDone){
+      this.closeFullscreen();
+      Swal.fire({
+        title: 'Time is Done',
+        text: "Your answers have been submitted successfully ",
+        icon: 'warning',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Back Home'
+      }).then((result) => {
+        this.goHome();
+      })
+    }
+    this.timeDone++;
   }
-
   setOneAnswerSelectedAtLeast(questionId: string): void{
     const allQuestions = this.questions.value;
     const questionIndex = allQuestions.findIndex((obj: { qst: string; }) => obj.qst === questionId);
@@ -172,7 +178,13 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
       this.oneAnswerSelectedAtLeast = false;
     }
   }
-
+  private get questions():FormArray{
+    return this.form.get('questions') as FormArray;
+  }
+  private goHome(): void{
+    const link = "exam/scheduled-exams";
+    this.router.navigate([link]);
+  }
   private openFullscreen(): void {
     if (this.elem.requestFullscreen) {
       this.elem.requestFullscreen();
@@ -199,20 +211,14 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
       this.document.msExitFullscreen();
     }
   }
-  handleCountDown(event:any){
-    if(event.action == "done" && this.timeDone){
-      this.closeFullscreen();
-      Swal.fire({
-        title: 'Time is Done',
-        text: "Your answers have been submitted successfully ",
-        icon: 'warning',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Back Home'
-      }).then((result) => {
-        this.goHome();
-      })
-    }
-    this.timeDone++;
+  private startExam(examId: string){
+    const today = new Date();
+    const startExamTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    this.takeExamService.startExam(examId,startExamTime).subscribe(
+      (error)=>{
+        console.log('ExamDetails Component error', error);
+      }
+    );
   }
   private setLeftTimeInLocalStorage(){
     

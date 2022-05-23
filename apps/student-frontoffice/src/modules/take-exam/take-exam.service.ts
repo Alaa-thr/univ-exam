@@ -19,4 +19,11 @@ export class TakeExamService{
         const sentLink = this.link+"/take-exam";
         return this.httpClient.post(sentLink,data);
     }
+    startExam(examId: string, startExamTime: string):Observable<any>{
+        const sentLink = this.link+"/scheduled-exam"
+        const data = {
+            startExam: startExamTime
+        };
+        return this.httpClient.patch(sentLink+`/${examId}`,data);
+    }
 }

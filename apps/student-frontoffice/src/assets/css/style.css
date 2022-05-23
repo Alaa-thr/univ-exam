@@ -347,6 +347,10 @@ table.table td h2 span {
     padding: 20px !important;
 }
 
+.p-30 {
+    padding: 30px !important;
+}
+
 .p-t-0 {
     padding-top: 0 !important;
 }
@@ -415,6 +419,10 @@ table.table td h2 span {
 
 .m-t-5 {
     margin-top: 5px !important;
+}
+
+.m-t-3-5 {
+    margin-top: 3.5px !important;
 }
 
 .m-t-0 {
@@ -4311,4 +4319,7 @@ input[name="checkbox"][ng-readonly="true"]{
 }
 .height-65{
     height: 65%;
+}
+.text-red{
+    color: #d73e3e;
 }

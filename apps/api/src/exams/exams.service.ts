@@ -44,10 +44,6 @@ export class ExamsService {
     return await this.examRepo.findExamById(id);
   }
 
-  async updateStartExam(studentId: string,examId: string,updateExamStudentDto: UpdateExamStudentDto) {
-    return await this.studentExamRepo.updateStartExam(studentId,examId,updateExamStudentDto);
-  }
-
   remove(id: number) {
     return `This action removes a #${id} student`;
   }

@@ -65,15 +65,6 @@ export class ExamsController {
     //return await this.examsService.findScheduledExamById(student.id,examId);
   }
 
-  @Patch('scheduled-exam/:id')
-  update(
-    @Param('id') examId: string, 
-    @Body() updateExamStudentDto: UpdateExamStudentDto,
-    @User() userLogged: IUser) {
-      const {student} = userLogged;
-    return this.examsService.updateStartExam(student.id,examId, updateExamStudentDto);
-  }
-
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<IExam> {
     return await this.examsService.findOne(id);

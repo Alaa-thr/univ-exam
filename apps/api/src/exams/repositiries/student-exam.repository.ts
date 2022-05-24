@@ -32,18 +32,4 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
         }
     }
 
-    async updateStartExam(studentId: string, examId: string, updateExamStudentDto: UpdateExamStudentDto){
-        try{
-            return await this.createQueryBuilder()
-            .update(StudentExamEntity)
-            .set(updateExamStudentDto)
-            .where("student = :id",{id: studentId})
-            .andWhere("exam = :examId", {examId: examId})
-            .execute();  
-        }catch(error){
-            console.log('exam repo error', error)
-            throw new InternalServerErrorException("Something went wrong, exams cannot be updated.") 
-        }
-    }
-
 }

@@ -4,5 +4,4 @@ export class CreateExamStudentDto implements  Omit<IStudentExam, 'created_at'|'u
     grade: number;
     isDone: boolean;
     videoPath: string;
-    startExam: Date; 
 }

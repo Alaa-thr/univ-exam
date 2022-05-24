@@ -24,11 +24,6 @@ export class StudentExamEntity implements IStudentExam{
     })
     videoPath: string;
 
-    @Column('time',{
-        nullable: true,
-    })
-    startExam: Date;
-
     @CreateDateColumn({
         update: false
     })

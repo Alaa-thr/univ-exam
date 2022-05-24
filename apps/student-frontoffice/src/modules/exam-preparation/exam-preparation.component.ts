@@ -35,7 +35,7 @@ export class ExamPreparationComponent implements OnInit {
       }
     ); 
   }
-  getTime(startHour: Date, endHour: Date){
+  getTime(startHour: string, endHour: string){
     return calculeTime(startHour,endHour);
   }
   setNextStep(){

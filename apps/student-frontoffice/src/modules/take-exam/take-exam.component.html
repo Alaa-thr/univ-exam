@@ -103,7 +103,7 @@
                                     [disabled]="oneAnswerSelectedAtLeast"
                                     (click)="setOneAnswerSelectedAtLeast(examDetails.questions[i+1].id)">
                                     Next</button>   
-                                <button class="btn btn-danger float-end submit_button"
+                                <button class="btn btn-danger float-end"
                                     *ngIf="i === examDetails.questions.length-1"
                                     type="submit"
                                     (click)="onSubmit()"

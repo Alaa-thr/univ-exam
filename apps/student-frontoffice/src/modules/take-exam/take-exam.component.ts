@@ -56,12 +56,6 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
         this.takeExamService.getScheduledExamById(examId).subscribe(
           (response) => {
             this.examDetails = response;
-            const startExamTime = this.examDetails.studentExams[0].startExam;
-            this.leftTime = this.getTimeLeft(this.examDetails.startHour, this.examDetails.endHour);
-            if(startExamTime != null){
-              const timeFromStudentStart = this.getTimeLeft(this.examDetails.startHour, startExamTime);
-              this.leftTime = this.leftTime - timeFromStudentStart;
-            }
             Swal.fire({
               title: 'Get Started',
               icon: 'warning',
@@ -71,8 +65,11 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
               confirmButtonText: 'Start'
             }).then((result) => {
               if (result.isConfirmed) {
+                const startExamTime = this.startExam(examId);
+                this.leftTime = this.getTimeLeft(this.examDetails.startHour, this.examDetails.endHour);
+                const timeFromStudentStart = this.getTimeLeft(this.examDetails.startHour,startExamTime);
+                this.leftTime = this.leftTime - timeFromStudentStart;
                 this.openFullscreen();
-                this.startExam(examId);
               }else{
                 this.goHome();
               }
@@ -153,7 +150,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
       }
     );
   }
-  getTimeLeft(startHour: Date, endHour: Date):number{
+  getTimeLeft(startHour: string, endHour: string):number{
     const min = calculeTime(startHour,endHour);
     const sec = min*60;
     return sec;
@@ -220,10 +217,6 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
   private startExam(examId: string){
     const today = new Date();
     const startExamTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    this.takeExamService.startExam(examId,startExamTime).subscribe(
-      (error)=>{
-        console.log('ExamDetails Component error', error);
-      }
-    );
+    return startExamTime;
   }
 }

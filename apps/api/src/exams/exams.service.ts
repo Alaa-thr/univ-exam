@@ -5,21 +5,22 @@ import { IStudentExam } from './interfaces/student-exam.interface';
 import { ExamRepository } from './repositiries/exams.repository';
 import { IExam } from "exams/interfaces/exam.interface";
 import { IQuestion } from './interfaces/question.interface';
+import { UpdateExamStudentDto } from './dto/update-exam-student.dto';
 
 @Injectable()
 export class ExamsService {
 
   constructor(
-    private readonly studentExamxamRepo: StudentExamRepository,
+    private readonly studentExamRepo: StudentExamRepository,
     private readonly examRepo: ExamRepository){
   }
   
   async findAllScheduledExams(studentId: string): Promise<IStudentExam[]> {
-    return await this.studentExamxamRepo.findAllScheduledExams(studentId);
+    return await this.studentExamRepo.findAllScheduledExams(studentId);
   }
 
   async findAllTakenExams(studentId: string): Promise<IStudentExam[]> {
-    return await this.studentExamxamRepo.findAllTakenExams(studentId);
+    return await this.studentExamRepo.findAllTakenExams(studentId);
   }
 
   async findTakenExamsById(studentId: string, examId: string): Promise<{examDetails:IExam,studentAnswewr:IQuestion}> {
@@ -39,12 +40,12 @@ export class ExamsService {
     return 'This action adds a new student';
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  async findOne(id: string): Promise<IExam> {
+    return await this.examRepo.findExamById(id);
   }
 
-  update(id: number, updateExamDto: UpdateExamDto) {
-    return `This action updates a #${id} student`;
+  async updateStartExam(studentId: string,examId: string,updateExamStudentDto: UpdateExamStudentDto) {
+    return await this.studentExamRepo.updateStartExam(studentId,examId,updateExamStudentDto);
   }
 
   remove(id: number) {

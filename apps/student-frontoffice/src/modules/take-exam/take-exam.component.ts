@@ -160,16 +160,18 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
   }
   handleCountDown(event:any){
     if(event.action == "done" && this.timeDone){
-      this.closeFullscreen();
-      Swal.fire({
-        title: 'Time is Done',
-        text: "Your answers have been submitted successfully ",
-        icon: 'warning',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Back Home'
-      }).then((result) => {
-        this.goHome();
-      })
+      setTimeout(()=>{
+        this.closeFullscreen();
+        Swal.fire({
+          title: 'Time is Done',
+          text: "Your answers have been submitted successfully ",
+          icon: 'warning',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Back Home'
+        }).then((result) => {
+          this.goHome();
+        })
+      },1000)
     }
     this.timeDone++;
   }
@@ -223,8 +225,5 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
         console.log('ExamDetails Component error', error);
       }
     );
-  }
-  private setLeftTimeInLocalStorage(){
-    
   }
 }

@@ -64,4 +64,18 @@ export class ExamRepository extends Repository<ExamEntity>{
             throw new InternalServerErrorException("Something went wrong, exams cannot be recoverd.") 
         }
     }
+
+    async findExamById(examId: string): Promise<IExam>{
+        try{
+            return await this.createQueryBuilder('exm')
+            .leftJoin("exm.questions","qst")
+            .loadRelationCountAndMap('exam.questoin_count', 'exm.questions')
+            .where("exm.id = :id",{id:examId})
+            .getOne();
+
+        }catch(error){
+            console.log('exam repo error', error)
+            throw new InternalServerErrorException("Something went wrong, exams cannot be recoverd.") 
+        }
+    }
 }

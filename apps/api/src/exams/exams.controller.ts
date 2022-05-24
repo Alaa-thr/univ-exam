@@ -15,6 +15,7 @@ import { JwtAuthGuard } from 'users/guards/jwt-auth.guard';
 import { IQuestion } from './interfaces/question.interface';
 import { IStudentExam } from './interfaces/student-exam.interface';
 import { IExam } from "exams/interfaces/exam.interface";
+import { UpdateExamStudentDto } from './dto/update-exam-student.dto';
 
 @Controller('exams')
 @UseGuards(JwtAuthGuard)
@@ -52,22 +53,33 @@ export class ExamsController {
     return await this.examsService.findScheduledExamById(student.id,examId);
   }
 
-  @Post()
-  create(
-    @Body() createExamDto: CreateExamDto
-  ) { 
-    return this.examsService.create(createExamDto);
+  @Post('take-exam')
+  async addStudentAnswers(
+    @Body() createStudentAnswersDto: UpdateExamDto,
+    @User() userLogged: IUser
+  ):Promise<IExam> {
+    const {student} = userLogged;
+    console.log("createStudentAnswersDto",createStudentAnswersDto);
+    return null;
+    
+    //return await this.examsService.findScheduledExamById(student.id,examId);
+  }
+
+  @Patch('scheduled-exam/:id')
+  update(
+    @Param('id') examId: string, 
+    @Body() updateExamStudentDto: UpdateExamStudentDto,
+    @User() userLogged: IUser) {
+      const {student} = userLogged;
+    return this.examsService.updateStartExam(student.id,examId, updateExamStudentDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.examsService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<IExam> {
+    return await this.examsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateExamDto: UpdateExamDto) {
-    return this.examsService.update(+id, updateExamDto);
-  }
+  
 
   @Delete(':id')
   remove(@Param('id') id: string) {

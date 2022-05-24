@@ -56,8 +56,12 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
         this.takeExamService.getScheduledExamById(examId).subscribe(
           (response) => {
             this.examDetails = response;
-            console.log(this.examDetails)
+            const startExamTime = this.examDetails.studentExams[0].startExam;
             this.leftTime = this.getTimeLeft(this.examDetails.startHour, this.examDetails.endHour);
+            if(startExamTime != null){
+              const timeFromStudentStart = this.getTimeLeft(this.examDetails.startHour, startExamTime);
+              this.leftTime = this.leftTime - timeFromStudentStart;
+            }
             Swal.fire({
               title: 'Get Started',
               icon: 'warning',

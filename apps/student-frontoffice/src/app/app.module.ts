@@ -38,6 +38,7 @@ import { QuestionMarkPipe } from '../core/pipes/question-mark.pipe';
 import { TakeExamService } from '../modules/take-exam/take-exam.service';
 import { ExamPreparationComponent } from '../modules/exam-preparation/exam-preparation.component';
 import { ExamPreparationService } from '../modules/exam-preparation/exam-preparation.service';
+import { RecordVideoComponent } from '../modules/record-video/record-video.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { ExamPreparationService } from '../modules/exam-preparation/exam-prepara
     SeparateWordsPipe,
     QuestionMarkPipe,
     ExamPreparationComponent,
+    RecordVideoComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,7 +80,7 @@ import { ExamPreparationService } from '../modules/exam-preparation/exam-prepara
     NotificationService,
     ExamDetailsService,
     TakeExamService,
-    ExamPreparationService
+    ExamPreparationService,
   ],
   bootstrap: [AppComponent],
 })

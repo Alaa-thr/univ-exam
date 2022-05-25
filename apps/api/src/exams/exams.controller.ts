@@ -35,6 +35,11 @@ export class ExamsController {
     return await this.examsService.findAllTakenExams(student.id);
   }
 
+  @Get('scheduled-exam/get-exam-started-time')
+  getExamStartedTime():{startedExam: string} {
+    return this.examsService.getExamStartedTime();
+  }
+
   @Get('taken-exams/:id')
   async findTakenExamsById(
     @Param('id') examId: string,

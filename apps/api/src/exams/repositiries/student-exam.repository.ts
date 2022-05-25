@@ -2,7 +2,6 @@ import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { EntityRepository, Repository } from "typeorm";
 import { IStudentExam } from "../interfaces/student-exam.interface";
 import { StudentExamEntity } from "../entities/studentExam.entity";
-import { UpdateExamStudentDto } from "exams/dto/update-exam-student.dto";
 
 @Injectable()
 @EntityRepository(StudentExamEntity)

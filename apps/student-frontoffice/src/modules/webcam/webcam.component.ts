@@ -47,6 +47,7 @@ export class WebcamComponent implements OnInit, OnDestroy, AfterViewInit {
         this.cameraIsActivated = true;
         this.stream = stream;
         this.videoElement.srcObject = this.stream;
+        this.videoElement.controls = false;
         this.stream.getTracks().forEach((track) => {        
           track.addEventListener('ended', () => {
             if(track.kind == "video"){

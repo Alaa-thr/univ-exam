@@ -9,14 +9,16 @@ export class TakeExamService{
     constructor(
         private readonly httpClient: HttpClient
     ){}
-
     getScheduledExamById(examId: string): Observable<any>{
         const sentLink = this.link+"/scheduled-exam"
         return this.httpClient.get(sentLink+`/${examId}`);
     }
-
     addStudentAnswers(data: any):Observable<any>{
         const sentLink = this.link+"/take-exam";
         return this.httpClient.post(sentLink,data);
+    }
+    startExam():Promise<any>{
+        const sentLink = this.link+"/scheduled-exam/get-exam-started-time";
+        return this.httpClient.get(sentLink).toPromise();
     }
 }

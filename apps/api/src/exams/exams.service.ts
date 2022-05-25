@@ -44,6 +44,14 @@ export class ExamsService {
     return await this.examRepo.findExamById(id);
   }
 
+  getExamStartedTime(): {startedExam: string} {
+    const today = new Date();
+    const startedExam = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    return {
+      startedExam: startedExam
+    }; 
+  }
+
   remove(id: number) {
     return `This action removes a #${id} student`;
   }

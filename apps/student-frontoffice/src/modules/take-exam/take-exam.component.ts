@@ -11,9 +11,9 @@ import { TakeExamService } from './take-exam.service';
   templateUrl: './take-exam.component.html',
   styleUrls: ['./take-exam.component.css'],
 })
-export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
+export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('fullScreen',{static: false}) fullScreenDivRef: any;
+  @ViewChild('fullScreen', { static: false }) fullScreenDivRef: any;
   examDetails: any;
   leftTime: number;
   multiStepScript: any;
@@ -35,13 +35,13 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
     this.leftTime = 0;
     this.oneAnswerSelectedAtLeast = true;
     this.selectedOption = false;
-    this.configCountDown = {leftTime: this.leftTime, notify:[3000], demand:true};
+    this.configCountDown = { leftTime: this.leftTime, notify: [3000], demand: true };
     this.timeDone = 0;
     this.form = this.fb.group({
       'questions': this.fb.array([
         this.fb.group({
           'qst': this.fb.control(''),
-          'ansewrs':this.fb.array([
+          'ansewrs': this.fb.array([
             this.fb.control('')
           ], Validators.minLength(2))
         })
@@ -51,11 +51,12 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
-      (params) => { 
+      (params) => {
         const examId = params['id'];
         this.takeExamService.getScheduledExamById(examId).subscribe(
           (response) => {
             this.examDetails = response;
+            console.log(response)
             Swal.fire({
               title: 'Get Started',
               icon: 'warning',
@@ -63,40 +64,37 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
               confirmButtonColor: '#3085d6',
               cancelButtonColor: '#d33',
               confirmButtonText: 'Start'
-            }).then((result) => {
+            }).then(async (result) => {
               if (result.isConfirmed) {
-                const startExamTime = this.startExam(examId);
-                this.leftTime = this.getTimeLeft(this.examDetails.startHour, this.examDetails.endHour);
-                const timeFromStudentStart = this.getTimeLeft(this.examDetails.startHour,startExamTime);
-                this.leftTime = this.leftTime - timeFromStudentStart;
-                this.openFullscreen();
-              }else{
+                await this.getExamStertedTimeByStudent();
+                
+              } else {
                 this.goHome();
               }
             })
-          },(error)=>{
+          }, (error) => {
             console.log('ExamDetails Component error', error);
           }
         );
       }
-    ); 
+    );
   }
-  ngAfterViewInit():void{
-    this.elem = this.fullScreenDivRef.nativeElement; 
-    this.multiStepScript=document.createElement("script");
-    this.multiStepScript.type="text/javascript";
-    this.multiStepScript.src="assets/js/bootstrap-multi-step-form.js";
+  ngAfterViewInit(): void {
+    this.elem = this.fullScreenDivRef.nativeElement;
+    this.multiStepScript = document.createElement("script");
+    this.multiStepScript.type = "text/javascript";
+    this.multiStepScript.src = "assets/js/bootstrap-multi-step-form.js";
     document.body.appendChild(this.multiStepScript);
   }
 
   ngOnDestroy(): void {
     document.body.removeChild(this.multiStepScript);
   }
-  setSelectedValue(selected: any, questionId: string):void{
+  setSelectedValue(selected: any, questionId: string): void {
     this.selectedOption = true;
     this.addAnswerToQuestion(selected.target.value, questionId);
   }
-  addAnswerToQuestion(answerId: string, questionId: string):void{
+  addAnswerToQuestion(answerId: string, questionId: string): void {
     const allQuestions = this.questions.value;
     const questionIndex = allQuestions.findIndex((obj: { qst: string; }) => obj.qst === questionId);
     const newElement = {
@@ -105,35 +103,41 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
     };
     if (questionIndex === -1) {
       allQuestions.push(newElement);
-    }else{
+    } else {
       const allAnswersOfQuestion = allQuestions[questionIndex].answers;
       const answerIndex = allAnswersOfQuestion.findIndex((obj: string) => obj === answerId);
-      if(answerId == ''){ //case of select the default option "Select an answer"
-        allAnswersOfQuestion.splice(0,allAnswersOfQuestion.length);
+      if (answerId == '') { //case of select the default option "Select an answer"
+        allAnswersOfQuestion.splice(0, allAnswersOfQuestion.length);
       }
-      else if(this.selectedOption == true){ // case of the answer is in select
-        allAnswersOfQuestion.splice(0,allAnswersOfQuestion.length);
+      else if (this.selectedOption == true) { // case of the answer is in select
+        allAnswersOfQuestion.splice(0, allAnswersOfQuestion.length);
         allAnswersOfQuestion.push(answerId);
-        
-      }else{ //case of the answer is in the checkbox
-        if(answerIndex === -1){
+
+      } else { //case of the answer is in the checkbox
+        if (answerIndex === -1) {
           allAnswersOfQuestion.push(answerId);
-        }else{
+        } else {
           allAnswersOfQuestion.splice(answerIndex, 1);
         }
-      } 
-      if(allAnswersOfQuestion.length == 0){ // the case of allAnswersOfQuestion array is empty
-        allQuestions.splice(questionIndex,1);
-      } 
+      }
+      if (allAnswersOfQuestion.length == 0) { // the case of allAnswersOfQuestion array is empty
+        allQuestions.splice(questionIndex, 1);
+      }
     }
     this.selectedOption = false;
     this.setOneAnswerSelectedAtLeast(questionId);
 
   }
-  onSubmit(){
-    
-    this.takeExamService.addStudentAnswers(this.form.value).subscribe(
-      (respone)=>{
+  onSubmit() {
+
+    const answers = this.form.value;
+    for (let i = 0; i < answers.questions.length; i++) {
+      if (answers.questions[i].qst == '') {
+        answers.questions.splice(i, 1);
+      }
+    }
+    this.takeExamService.addStudentAnswers(answers).subscribe(
+      (respone) => {
         this.closeFullscreen();
         Swal.fire({
           title: 'Congratulations!',
@@ -145,19 +149,19 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
           this.goHome();
         })
       },
-      (error)=>{
+      (error) => {
         console.log('ExamDetails Component error', error);
       }
     );
   }
-  getTimeLeft(startHour: string, endHour: string):number{
-    const min = calculeTime(startHour,endHour);
-    const sec = min*60;
+  getTimeLeft(startHour: string, endHour: string): number {
+    const min = calculeTime(startHour, endHour);
+    const sec = min * 60;
     return sec;
   }
-  handleCountDown(event:any){
-    if(event.action == "done" && this.timeDone){
-      setTimeout(()=>{
+  handleCountDown(event: any) {
+    if (event.action == "done" && this.timeDone) {
+      setTimeout(() => {
         this.closeFullscreen();
         Swal.fire({
           title: 'Time is Done',
@@ -168,23 +172,23 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
         }).then((result) => {
           this.goHome();
         })
-      },1000)
+      }, 1000)
     }
     this.timeDone++;
   }
-  setOneAnswerSelectedAtLeast(questionId: string): void{
+  setOneAnswerSelectedAtLeast(questionId: string): void {
     const allQuestions = this.questions.value;
     const questionIndex = allQuestions.findIndex((obj: { qst: string; }) => obj.qst === questionId);
     if (questionIndex === -1) {
       this.oneAnswerSelectedAtLeast = true;
-    }else{
+    } else {
       this.oneAnswerSelectedAtLeast = false;
     }
   }
-  private get questions():FormArray{
+  private get questions(): FormArray {
     return this.form.get('questions') as FormArray;
   }
-  private goHome(): void{
+  private goHome(): void {
     const link = "exam/scheduled-exams";
     this.router.navigate([link]);
   }
@@ -201,22 +205,41 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy{
       /* IE/Edge */
       this.elem.msRequestFullscreen();
     }
-    this.configCountDown = {leftTime: this.leftTime, notify:[3000], demand:false};
+    this.configCountDown = { leftTime: this.leftTime, notify: [3000], demand: false };
   }
   private closeFullscreen(): void {
-    if (this.document.exitFullscreen) {
-      this.document.exitFullscreen();
-    } else if (this.document.mozCancelFullScreen) {
-      this.document.mozCancelFullScreen();
-    } else if (this.document.webkitExitFullscreen) {
-      this.document.webkitExitFullscreen();
-    } else if (this.document.msExitFullscreen) {
-      this.document.msExitFullscreen();
+    if(document.fullscreen){
+      if (this.document.exitFullscreen) {
+        this.document.exitFullscreen();
+      } else if (this.document.mozCancelFullScreen) {
+        this.document.mozCancelFullScreen();
+      } else if (this.document.webkitExitFullscreen) {
+        this.document.webkitExitFullscreen();
+      } else if (this.document.msExitFullscreen) {
+        this.document.msExitFullscreen();
+      }
     }
   }
-  private startExam(examId: string){
-    const today = new Date();
-    const startExamTime = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  private getExamStertedTimeByStudent(): string {
+    let startExamTime = "";
+    this.takeExamService.startExam().then(
+      (response) => {
+        startExamTime = response.startedExam;
+        this.setTimeLeftAndStartExam(startExamTime);
+        console.log("startExamTime", startExamTime)
+      },
+      (error) => {
+        console.log('ExamDetails Component error', error);
+      }
+    );
     return startExamTime;
+  }
+  private setTimeLeftAndStartExam(startExamTime: string) {
+    console.log("startExamTime", startExamTime)
+    this.leftTime = this.getTimeLeft(this.examDetails.startHour, this.examDetails.endHour);
+    const timeFromStudentStart = this.getTimeLeft(this.examDetails.startHour, startExamTime);
+    console.log("timeFromStudentStart", timeFromStudentStart)
+    this.leftTime = this.leftTime - timeFromStudentStart;
+    this.openFullscreen();
   }
 }

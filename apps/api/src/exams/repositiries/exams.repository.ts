@@ -2,6 +2,7 @@ import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { EntityRepository, Repository } from "typeorm";
 import { ExamEntity } from "exams/entities/exam.entity";
 import { IExam } from "exams/interfaces/exam.interface";
+import { resourceLimits } from "worker_threads";
 
 @Injectable()
 @EntityRepository(ExamEntity)
@@ -46,7 +47,7 @@ export class ExamRepository extends Repository<ExamEntity>{
             .leftJoin("qst.answers","answr")
             .leftJoinAndSelect('exm.studentExams', 'studentExams')
             .leftJoin("studentExams.student","student")
-            .loadRelationCountAndMap('exam.questoin_count', 'exm.questions')
+            .loadRelationCountAndMap('exm.questoin_count', 'exm.questions')
             .where("exm.id = :id",{id:examId})
             .andWhere("exm.isPublished = :isPublished", {isPublished: true})
             .andWhere("studentExams.studentId = :sId",{sId: studentId})

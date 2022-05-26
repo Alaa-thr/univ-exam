@@ -106,7 +106,7 @@
                                 <button class="btn btn-danger float-end"
                                     *ngIf="i === examDetails.questions.length-1"
                                     type="submit"
-                                    (click)="onSubmit()"
+                                    (click)="stopRecord()"
                                     [disabled]="oneAnswerSelectedAtLeast">
                                     Submit</button>
                             </div>
@@ -117,3 +117,6 @@
         </div>
     </div>
 </div>
+<univ-exam-record-video 
+    #recordVideo
+    (sendVideoRecording)="getVideoRecordingRequest($event)"></univ-exam-record-video>

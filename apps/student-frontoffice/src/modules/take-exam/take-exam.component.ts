@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { calculeTime } from '../../shared/functions/commonFunction';
+import { RecordVideoComponent } from '../record-video/record-video.component';
 import { TakeExamService } from './take-exam.service';
 
 @Component({
@@ -14,6 +15,8 @@ import { TakeExamService } from './take-exam.service';
 export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('fullScreen', { static: false }) fullScreenDivRef: any;
+  @ViewChild('recordVideo') recordVideo!: RecordVideoComponent;
+
   examDetails: any;
   leftTime: number;
   multiStepScript: any;
@@ -23,7 +26,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
   elem: any;
   configCountDown: any;
   timeDone: number;
-
+  videoRecorded: any;
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly takeExamService: TakeExamService,
@@ -56,22 +59,6 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
         this.takeExamService.getScheduledExamById(examId).subscribe(
           (response) => {
             this.examDetails = response;
-            console.log(response)
-            Swal.fire({
-              title: 'Get Started',
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Start'
-            }).then(async (result) => {
-              if (result.isConfirmed) {
-                await this.getExamStertedTimeByStudent();
-                
-              } else {
-                this.goHome();
-              }
-            })
           }, (error) => {
             console.log('ExamDetails Component error', error);
           }
@@ -80,13 +67,9 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
   ngAfterViewInit(): void {
-    this.elem = this.fullScreenDivRef.nativeElement;
-    this.multiStepScript = document.createElement("script");
-    this.multiStepScript.type = "text/javascript";
-    this.multiStepScript.src = "assets/js/bootstrap-multi-step-form.js";
-    document.body.appendChild(this.multiStepScript);
+    this.startExamAlert();
+    this.initStepsScript();
   }
-
   ngOnDestroy(): void {
     document.body.removeChild(this.multiStepScript);
   }
@@ -129,13 +112,13 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
   onSubmit() {
-
     const answers = this.form.value;
     for (let i = 0; i < answers.questions.length; i++) {
       if (answers.questions[i].qst == '') {
         answers.questions.splice(i, 1);
       }
     }
+    answers.questions.push({video: this.videoRecorded})
     this.takeExamService.addStudentAnswers(answers).subscribe(
       (respone) => {
         this.closeFullscreen();
@@ -154,6 +137,9 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
   }
+  stopRecord(){
+    this.recordVideo.stopRecording();
+  }
   getTimeLeft(startHour: string, endHour: string): number {
     const min = calculeTime(startHour, endHour);
     const sec = min * 60;
@@ -162,6 +148,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
   handleCountDown(event: any) {
     if (event.action == "done" && this.timeDone) {
       setTimeout(() => {
+        this.recordVideo.stopRecording();
         this.closeFullscreen();
         Swal.fire({
           title: 'Time is Done',
@@ -184,6 +171,35 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.oneAnswerSelectedAtLeast = false;
     }
+  }
+  getVideoRecordingRequest(event: any){
+    this.videoRecorded = event.videoRecorded;
+    this.onSubmit();
+    console.log("blob from record vdo",this.videoRecorded)
+  }
+  private initStepsScript():void{
+    this.elem = this.fullScreenDivRef.nativeElement;
+    this.multiStepScript = document.createElement("script");
+    this.multiStepScript.type = "text/javascript";
+    this.multiStepScript.src = "assets/js/bootstrap-multi-step-form.js";
+    document.body.appendChild(this.multiStepScript);
+  }
+  private startExamAlert(){
+    Swal.fire({
+      title: 'Get Started',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Start'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await this.getExamStertedTimeByStudent();
+        
+      } else {
+        this.goHome();
+      }
+    });
   }
   private get questions(): FormArray {
     return this.form.get('questions') as FormArray;
@@ -226,7 +242,6 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
       (response) => {
         startExamTime = response.startedExam;
         this.setTimeLeftAndStartExam(startExamTime);
-        console.log("startExamTime", startExamTime)
       },
       (error) => {
         console.log('ExamDetails Component error', error);
@@ -235,11 +250,15 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
     return startExamTime;
   }
   private setTimeLeftAndStartExam(startExamTime: string) {
-    console.log("startExamTime", startExamTime)
     this.leftTime = this.getTimeLeft(this.examDetails.startHour, this.examDetails.endHour);
     const timeFromStudentStart = this.getTimeLeft(this.examDetails.startHour, startExamTime);
-    console.log("timeFromStudentStart", timeFromStudentStart)
     this.leftTime = this.leftTime - timeFromStudentStart;
-    this.openFullscreen();
+    if(this.leftTime < 0){
+      this.goHome();
+    }else{
+      this.recordVideo.startRecording();
+      this.openFullscreen();
+    }
+    
   }
 }

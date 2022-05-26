@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class WebcamComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('video') videoElementRef: ElementRef = {} as ElementRef;
+  @Output() sendStream = new EventEmitter();
 
   videoElement!: HTMLVideoElement;
   mediaRecorder: any;
@@ -23,13 +24,10 @@ export class WebcamComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.videoElement = this.videoElementRef.nativeElement;
-    this.videoElement.addEventListener('click', ()=>{
-      return false;
-    })
     this.initCamera();
   }
 
-  private initCamera() {
+  async initCamera():Promise<void> {
     let trackKindVideo = true;
     let trackKindAudio = true;
     navigator.mediaDevices
@@ -61,11 +59,28 @@ export class WebcamComponent implements OnInit, OnDestroy, AfterViewInit {
             }
           });   
         });
+        this.sendStreamRequest();
       })
       .catch((err) => {
         alert('You need to TURN ON your CAMERA and AUDIO');
         this.setCameraIsActivated(false);
       });
+  }
+  sendStreamRequest(){
+    this.sendStream.emit(
+      {
+        stream: this.stream
+      }  
+    );
+  }
+  goToExam(){
+    this.activatedRoute.params.subscribe(
+      (params) => { 
+        const examId = params['id'];
+        const link = "exam/scheduled-exams/preparation-exam/"+examId+"/start";
+        location.href = link;
+      }
+    ); 
   }
   private setCameraIsActivated(cameraIsActivated: boolean) {
     this.cameraIsActivated = cameraIsActivated;
@@ -76,15 +91,6 @@ export class WebcamComponent implements OnInit, OnDestroy, AfterViewInit {
         }  
       }, 6000);
     }
-  }
-  goToExam(){
-    this.activatedRoute.params.subscribe(
-      (params) => { 
-        const examId = params['id'];
-        const link = "exam/scheduled-exams/preparation-exam/"+examId+"/start";
-        location.href = link;
-      }
-    ); 
   }
   ngOnDestroy(): void {
     this.componentIsDestroyed = true;

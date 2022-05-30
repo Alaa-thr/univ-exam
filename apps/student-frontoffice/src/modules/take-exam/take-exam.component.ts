@@ -27,6 +27,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
   configCountDown: any;
   timeDone: number;
   videoRecorded: any;
+  file!: File;
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly takeExamService: TakeExamService,
@@ -48,7 +49,8 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
             this.fb.control('')
           ], Validators.minLength(2))
         })
-      ])
+      ]),
+      'video': this.fb.control('')
     });
   }
 
@@ -118,11 +120,14 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
         answers.questions.splice(i, 1);
       }
     }
-    answers.questions.push({video: this.videoRecorded})
-    this.takeExamService.addStudentAnswers(answers).subscribe(
+    const formData = new FormData();
+    //formData.append("questions",answers.questions)
+    formData.append("video",answers.video, "vdo1.webm")
+    formData.append("questions",JSON.stringify(answers.questions))
+    this.takeExamService.addStudentAnswers(formData).subscribe(
       (respone) => {
         this.closeFullscreen();
-        Swal.fire({
+        /*Swal.fire({
           title: 'Congratulations!',
           icon: 'success',
           text: "Your answers have been submitted successfully",
@@ -130,7 +135,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
           confirmButtonColor: '#3085d6'
         }).then((result) => {
           this.goHome();
-        })
+        })*/
       },
       (error) => {
         console.log('ExamDetails Component error', error);
@@ -174,8 +179,15 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   getVideoRecordingRequest(event: any){
     this.videoRecorded = event.videoRecorded;
-    this.onSubmit();
-    console.log("blob from record vdo",this.videoRecorded)
+    const reader = new FileReader();
+    reader.readAsDataURL(this.videoRecorded);
+    reader.onload = () => {
+      const answers = this.form.value;
+      answers.video = reader.result;
+      const file = new File([answers.video], "vdo.webm", {type: 'video/webm'});
+      answers.video = file;
+      this.onSubmit();
+    };
   }
   private initStepsScript():void{
     this.elem = this.fullScreenDivRef.nativeElement;

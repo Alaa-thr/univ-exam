@@ -12,10 +12,10 @@ import { IUser } from '@users';
 import { ExamsService,CreateExamDto,UpdateExamDto } from 'exams';
 import { User } from 'shared/decorators/user.decorator';
 import { JwtAuthGuard } from 'users/guards/jwt-auth.guard';
-import { IQuestion } from './interfaces/question.interface';
-import { IStudentExam } from './interfaces/student-exam.interface';
+import { IQuestion } from '../interfaces/question.interface';
+import { IStudentExam } from '../interfaces/student-exam.interface';
 import { IExam } from "exams/interfaces/exam.interface";
-import { UpdateExamStudentDto } from './dto/update-exam-student.dto';
+import { UpdateExamStudentDto } from '../dto/update-exam-student.dto';
 
 @Controller('exams')
 @UseGuards(JwtAuthGuard)
@@ -60,7 +60,7 @@ export class ExamsController {
 
   @Post('take-exam')
   async addStudentAnswers(
-    @Body() createStudentAnswersDto: UpdateExamDto,
+    @Body() createStudentAnswersDto: any,
     @User() userLogged: IUser
   ):Promise<IExam> {
     const {student} = userLogged;

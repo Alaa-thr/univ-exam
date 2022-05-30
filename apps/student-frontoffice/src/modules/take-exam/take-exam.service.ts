@@ -13,8 +13,8 @@ export class TakeExamService{
         const sentLink = this.link+"/scheduled-exam"
         return this.httpClient.get(sentLink+`/${examId}`);
     }
-    addStudentAnswers(data: any):Observable<any>{
-        const sentLink = this.link+"/take-exam";
+    addStudentAnswers(data: FormData):Observable<any>{
+        const sentLink = "http://localhost:3333/api/answers/student-answers";
         return this.httpClient.post(sentLink,data);
     }
     startExam():Promise<any>{

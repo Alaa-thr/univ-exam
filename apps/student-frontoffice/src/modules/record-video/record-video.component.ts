@@ -20,7 +20,7 @@ export class RecordVideoComponent implements OnInit {
   startRecording(){
     this.recorder = new RecordRTC(this.stream, {
       type: 'video',
-      videoBitsPerSecond: 51200000,
+      videoBitsPerSecond: 199000,
       mimeType: 'video/webm'
     });
     this.recorder.startRecording();
@@ -29,7 +29,6 @@ export class RecordVideoComponent implements OnInit {
     this.recorder.stopRecording(() => {
       this.videoRecordingBlob = this.recorder.getBlob();
       this.sendVideoRecordingRequest();
-      const blob1 = new Blob([this.videoRecordingBlob], { type: 'video/mp4' });
       RecordRTC.invokeSaveAsDialog(this.videoRecordingBlob, 'vdo.webm');
     });
   }

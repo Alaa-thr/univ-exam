@@ -86,7 +86,7 @@
                                             (change)="setSelectedValue($event,qst.id)">
                                             <option value="">Select an answer</option>
                                             <option *ngFor="let answer of qst.answers"
-                                                [ngValue]="answer.id">
+                                                value="{{answer.id}}">
                                                 {{answer.title}}
                                             </option>
                                         </select>

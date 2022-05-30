@@ -6,6 +6,7 @@ import * as dotenv from 'dotenv';
 import { SwaggerModule } from '@nestjs/swagger';
 import { swaggerConfig } from './app/config/swagger.config';
 import { ValidationPipe } from '@nestjs/common';
+import * as bodyParser from 'body-parser';
 
 dotenv.config();
 
@@ -15,6 +16,8 @@ async function bootstrap() {
   const corsOption = {
     origin: ['http://localhost:4202']
   }
+  app.use(bodyParser.json({limit: '100mb'}));
+  app.use(bodyParser.urlencoded({limit: '100mb', extended: true}));
   app.enableCors(corsOption);
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);

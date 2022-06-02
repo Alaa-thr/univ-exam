@@ -9,30 +9,32 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { IUser } from '@users';
-import { ExamsService,CreateExamDto,UpdateExamDto } from 'exams';
+import { ExamsService} from 'exams';
 import { User } from 'shared/decorators/user.decorator';
 import { JwtAuthGuard } from 'users/guards/jwt-auth.guard';
 import { IQuestion } from '../interfaces/question.interface';
 import { IStudentExam } from '../interfaces/student-exam.interface';
 import { IExam } from "exams/interfaces/exam.interface";
-import { UpdateExamStudentDto } from '../dto/update-exam-student.dto';
+import { StudentExamService } from 'exams/services/student-exam.service';
 
 @Controller('exams')
 @UseGuards(JwtAuthGuard)
 export class ExamsController {
-  constructor(private readonly examsService: ExamsService) {
+  constructor(
+    private readonly examsService: ExamsService,
+    private readonly studentExamService: StudentExamService) {
   }
 
   @Get('scheduled-exams')
   async findAllScheduledExams(@User() userLogged: IUser): Promise<IStudentExam[]> {
     const {student} = userLogged;
-    return await this.examsService.findAllScheduledExams(student.id);
+    return await this.studentExamService.findAllScheduledExams(student.id);
   }
 
   @Get('taken-exams')
   async findAllTakenExams(@User() userLogged: IUser): Promise<IStudentExam[]> {
     const {student} = userLogged;
-    return await this.examsService.findAllTakenExams(student.id);
+    return await this.studentExamService.findAllTakenExams(student.id);
   }
 
   @Get('scheduled-exam/get-exam-started-time')
@@ -58,27 +60,9 @@ export class ExamsController {
     return await this.examsService.findScheduledExamById(student.id,examId);
   }
 
-  @Post('take-exam')
-  async addStudentAnswers(
-    @Body() createStudentAnswersDto: any,
-    @User() userLogged: IUser
-  ):Promise<IExam> {
-    const {student} = userLogged;
-    console.log("createStudentAnswersDto",createStudentAnswersDto);
-    return null;
-    
-    //return await this.examsService.findScheduledExamById(student.id,examId);
-  }
-
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<IExam> {
     return await this.examsService.findOne(id);
   }
 
-  
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.examsService.remove(+id);
-  }
 }

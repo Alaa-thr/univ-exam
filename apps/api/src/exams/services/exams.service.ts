@@ -1,26 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateExamDto ,UpdateExamDto } from 'exams';
-import { StudentExamRepository} from '../repositiries/student-exam.repository';
-import { IStudentExam } from '../interfaces/student-exam.interface';
 import { ExamRepository } from '../repositiries/exams.repository';
 import { IExam } from "exams/interfaces/exam.interface";
 import { IQuestion } from '../interfaces/question.interface';
-import { UpdateExamStudentDto } from '../dto/update-exam-student.dto';
 
 @Injectable()
 export class ExamsService {
 
-  constructor(
-    private readonly studentExamRepo: StudentExamRepository,
-    private readonly examRepo: ExamRepository){
-  }
-  
-  async findAllScheduledExams(studentId: string): Promise<IStudentExam[]> {
-    return await this.studentExamRepo.findAllScheduledExams(studentId);
-  }
-
-  async findAllTakenExams(studentId: string): Promise<IStudentExam[]> {
-    return await this.studentExamRepo.findAllTakenExams(studentId);
+  constructor(private readonly examRepo: ExamRepository){
   }
 
   async findTakenExamsById(studentId: string, examId: string): Promise<{examDetails:IExam,studentAnswewr:IQuestion}> {
@@ -36,10 +22,6 @@ export class ExamsService {
     return await this.examRepo.findScheduledExamById(studentId,examId);
   }
 
-  async createStudentVideo(studentId: string,examId: string,updateExamStudentDto: UpdateExamStudentDto): Promise<IStudentExam> {
-    return await this.studentExamRepo.createStudentVideo(studentId,examId,updateExamStudentDto);
-  }
-
   async findOne(id: string): Promise<IExam> {
     return await this.examRepo.findExamById(id);
   }
@@ -50,9 +32,5 @@ export class ExamsService {
     return {
       startedExam: startedExam
     }; 
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} student`;
   }
 }

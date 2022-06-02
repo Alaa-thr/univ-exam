@@ -3,12 +3,13 @@ import { UpdateExamStudentDto } from 'exams/dto/update-exam-student.dto';
 import { IAnswer } from 'exams/interfaces/answer.interface';
 import { AnswersRepository } from 'exams/repositiries/answers.repository';
 import { ExamsService } from './exams.service';
+import { StudentExamService } from './student-exam.service';
 
 @Injectable()
 export class AnswersService {
 
   constructor(
-    private readonly examsService: ExamsService,
+    private readonly studentExamService: StudentExamService,
     private readonly answerRepo: AnswersRepository){
   }
   
@@ -22,7 +23,7 @@ export class AnswersService {
     updateExamStudentDto.grade = grade;
     updateExamStudentDto.videoPath = video;
     await this.answerRepo.createStudentAnswers(studentId,answersId);
-    return await this.examsService.createStudentVideo(studentId,examId[0],updateExamStudentDto);
+    return await this.studentExamService.createStudentVideo(studentId,examId[0],updateExamStudentDto);
   }
 
   private calculeAnswersPoint(examAnswers: IAnswer[], answersId: any):number{

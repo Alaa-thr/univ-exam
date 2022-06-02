@@ -8,7 +8,7 @@ export interface IExam {
   startHour: Date;
   endHour: Date;
   isPublished: boolean;
-  examType: ExamTypeEnum;
+  examType: ExamTypeEnum | string;
   answersArePublished: boolean;
   teacher: ITeacher;
   created_at: Date;

@@ -25,7 +25,7 @@ export class ExamEntity implements IExam {
   })
   title: string;
 
-  @Column()
+  @Column('date')
   date: Date;
 
   @Column('time')
@@ -44,7 +44,7 @@ export class ExamEntity implements IExam {
     enum: ExamTypeEnum,
     default: ExamTypeEnum.EXAM,
   })
-  examType: ExamTypeEnum;
+  examType: string;
 
   @Column({
     default: false,

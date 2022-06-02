@@ -1,24 +1,46 @@
 import { Injectable } from '@nestjs/common';
-import { StudentExamRepository} from '../repositiries/student-exam.repository';
-import { IStudentExam } from '../interfaces/student-exam.interface';
+import { UpdateExamStudentDto } from 'exams/dto/update-exam-student.dto';
+import { IAnswer } from 'exams/interfaces/answer.interface';
 import { AnswersRepository } from 'exams/repositiries/answers.repository';
+import { ExamsService } from './exams.service';
 
 @Injectable()
 export class AnswersService {
 
   constructor(
+    private readonly examsService: ExamsService,
     private readonly answerRepo: AnswersRepository){
   }
   
-  async createStudentAnswers(studentId: string,createStudentAnswersDto: any): Promise<any> {
+  async createStudentAnswers(studentId: string,studentAnswers: any,video: string): Promise<any> {
     
-    const {questions} = createStudentAnswersDto;
-   // const answersId = this.getStudentAnswers(questions);
-    
-
-    //return await this.answerRepo.createStudentAnswers(studentId,answersId);
+    const examId = video.split('_');
+    const examAnswers = await this.findAnswersByExamId(examId[0])
+    const answersId = this.getStudentAnswers(studentAnswers);
+    const grade = this.calculeAnswersPoint(examAnswers,answersId);
+    const updateExamStudentDto = new UpdateExamStudentDto();
+    updateExamStudentDto.grade = grade;
+    updateExamStudentDto.videoPath = video;
+    await this.answerRepo.createStudentAnswers(studentId,answersId);
+    return await this.examsService.createStudentVideo(studentId,examId[0],updateExamStudentDto);
   }
 
+  private calculeAnswersPoint(examAnswers: IAnswer[], answersId: any):number{
+    let grade = 0;
+    for(let i = 0; i < examAnswers.length; i++){
+      for(let j = 0; j < answersId.length; j++){
+        if((examAnswers[i].id == answersId[j]) && (examAnswers[i].isCorrect) ){
+          grade+= examAnswers[i].question.point;
+        }
+      }
+    }
+    return grade;
+  }
+  async findAnswersByExamId(examId:string):Promise<IAnswer[]>{
+    return await this.answerRepo.findAnswersByExamId(examId);
+  }
+
+  
   private getStudentAnswers(questions: any): string[]{
     const answers: string[] = [];
     for(let i = 0; i< questions.length; i++){

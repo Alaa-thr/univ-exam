@@ -17,11 +17,12 @@ export class RecordVideoComponent implements OnInit {
 
   ngOnInit(): void {}
 
+ 
   startRecording(){
     this.recorder = new RecordRTC(this.stream, {
       type: 'video',
       videoBitsPerSecond: 199000,
-      mimeType: 'video/webm'
+      mimeType: "video/webm"
     });
     this.recorder.startRecording();
   }
@@ -29,7 +30,6 @@ export class RecordVideoComponent implements OnInit {
     this.recorder.stopRecording(() => {
       this.videoRecordingBlob = this.recorder.getBlob();
       this.sendVideoRecordingRequest();
-      RecordRTC.invokeSaveAsDialog(this.videoRecordingBlob, 'vdo.webm');
     });
   }
   getStreamRequest(event: any){
@@ -42,5 +42,6 @@ export class RecordVideoComponent implements OnInit {
       }
     )
   }
+
 
 }

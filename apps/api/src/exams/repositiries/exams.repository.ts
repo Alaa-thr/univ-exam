@@ -53,6 +53,7 @@ export class ExamRepository extends Repository<ExamEntity>{
             .andWhere("studentExams.studentId = :sId",{sId: studentId})
             .addSelect([
                 "student.firstName",
+                "student.id",
                 "student.lastName",
                 "student.studentNumber",
                 "answr.id",
@@ -79,4 +80,6 @@ export class ExamRepository extends Repository<ExamEntity>{
             throw new InternalServerErrorException("Something went wrong, exams cannot be recoverd.") 
         }
     }
+
+    
 }

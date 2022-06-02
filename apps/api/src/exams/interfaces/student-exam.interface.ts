@@ -1,3 +1,5 @@
+import { ExamEntity } from "exams/entities/exam.entity";
+import { StudentEntity } from "students/entities/student.entity";
 
 export interface IStudentExam {
     

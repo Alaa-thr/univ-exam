@@ -1,7 +1,7 @@
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder } from '@nestjs/swagger';
 
 export const swaggerConfig = new DocumentBuilder()
-.setTitle('Cats example')
-.setDescription('The cats API description')
-.addTag('cats')
+.setTitle('Exams')
+.setDescription('The exams API description')
+.addTag('exams')
 .build();

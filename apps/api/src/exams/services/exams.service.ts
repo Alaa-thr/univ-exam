@@ -36,8 +36,8 @@ export class ExamsService {
     return await this.examRepo.findScheduledExamById(studentId,examId);
   }
 
-  create(createExamDto: CreateExamDto) {
-    return 'This action adds a new student';
+  async createStudentVideo(studentId: string,examId: string,updateExamStudentDto: UpdateExamStudentDto): Promise<IStudentExam> {
+    return await this.studentExamRepo.createStudentVideo(studentId,examId,updateExamStudentDto);
   }
 
   async findOne(id: string): Promise<IExam> {

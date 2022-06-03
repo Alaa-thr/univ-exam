@@ -1,4 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { QueryDto } from 'shared';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { IStudent } from './interface/student.interface';
@@ -6,31 +7,25 @@ import { StudentsRepository } from './students.repository';
 
 @Injectable()
 export class StudentsService {
-
-  constructor(private readonly studentRepo: StudentsRepository){}
+  constructor(private readonly studentRepo: StudentsRepository) {}
 
   async create(data: CreateStudentDto): Promise<IStudent> {
-    try{
-      return await this.studentRepo.saveStudent(data)
-    }catch(error){
-      console.log('student service',error)
-      throw new InternalServerErrorException("Something went wrong, student not created service.");
-    } 
+    return await this.studentRepo.saveStudent(data);
   }
 
-  findAll() {
-    return `This action returns all students`;
+  async findAll(query: QueryDto) {
+    return await this.studentRepo.findAll(query);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  async findOne(id: string) {
+    return await this.studentRepo.findOne(id);
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
+  update(id: string, updateStudentDto: UpdateStudentDto) {
+    return this.studentRepo.updateOne(id, updateStudentDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} student`;
+  remove(id: string) {
+    return this.studentRepo.delete(id);
   }
 }

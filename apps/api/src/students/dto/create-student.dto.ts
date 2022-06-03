@@ -1,27 +1,28 @@
+import { Type } from 'class-transformer';
+import { IsAlpha, IsDate, IsNotEmpty, IsNumber } from 'class-validator';
+import { IStudent } from 'students/interface/student.interface';
 
-import { IsAlpha, IsDate, IsNotEmpty, IsNumber } from "class-validator";
-import { IStudent } from "students/interface/student.interface";
+export class CreateStudentDto
+  implements Omit<IStudent, 'id' | 'created_at' | 'updated_at'>
+{
+  @IsNotEmpty()
+  @IsAlpha()
+  firstName: string;
 
-export class CreateStudentDto implements Omit<IStudent, 'id'|'created_at'|'updated_at'>{
+  @IsNotEmpty()
+  @IsAlpha()
+  lastName: string;
 
-    @IsNotEmpty()
-    @IsAlpha()
-    firstName: string;
+  @IsNotEmpty()
+  @IsNumber()
+  phoneNumber: number;
 
-    @IsNotEmpty()
-    @IsAlpha()
-    lastName: string;
+  @Type(() => Date)
+  @IsNotEmpty()
+  @IsDate()
+  birthDate: Date;
 
-    @IsNotEmpty()
-    @IsNumber()
-    phoneNumber: number;
-
-    @IsNotEmpty()
-    @IsDate()
-    birthDate: Date;
-
-    @IsNotEmpty()
-    @IsNumber()
-    studentNumber: number;
-
+  @IsNotEmpty()
+  @IsNumber()
+  studentNumber: number;
 }

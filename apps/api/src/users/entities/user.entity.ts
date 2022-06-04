@@ -1,4 +1,5 @@
 import { StudentEntity } from 'students/entities/student.entity';
+import { TeacherEntity } from 'teachers/entities/teacher.entity';
 import {
   Column,
   CreateDateColumn,
@@ -38,4 +39,11 @@ export class UserEntity implements IUser {
   })
   @JoinColumn()
   student: StudentEntity;
+
+  @OneToOne(() => TeacherEntity, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  teacher: TeacherEntity;
 }

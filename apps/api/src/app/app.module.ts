@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ExamsModule } from 'exams';
 import { NotificationsModule } from 'notifications';
 import { StudentsModule } from 'students/students.module';
+import { TeachersModule } from 'teachers/teachers.module';
 import { UsersModule } from 'users';
 
 import { AppController } from './app.controller';
@@ -13,9 +14,10 @@ import { typeOrmOptions } from './config/typeorm.config';
   imports: [
     TypeOrmModule.forRoot(typeOrmOptions),
     UsersModule,
+    TeachersModule,
     StudentsModule,
     ExamsModule,
-    NotificationsModule
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

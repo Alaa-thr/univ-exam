@@ -19,16 +19,16 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '100mb' }));
   app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
   app.enableCors(corsOption);
+  app.setGlobalPrefix(globalPrefix);
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('swagger-test', app, document);
+  SwaggerModule.setup('api', app, document);
   app.useGlobalPipes(
     new ValidationPipe({
       forbidNonWhitelisted: true,
     })
   );
   app.useGlobalInterceptors(...globalInterceptors);
-  app.setGlobalPrefix(globalPrefix);
   const port = process.env.PORT || process.env.APP_PORT;
   await app.listen(port);
 }

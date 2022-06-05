@@ -4323,3 +4323,6 @@ input[name="checkbox"][ng-readonly="true"]{
 .text-red{
     color: #d73e3e;
 }
+.text-is-valid{
+    color: #198754;
+}

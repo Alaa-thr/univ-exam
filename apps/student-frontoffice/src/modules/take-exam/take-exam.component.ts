@@ -132,7 +132,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
           confirmButtonText: 'Back Home',
           confirmButtonColor: '#3085d6'
         }).then((result) => {
-          this.goHome();
+          this.goTakenExams();
         })
       },
       (error) => {
@@ -160,7 +160,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
           confirmButtonColor: '#3085d6',
           confirmButtonText: 'Back Home'
         }).then((result) => {
-          this.goHome();
+          this.goTakenExams();
         })
       }, 1000)
     }
@@ -213,6 +213,10 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   private goHome(): void {
     const link = "exam/scheduled-exams";
+    location.href = link;
+  }
+  private goTakenExams(): void {
+    const link = "exam/taken-exams";
     location.href = link;
   }
   private openFullscreen(): void {

@@ -36,15 +36,14 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
     async changeExamStatus():Promise<void>{
         const today = new Date();
         const time = today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
-        const t = new Date(2000,1,1,today.getHours(),today.getMinutes(),today.getSeconds())
-        console.log("t",time)
+        const date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+today.getDate();
         const studentExams = await this.find(
             {
                 relations:["exam"],
                 where:{
                         isDone : false,
                         exam: {
-                            date: Equal(new Date()),
+                            date: date,
                             endHour: LessThanOrEqual(time)
                         }
                 },
@@ -55,23 +54,11 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
                 ]
             }
         );
-        console.log("studentExams before",studentExams)
-        console.log("exam date ",studentExams[0].exam.date)
-        console.log("today date ",new Date().getTime())
-        if(studentExams[0].exam.date < new Date()){
-            console.log("enterrr ifff")
-        }
-
-        // for(let i = 0; i< studentExams.length; i++){
-        //     if(this.checkExamDateHourExpiration(studentExams[i].exam.date, studentExams[i].exam.endHour)){
-        //         studentExams[i].isDone = true;
-        //         studentExams[i].grade = -1;
-        //     }
-        // }
-        
-      // console.log("studentExams after",studentExams)
-       
-        
+        for(let i = 0; i< studentExams.length; i++){
+            studentExams[i].isDone = true;
+            studentExams[i].grade = -1;
+            await this.save(studentExams[i]);
+        }  
     }
     private checkExamDateHourExpiration(examDate: Date, endHour: Date):boolean{
         const today = new Date();

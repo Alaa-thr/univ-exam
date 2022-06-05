@@ -14,10 +14,11 @@ export class StudentExamService {
   constructor(private readonly studentExamRepo: StudentExamRepository){
   }
   
-  // @Cron('* * * * * *')
-  // handleCron() {
-  //   this.studentExamRepo.changeExamStatus();
-  // }
+  @Cron('0 0 * * * *')
+  handleCron() {
+    this.studentExamRepo.changeExamStatus();
+    console.log("cron called")
+  }
 
   async findAllScheduledExams(studentId: string): Promise<IStudentExam[]> {
     return await this.studentExamRepo.findAllScheduledExams(studentId);

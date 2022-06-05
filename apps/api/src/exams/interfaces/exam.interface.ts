@@ -12,6 +12,8 @@ export interface IExam {
   isPublished: boolean;
   examType: ExamTypeEnum;
   answersArePublished: boolean;
+  questions : QuestionEntity[];
+  studentExams: StudentExamEntity[];
   teacher: ITeacher;
   created_at: Date;
   updated_at: Date;

@@ -1,19 +1,21 @@
 {
   "extends": "../../tsconfig.base.json",
-  "files": [],
-  "include": [],
+  "include": ["**/*.ts"],
   "references": [
     {
       "path": "./tsconfig.app.json"
     },
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./tsconfig.json"
     }
   ],
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@users": ["users"],
+      "@users": ["users"]
     }
   }
 }

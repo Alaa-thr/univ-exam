@@ -25,7 +25,7 @@ export class ExamRepository extends Repository<ExamEntity>{
             throw new InternalServerErrorException("Something went wrong, exams cannot be recoverd.") 
         }
     }
-    async findStudentAnswersById(studentId: string, examId: string): Promise<any>{
+    async findStudentAnswersById(studentId: string, examId: string): Promise<IExam>{
         try{
             return await this.createQueryBuilder('exm')
             .leftJoinAndSelect("exm.questions","qst")
@@ -33,7 +33,7 @@ export class ExamRepository extends Repository<ExamEntity>{
             .leftJoin('answr.students', 'student')    
             .where("exm.id = :id",{id:examId})
             .andWhere("student.id = :sId",{sId: studentId})
-            .getMany();
+            .getOne();
 
         }catch(error){
             console.log('exam repo error', error)

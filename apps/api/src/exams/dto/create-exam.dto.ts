@@ -1,4 +1,5 @@
 import { ExamTypeEnum } from "exams";
+import { QuestionEntity } from "exams/entities/question.entity";
 
 export class CreateExamDto {
     
@@ -7,6 +8,7 @@ export class CreateExamDto {
     startHour: Date;
     endHour: Date;
     isPublished: boolean;
+    questions: QuestionEntity[];
     examType: ExamTypeEnum;
     answersArePublished: boolean;
     

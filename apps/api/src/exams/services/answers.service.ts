@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UpdateExamStudentDto } from 'exams/dto/update-exam-student.dto';
 import { IAnswer } from 'exams/interfaces/answer.interface';
 import { AnswersRepository } from 'exams/repositiries/answers.repository';
-import { ExamsService } from './exams.service';
+import { getStudentAnswers } from 'shared/fonctions/common-functions';
 import { StudentExamService } from './student-exam.service';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class AnswersService {
     
     const examId = video.split('_');
     const examAnswers = await this.findAnswersByExamId(examId[0])
-    const answersId = this.getStudentAnswers(studentAnswers);
+    const answersId = getStudentAnswers(studentAnswers);
     const grade = this.calculeAnswersPoint(examAnswers,answersId);
     const updateExamStudentDto = new UpdateExamStudentDto();
     updateExamStudentDto.grade = grade;
@@ -40,20 +40,6 @@ export class AnswersService {
   async findAnswersByExamId(examId:string):Promise<IAnswer[]>{
     return await this.answerRepo.findAnswersByExamId(examId);
   }
-
-  
-  private getStudentAnswers(questions: any): string[]{
-    const answers: string[] = [];
-    for(let i = 0; i< questions.length; i++){
-      for(let j = 0; j< questions[i].answers.length; j++){
-        answers.push(questions[i].answers[j]);
-      }
-    }
-    return answers;
-  }
-
- 
-
   getExamStartedTime(): {startedExam: string} {
     const today = new Date();
     const startedExam = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();

@@ -46,7 +46,7 @@ export class ExamsController {
   async findTakenExamsById(
     @Param('id') examId: string,
     @User() userLogged: IUser
-  ):Promise<{examDetails:IExam,studentAnswewr:IQuestion}> {
+  ):Promise<{examDetails:IExam,studentAnswewr:IQuestion[]}> {
     const {student} = userLogged;
     return await this.examsService.findTakenExamsById(student.id,examId);
   }

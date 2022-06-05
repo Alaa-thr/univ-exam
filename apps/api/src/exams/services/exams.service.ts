@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ExamRepository } from '../repositiries/exams.repository';
 import { IExam } from "exams/interfaces/exam.interface";
-import { IQuestion } from '../interfaces/question.interface';
+import { getStudentAnswers } from 'shared/fonctions/common-functions';
 
 @Injectable()
 export class ExamsService {
@@ -9,15 +9,76 @@ export class ExamsService {
   constructor(private readonly examRepo: ExamRepository){
   }
 
-  async findTakenExamsById(studentId: string, examId: string): Promise<{examDetails:IExam,studentAnswewr:IQuestion}> {
+  async findTakenExamsById(studentId: string, examId: string): Promise<any> {
     const examDetails = await this.examRepo.findTakenExamsById(studentId,examId);
     const studentAnswer = await this.examRepo.findStudentAnswersById(studentId,examId);
-    return {
-      examDetails: examDetails,
-      studentAnswewr: studentAnswer[0].questions
-    };
+    const getAnswers = getStudentAnswers(studentAnswer.questions);
+    const takenExam = this.getQuestionAndItsAnswersAndStudentAnswers(examDetails,getAnswers);
+    return takenExam;
   }
-
+  private getQuestionAndItsAnswersAndStudentAnswers(examDetails: IExam, studentAnswers: any){
+    const details = {
+      examType: '',
+      title: '',
+      date: null,
+      startHour: null,
+      endHour: null,
+      grade: 0,
+      questions:[]
+    };
+    details.examType = examDetails.examType;
+    details.date = examDetails.date;
+    details.endHour = examDetails.endHour;
+    details.startHour = examDetails.startHour;
+    details.title = examDetails.title;
+    details.grade = examDetails.studentExams[0].grade;
+    for(let i = 0; i< examDetails.questions.length; i++){
+      const qst = {
+        id: '',
+        text: '',
+        inputType: '',
+        point: 0,
+        answers: [
+          {
+            id: '',
+            title: '',
+            isCorrect: false,
+            isSelected: false
+          }
+        ]
+      }
+      qst.id = examDetails.questions[i].id;
+      qst.text = examDetails.questions[i].text;
+      qst.inputType = examDetails.questions[i].inputType;
+      qst.point = examDetails.questions[i].point;
+      for(let j = 0; j< examDetails.questions[i].answers.length; j++){
+        const answr = {
+          id: '',
+          title: '',
+          isCorrect: false,
+          isSelected: false
+        }
+        answr.id = examDetails.questions[i].answers[j].id;
+        answr.title = examDetails.questions[i].answers[j].title;
+        answr.isCorrect = examDetails.questions[i].answers[j].isCorrect;
+        let qstAnswrIsSelected = 0;
+        for(let k = 0; k < studentAnswers.length && !qstAnswrIsSelected ; k++ ){
+          if(studentAnswers[k].id == examDetails.questions[i].answers[j].id ){
+            answr.isSelected = true;
+            qstAnswrIsSelected++;
+          }
+        }
+        if(!qstAnswrIsSelected){
+          answr.isSelected = false;
+        }
+        qst.answers.push(answr);         
+      }
+      qst.answers.splice(0, 1);
+      details.questions.push(qst);
+    }
+    //details.questions.splice(0, 1);
+    return details;
+  }
   async findScheduledExamById(studentId: string, examId: string): Promise<IExam> {
     return await this.examRepo.findScheduledExamById(studentId,examId);
   }

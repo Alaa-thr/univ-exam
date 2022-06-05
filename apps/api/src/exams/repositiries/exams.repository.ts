@@ -32,7 +32,7 @@ export class ExamRepository extends Repository<ExamEntity> {
   async findStudentAnswersById(
     studentId: string,
     examId: string
-  ): Promise<any> {
+  ): Promise<IExam> {
     try {
       return await this.createQueryBuilder('exm')
         .leftJoinAndSelect('exm.questions', 'qst')
@@ -40,7 +40,7 @@ export class ExamRepository extends Repository<ExamEntity> {
         .leftJoin('answr.students', 'student')
         .where('exm.id = :id', { id: examId })
         .andWhere('student.id = :sId', { sId: studentId })
-        .getMany();
+        .getOne();
     } catch (error) {
       console.log('exam repo error', error);
       throw new InternalServerErrorException(
@@ -48,6 +48,7 @@ export class ExamRepository extends Repository<ExamEntity> {
       );
     }
   }
+
   async findScheduledExamById(
     studentId: string,
     examId: string

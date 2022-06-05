@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExamDetailsService } from './exam-details.service';
 
@@ -7,29 +7,37 @@ import { ExamDetailsService } from './exam-details.service';
   templateUrl: './exam-details.component.html',
   styleUrls: ['./exam-details.component.css'],
 })
-export class ExamDetailsComponent implements OnInit {
+export class ExamDetailsComponent implements OnInit,AfterContentChecked {
 
   examDetails: any;
-  studentAnswers: any[];
-  
+  selectIsValid: boolean;
+  correctAnswerInSelect: string;
   constructor(
     private readonly examDetailsService: ExamDetailsService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private cdRef:ChangeDetectorRef
   ) {
     this.examDetails = [];
-    this.studentAnswers = [];
+    this.selectIsValid = false;
+    this.correctAnswerInSelect = "";
   }
-
+  setSelectIsValid(selectIsValid: boolean){
+    this.selectIsValid = selectIsValid;  
+  }
+  setCorrectAnswerInSelect(correctAnswerInSelect: string){
+    this.correctAnswerInSelect =  correctAnswerInSelect;
+  }
+  ngAfterContentChecked():void{
+    this.cdRef.detectChanges();
+  }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
       (params) => { 
         const examId = params['id'];
         this.examDetailsService.getTakenExamsById(examId).subscribe(
           (response) => {
-            this.examDetails = response.examDetails;
-            this.studentAnswers = response.studentAnswewr;
-            console.log(this.studentAnswers)
-            console.log(this.examDetails)
+            this.examDetails = response;
+            console.log("examDetails ",response)
           },(error)=>{
             console.log('ExamDetails Component error', error);
           }

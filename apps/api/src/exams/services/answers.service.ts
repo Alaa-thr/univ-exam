@@ -3,7 +3,7 @@ import { CreateAnswerDto } from 'exams/dto/create-answer.dto';
 import { UpdateExamStudentDto } from 'exams/dto/update-exam-student.dto';
 import { IAnswer } from 'exams/interfaces/answer.interface';
 import { AnswersRepository } from 'exams/repositiries/answers.repository';
-import { ExamsService } from './exams.service';
+import { getStudentAnswers } from 'shared/fonctions/common-functions';
 import { StudentExamService } from './student-exam.service';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class AnswersService {
   ): Promise<any> {
     const examId = video.split('_');
     const examAnswers = await this.findAnswersByExamId(examId[0]);
-    const answersId = this.getStudentAnswers(studentAnswers);
+    const answersId = getStudentAnswers(studentAnswers);
     const grade = this.calculeAnswersPoint(examAnswers, answersId);
     const updateExamStudentDto = new UpdateExamStudentDto();
     updateExamStudentDto.grade = grade;

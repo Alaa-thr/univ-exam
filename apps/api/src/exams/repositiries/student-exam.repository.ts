@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, Equal, LessThanOrEqual, Repository } from "typeorm";
 import { IStudentExam } from "../interfaces/student-exam.interface";
 import { StudentExamEntity } from "../entities/studentExam.entity";
 import { UpdateExamStudentDto } from "exams/dto/update-exam-student.dto";
@@ -33,7 +33,42 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
             throw new InternalServerErrorException("Something went wrong, video cannot be stored.") 
         }  
     }
-
+    async changeExamStatus():Promise<void>{
+        const today = new Date();
+        const time = today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
+        const date = today.getFullYear()+"-"+(today.getMonth()+1)+"-"+today.getDate();
+        const studentExams = await this.find(
+            {
+                relations:["exam"],
+                where:{
+                        isDone : false,
+                        exam: {
+                            date: date,
+                            endHour: LessThanOrEqual(time)
+                        }
+                },
+                select: [
+                    "isDone",
+                    "exam",
+                    "grade"
+                ]
+            }
+        );
+        for(let i = 0; i< studentExams.length; i++){
+            studentExams[i].isDone = true;
+            studentExams[i].grade = -1;
+            await this.save(studentExams[i]);
+        }  
+    }
+    private checkExamDateHourExpiration(examDate: Date, endHour: Date):boolean{
+        const today = new Date();
+        if(examDate.getDate() < today.getDate()){
+            return true;
+        }else if((examDate.getDate() == today.getDate()) && (today.getTime() <= endHour.getTime())){
+            return true;
+        }
+        return false;
+    }
     private async findExams(studentId: string, isDone: boolean): Promise<IStudentExam[]>{
         try{
             return await this.createQueryBuilder('exmStdnt')

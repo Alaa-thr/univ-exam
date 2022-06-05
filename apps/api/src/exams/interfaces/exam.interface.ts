@@ -1,6 +1,7 @@
+import { QuestionEntity } from 'exams/entities/question.entity';
+import { StudentExamEntity } from 'exams/entities/studentExam.entity';
 import { ExamTypeEnum } from 'exams/enum/exam-type.enum';
 import { ITeacher } from 'teachers/interface/teacher.interface';
-
 export interface IExam {
   id: string;
   title: string;
@@ -10,6 +11,8 @@ export interface IExam {
   isPublished: boolean;
   examType: ExamTypeEnum | string;
   answersArePublished: boolean;
+  questions: QuestionEntity[];
+  studentExams: StudentExamEntity[];
   teacher: ITeacher;
   created_at: Date;
   updated_at: Date;

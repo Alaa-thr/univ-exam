@@ -6,6 +6,7 @@ import { ExamRepository } from '../repositiries/exams.repository';
 import { IExam } from "exams/interfaces/exam.interface";
 import { IQuestion } from '../interfaces/question.interface';
 import { UpdateExamStudentDto } from '../dto/update-exam-student.dto';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class StudentExamService {
@@ -13,6 +14,12 @@ export class StudentExamService {
   constructor(private readonly studentExamRepo: StudentExamRepository){
   }
   
+  @Cron('0 0 * * * *')
+  handleCron() {
+    this.studentExamRepo.changeExamStatus();
+    console.log("cron called")
+  }
+
   async findAllScheduledExams(studentId: string): Promise<IStudentExam[]> {
     return await this.studentExamRepo.findAllScheduledExams(studentId);
   }

@@ -14,26 +14,24 @@
                         <h4 class="mb-0"><strong>Date: </strong></h4>
                         <small class="text-muted-light">{{examDetails.date | date:"dd/MM/yyyy"}}</small>
                         <h4 class="mt-3 mb-0"><strong>Time: </strong></h4>
-                        <small class="text-muted-light">{{examDetails.startHour}} - {{examDetails.endHoud}}</small>
+                        <small class="text-muted-light">{{examDetails.startHour}} - {{examDetails.endHour}}</small>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-body text-center m-t-30">
                         <h4 class="mb-0"><strong>Grade</strong></h4>
-                        <small class="text-muted-light" *ngFor="let examGrade of examDetails.studentExams">{{examGrade.grade}}/20</small>
+                        <small class="text-muted-light" >{{examDetails.grade}}/20</small>
                     </div>
                 </div>
                 
             </div>
         </div>
     </div>
-
     <div class="col-12 d-flex">
         <div class="card flex-fill">
             <div 
                 *ngFor="let qst of examDetails.questions;
-                        let indexOfelement=index;
-            ">
+                        let indexOfelement=index;">
                 <div class="card-header d-flex col-12">
                     <div class="col-10">
                         <h4 class="mb-0">
@@ -46,43 +44,33 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="form-group"
-                        *ngFor="let answr of qst.answers;"
-                    >
-                        <div class="form-check" 
-                            *ngIf="qst.inputType === 'checkbox'"
-                        >
-                            <div *ngFor="let stdntAnswr of studentAnswers;">
-                                <div *ngIf="qst.id === stdntAnswr.id">
-                                    <input 
-                                        *ngFor="let choosenAnswr of stdntAnswr.answers; "
-                                        type="checkbox" name="checkbox" class="form-check-input" 
-                                        [ngClass]="{'is-valid':choosenAnswr.id === answr.id && choosenAnswr.isCorrect,'is-invalid':choosenAnswr.id === answr.id && !choosenAnswr.isCorrect}" 
-                                        [checked] = "choosenAnswr.id === answr.id"
-                                        ng-readonly="true"
-                                    >
-                                    <label class="form-check-label">{{answr.title}}</label>
-                                </div>
+                    <div *ngIf="qst.inputType === 'checkbox'">
+                        <div class="form-group"
+                            *ngFor="let answr of qst.answers">
+                             <div class="form-check" >
+                                <input type="checkbox" name="checkbox" class="form-check-input"
+                                [ngClass]="{'is-valid':answr.isCorrect,'is-invalid':!answr.isCorrect && answr.isSelected}"
+                                [checked]="answr.isSelected" id="{{answr.id}}"
+                                (click)="false">
+                                <label class="form-check-label" for="{{answr.id}}">{{answr.title}}</label>
                             </div>
-                        </div>
+                        </div>  
                     </div>
-                    <div class="form-group">
-                        <div *ngIf="qst.inputType === 'select'">
-                            <div *ngFor="let stdntAnswr of studentAnswers;">
-                                <div *ngIf="qst.id === stdntAnswr.id">
-                                   <select class="form-select mb-6" 
-                                        *ngFor="let choosenAnswr of stdntAnswr.answers;" 
-                                        [ngClass]="{'is-valid':choosenAnswr.isCorrect,'is-invalid':!choosenAnswr.isCorrect }">
-                                        <option *ngFor="let answr of qst.answers;" 
-                                            value="{{answr.id}}" 
-                                            [selected]="choosenAnswr.id === answr.id"
-                                            disabled>
-                                            {{answr.title}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                    <div *ngIf="qst.inputType === 'select'">
+                        <select class="form-select mb-4"
+                            [ngClass]="{'is-valid':selectIsValid,'is-invalid':!selectIsValid}">
+                            <option *ngFor="let answr of qst.answers"
+                                value="{{answr.id}}" 
+                                [selected]="answr.isSelected"
+                                disabled>
+                                <input *ngIf="(answr.isCorrect && answr.isSelected)||(!answr.isCorrect && answr.isSelected) ?setSelectIsValid(answr.isCorrect):''" hidden>
+                                <input *ngIf="answr.isCorrect && !answr.isSelected ?setCorrectAnswerInSelect(answr.title):''" hidden>
+                                {{answr.title}}
+                            </option>
+                        </select>
+                        <label *ngIf="correctAnswerInSelect" class="mb-4"> 
+                            The correct answer is: <span class="text-is-valid">{{correctAnswerInSelect}}</span> 
+                        </label>
                     </div>
                 </div>
             </div>   

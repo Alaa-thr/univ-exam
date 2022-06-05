@@ -8,12 +8,22 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { ExamTypeEnum, IExam } from 'exams';
+import { StudentExamEntity } from 'exams/entities/studentExam.entity';
 import { ITeacher } from 'teachers/interface/teacher.interface';
 import { CreateQuestionDto } from './create-question.dto';
 
 export class CreateExamDto
   implements
-    Omit<IExam, 'id' | 'created_at' | 'updated_at' | 'teacher' | 'examType'>
+    Omit<
+      IExam,
+      | 'id'
+      | 'created_at'
+      | 'updated_at'
+      | 'teacher'
+      | 'examType'
+      | 'questions'
+      | 'studentExams'
+    >
 {
   @ApiProperty()
   @IsNotEmpty()

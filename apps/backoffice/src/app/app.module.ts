@@ -2,15 +2,20 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
-import { RouterModule } from '@angular/router';
+import { CreateExamComponent } from '../teacher/modules/create-exam/create-exam.component';
+import { AppRoutingModule, ROUTING } from '../routing/app-routing.module';
+import { SideBarComponent } from '../shared/components/side-bar/side-bar.component';
+import { HeaderComponent } from '../shared/components/header/header.component';
+
 
 @NgModule({
-  declarations: [AppComponent, NxWelcomeComponent],
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
+  declarations: [
+    AppComponent,
+    CreateExamComponent,
+    SideBarComponent,
+    HeaderComponent,
   ],
+  imports: [BrowserModule, AppRoutingModule, ROUTING],
   providers: [],
   bootstrap: [AppComponent],
 })

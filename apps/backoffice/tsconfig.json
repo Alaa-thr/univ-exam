@@ -22,6 +22,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "angularCompilerOptions": {
+    "no-empty-lifecycle-method": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true

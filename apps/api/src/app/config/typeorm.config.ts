@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { UserEntity } from '@users';
 import * as dotenv from 'dotenv';
+import { ExamTypeEntity } from 'exam-type/entities/exam-type.entity';
 import { ExamEntity } from 'exams';
 import { AnswerEntity } from 'exams/entities/answer.entity';
 import { QuestionEntity } from 'exams/entities/question.entity';
@@ -27,6 +28,7 @@ export const typeOrmOptions: TypeOrmModuleOptions = {
     StudentExamEntity,
     QuestionEntity,
     AnswerEntity,
+    ExamTypeEntity
   ],
   synchronize: true,
 };

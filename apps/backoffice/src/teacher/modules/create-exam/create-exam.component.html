@@ -1,56 +1,58 @@
 <div>
-    <div class="page-header">
-        <div class="row align-items-center">
-            <div class="col">
-                <h3 class="page-title">Add Exam</h3>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="exam.html">Exam</a></li>
-                    <li class="breadcrumb-item active">Add Exam</li>
-                </ul>
-            </div>
-        </div>
-    </div>
+
 
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <form>
+                    <div class="page-header">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="page-title">Add Exam</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form [formGroup]="createExamForm">
                         <div class="row">
                             <div class="col-12">
                                 <h5 class="form-title"><span>Exam Information</span></h5>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
-                                    <label>Exam Name</label>
-                                    <input type="text" class="form-control">
+                                    <label>Exam Title</label>
+                                    <input type="text" class="form-control" formControlName="title" [ngClass]="{'is-invalid':title.invalid && (title.dirty || title.touched)}">
+                                    <div *ngIf="title.invalid && (title.dirty || title.touched)">
+                                        <div *ngIf="title.errors?.['required']" class="text-danger">
+                                            Title is required.
+                                        </div>
+                                        <div *ngIf="title.errors?.['minlength']" class="text-danger">
+                                            Title must be at least 3 characters long.
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
-                                    <label>Subject</label>
-                                    <input type="text" class="form-control">
+                                    <label>Exam Type</label>
+                                    <select class="form-select" formControlName="examType" [ngClass]="{'is-invalid':examType.invalid && (examType.dirty || examType.touched)}">
+                                        <option value="" selected>Select type</option>
+                                        <option>LKG</option>
+                                        <option>UKG</option>
+                                    </select>
+                                    <div *ngIf="examType.invalid && (examType.dirty || examType.touched)">
+                                        <div *ngIf="examType.errors?.['required']" class="text-danger">
+                                            Exam type is required.
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-6">
+                            <!-- <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Module</label>
                                     <select class="form-control select">
                                         <option>Select Module</option>
                                         <option>LKG</option>
                                         <option>UKG</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                        <option>6</option>
-                                        <option>7</option>
-                                        <option>8</option>
-                                        <option>9</option>
-                                        <option>10</option>
-                                        <option>11</option>
-                                        <option>12</option>
                                     </select>
                                 </div>
                             </div>
@@ -61,117 +63,179 @@
                                         <option>Select Class</option>
                                         <option>LKG</option>
                                         <option>UKG</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                        <option>6</option>
-                                        <option>7</option>
-                                        <option>8</option>
-                                        <option>9</option>
-                                        <option>10</option>
-                                        <option>11</option>
-                                        <option>12</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Start Time</label>
-                                    <input type="time" class="form-control">
+                                    <input type="time" class="form-control" formControlName="startHour" [ngClass]="{'is-invalid':startHour.invalid && (startHour.dirty || startHour.touched)}">
+                                    <div *ngIf="startHour.invalid && (startHour.dirty || startHour.touched)">
+                                        <div *ngIf="startHour.errors?.['required']" class="text-danger">
+                                            Start time is required.
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>End Time</label>
-                                    <input type="time" class="form-control">
+                                    <input type="time" class="form-control" formControlName="endHour" [ngClass]="{'is-invalid':endHour.invalid && (endHour.dirty || endHour.touched)}">
+                                    <div *ngIf="endHour.invalid && (endHour.dirty || endHour.touched)">
+                                        <div *ngIf="endHour.errors?.['required']" class="text-danger">
+                                            End time is required.
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
-                                    <label>Event Date</label>
-                                    <input type="date" class="form-control">
+                                    <label>Exam Date</label>
+                                    <input type="date" class="form-control" formControlName="date" [ngClass]="{'is-invalid':date.invalid && (date.dirty || date.touched)}">
+                                    <div *ngIf="date.invalid && (date.dirty || date.touched)">
+                                        <div *ngIf="date.errors?.['required']" class="text-danger">
+                                            Date is required.
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div>
-    <div class="page-header">
-        <div class="row align-items-center">
-            <div class="col">
-                <h3 class="page-title">Add Questions</h3>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a>Exam</a></li>
-                    <li class="breadcrumb-item active">Add Questions</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="card">
-                <div class="card-body">
-                    <form>
+                    <form [formGroup]="questionForm">
+                        <div class="page-header m-t-20">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="page-title">Add Questions</h3>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-12">
                                 <h5 class="form-title"><span>Questions Information</span></h5>
                             </div>
                             <div class="col-12 ">
-                                <button class="btn btn-outline-info float-right"><span>Add Questions</span>
-                                    <i class="fas fa-plus"></i></button>
+                                <button class="btn btn-outline-info float-right" [disabled]="questionForm.invalid" (click)="addQuestion()"><span>Add Questions </span><i class="fas fa-plus"></i></button>
                             </div>
                             <div class="col-12">
                                 <div class="card-body">
-                                    <form action="#">
-                                        <div class="row">
-                                            <div class="col-xl-12">
+                                    <div class="row">
+                                        <div class="col-xl-12" >
+                                            <div >
                                                 <div class="form-group row">
-                                                    <label class="col-lg-2 col-form-label">Question:</label>
+                                                    <label class="col-lg-2 col-form-label">Question Title:</label>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control">
+                                                        <input type="text" class="form-control"
+                                                            formControlName="text" [ngClass]="{'is-invalid':text.invalid && (text.dirty || text.touched)}">
+                                                    </div>
+                                                    <div *ngIf="text.invalid && (text.dirty || text.touched)">
+                                                        <div *ngIf="text.errors?.['required']" class="text-danger">
+                                                            Text is required.
+                                                        </div>
+                                                        <div *ngIf="text.errors?.['minlength']" class="text-danger">
+                                                            Text must be at least 3 characters long.
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label">Input
                                                         Type:</label>
                                                     <div class="col-lg-10">
-                                                        <select class="form-control select">
-                                                            <option>Select</option>
-                                                            <option value="1">Textarea</option>
-                                                            <option value="2">Checkbox</option>
-                                                            <option value="3">Radio</option>
+                                                        <select class="form-select" formControlName="inputType" [ngClass]="{'is-invalid':inputType.invalid && (inputType.dirty || inputType.touched)}">
+                                                            <option value=""> Choose one</option>
+                                                            <option value="select">Select</option>
+                                                            <option value="checkbox">Checkbox</option>
                                                         </select>
+                                                    </div>
+                                                    <div *ngIf="inputType.invalid && (inputType.dirty || inputType.touched)">
+                                                        <div *ngIf="inputType.errors?.['required']" class="text-danger">
+                                                            Input Type is required.
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-lg-2 col-form-label">Question
                                                         Score:</label>
                                                     <div class="col-lg-10">
-                                                        <input type="number" class="form-control" min="1">
+                                                        <input type="number" class="form-control" min="0.25" formControlName="point" [ngClass]="{'is-invalid':point.invalid && (point.dirty || point.touched)}">
+                                                    </div>
+                                                    <div *ngIf="point.invalid && (point.dirty || point.touched)">
+                                                        <div *ngIf="point.errors?.['required']" class="text-danger">
+                                                            score is required.
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <label class="col-lg-2 col-form-label">Add
-                                                        Answers:</label>
-                                                    <div class="col-lg-10">
-                                                        <a class="btn btn-white" data-bs-toggle="modal"
-                                                            href="#exampleModalToggle" role="button">
-                                                            <span>Add Answers </span> <i class="fas fa-plus"></i></a>
-                                                    </div>
+                                            
+                                            <div class="form-group row">
+                                                <label class="col-lg-2 col-form-label">Add
+                                                    Answers:</label>
+                                                <div class="col-lg-10">
+                                                    <a class="btn btn-white" data-bs-toggle="modal"
+                                                        href="#exampleModalToggle" role="button">
+                                                        <span>Add Answers </span> <i class="fas fa-plus"></i></a>
+                                                </div>
+                                            </div>
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header pro-bg-primary">
+                <h5 class="modal-title text-white" id="exampleModalToggleLabel">Add Answers</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                    <div class="col-lg-12">
+                        <div class="page-header">
+                            <div class="row align-items-center m-b-15">
+                                <div class="col-auto text-end float-end ms-auto">
+                                    <button class="btn btn-outline-primary me-2" (click)="addAnswer()"><i class="fas fa-plus"></i> Add</button>
+                                </div>
+                            </div>
+                            <div class="row m-l-9 m-r-9" formArrayName="ansewrs" >
+                                <div class="col-xl-12" *ngFor="let answr of getansewrs().controls; let j=index">
+                                    <div class="row" [formGroupName]="j">
+                                        <div class="col-12 col-sm-9">
+                                            <h5 class="card-title">Answer</h5>
+                                            <input type="text" class="form-control" formControlName="text" [ngClass]="{'is-invalid':answerText(j).invalid && (answerText(j).dirty || answerText(j).touched)}">
+                                            <div *ngIf="answerText(j).invalid && (answerText(j).dirty || answerText(j).touched)">
+                                                <div *ngIf="answerText(j).errors?.['required']" class="text-danger">
+                                                    Text is required.
+                                                </div>
+                                                <div *ngIf="answerText(j).errors?.['minlength']" class="text-danger">
+                                                    Text must be at least 3 characters long.
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
+                                        <div class="col-12 col-sm-3">
+                                            <h5 class="card-title">Is True</h5>
+                                            <select class="form-control form-select" formControlName="isCorrect" [ngClass]="{'is-invalid':isCorrect(j).invalid && (isCorrect(j).dirty || isCorrect(j).touched)}">
+                                                <option selected value="">Select</option>
+                                                <option value="true">True</option>
+                                                <option value="false">False</option>
+                                            </select>
+                                            <div *ngIf="isCorrect(j).invalid && (isCorrect(j).dirty || isCorrect(j).touched)">
+                                                <div *ngIf="isCorrect(j).errors?.['required']" class="text-danger">
+                                                    State is required.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-dismiss="modal" [disabled]="getansewrs().invalid">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
+                                        </div>
+                                        </div>
+                                    </div>
                                     <hr>
-                                    <div class="row">
-                                        <div class="col-xl-12">
+                                    <div class="row" >
+                                        <div class="col-xl-12" *ngIf="questionsList.length">
                                             <div class="table-responsive">
                                                 <table class="table table-nowrap mb-0">
                                                     <thead>
@@ -184,10 +248,10 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>answr</td>
-                                                            <td>True</td>
-                                                            <td>True</td>
+                                                        <tr *ngFor="let qst of questionsList">
+                                                            <td>{{qst.text}}</td>
+                                                            <td>{{qst.inputType}}</td>
+                                                            <td>{{qst.point}}</td>
                                                             <td>
                                                                 <u>
                                                                     <a class="text-dark" data-bs-toggle="modal"
@@ -203,32 +267,6 @@
                                                                         <i class="fas fa-pen"></i>
 
                                                                     </a>
-                                                                    <a href="#" class="btn btn-sm bg-danger-light">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>answr</td>
-                                                            <td>false</td>
-                                                            <td>True</td>
-                                                            <td>
-                                                                <u>
-                                                                    <a class="text-dark" data-bs-toggle="modal"
-                                                                        href="#viewanswer" role="button">view
-                                                                        answers</a>
-                                                                </u>
-                                                            </td>
-                                                            <td class="text-end">
-                                                                <div class="actions">
-                                                                    <a class="btn btn-sm bg-success-light me-2"
-                                                                        data-bs-toggle="modal" href="#editexam"
-                                                                        role="button">
-                                                                        <i class="fas fa-pen"></i>
-
-                                                                    </a>
-
                                                                     <a href="#" class="btn btn-sm bg-danger-light">
                                                                         <i class="fas fa-trash"></i>
                                                                     </a>
@@ -240,9 +278,10 @@
                                             </div>
                                         </div>
                                         <div class="text-end m-t-20">
-                                            <button type="submit" class="btn btn-primary">Add Exam</button>
+                                            <button type="submit" class="btn btn-primary" (click)="createExam()" [disabled]="createExamForm.invalid || questionsList.length === 0">Add Exam</button>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -252,6 +291,10 @@
         </div>
     </div>
 </div>
+<div>
+
+</div>
+
 <div class="modal fade" id="editexam" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
@@ -263,121 +306,6 @@
                 <form action="#">
                     <div class="col-lg-12">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h5 class="form-title"><span>Exam Information</span></h5>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Exam Name</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Subject</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Module</label>
-                                        <select class="form-control select">
-                                            <option>Select Module</option>
-                                            <option>LKG</option>
-                                            <option>UKG</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
-                                            <option>9</option>
-                                            <option>10</option>
-                                            <option>11</option>
-                                            <option>12</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Class</label>
-                                        <select class="form-control select">
-                                            <option>Select Class</option>
-                                            <option>LKG</option>
-                                            <option>UKG</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
-                                            <option>9</option>
-                                            <option>10</option>
-                                            <option>11</option>
-                                            <option>12</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Start Time</label>
-                                        <input type="time" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group">
-                                        <label>End Time</label>
-                                        <input type="time" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <div class="form-group">
-                                        <label>Event Date</label>
-                                        <input type="date" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row m-t-20">
-                                <div class="col-12">
-                                    <h5 class="form-title"><span>Questions Information</span></h5>
-                                </div>
-                                <div class="col-12">
-
-                                    <div class="row">
-                                        <div class="col-xl-12">
-                                            <div class="form-group row">
-                                                <label class="col-lg-2 col-form-label">Question:</label>
-                                                <div class="col-lg-10">
-                                                    <input type="text" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-lg-2 col-form-label">Input Type:</label>
-                                                <div class="col-lg-10">
-                                                    <select class="form-control select">
-                                                        <option>Select</option>
-                                                        <option value="1">Textarea</option>
-                                                        <option value="2">Checkbox</option>
-                                                        <option value="3">Radio</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-lg-2 col-form-label">Question
-                                                    Score:</label>
-                                                <div class="col-lg-10">
-                                                    <input type="number" class="form-control" min="1">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="row m-t-20">
                                 <div class="col-12">
                                     <h5 class="form-title"><span>Answers Information</span></h5>
@@ -426,72 +354,6 @@
             <div class="modal-footer">
                 <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
                     data-bs-dismiss="modal">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-    tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header pro-bg-primary">
-                <h5 class="modal-title text-white" id="exampleModalToggleLabel">Add Answers</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="#">
-                    <div class="col-lg-12">
-                        <div class="page-header">
-                            <div class="row align-items-center">
-                                <div class="col-auto text-end float-end ms-auto">
-                                    <a href="#" class="btn btn-outline-primary me-2"><i class="fas fa-plus"></i> Add</a>
-                                </div>
-                            </div>
-                            <div class="row m-l-9 m-r-9">
-                                <div class="col-12 col-sm-9">
-                                    <h5 class="card-title">Answer</h5>
-                                    <input type="text" class="form-control">
-                                </div>
-                                <div class="col-12 col-sm-3">
-                                    <h5 class="card-title">Is True</h5>
-                                    <select class="form-control form-select">
-                                        <option>Select</option>
-                                        <option value="1">True</option>
-                                        <option value="2">False</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-nowrap mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th class="width-80">Answers</th>
-                                            <th>Is True</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>answr</td>
-                                            <td>True</td>
-                                        </tr>
-                                        <tr>
-                                            <td>answr</td>
-                                            <td>false</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
-                    data-bs-dismiss="modal">Open second modal</button>
             </div>
         </div>
     </div>

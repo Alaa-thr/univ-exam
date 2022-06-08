@@ -18,7 +18,7 @@ export class ExamsService {
   }
   private getQuestionAndItsAnswersAndStudentAnswers(examDetails: IExam, studentAnswers: any){
     const details = {
-      examType: '',
+      examType: null,
       title: '',
       date: null,
       startHour: null,

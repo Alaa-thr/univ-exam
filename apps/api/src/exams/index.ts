@@ -6,4 +6,3 @@ export * from './dto/update-exam.dto';
 export * from './services/exams.service';
 export * from './controllers/exams.controller';
 export * from './exams.module';
-export * from './enum/exam-type.enum';

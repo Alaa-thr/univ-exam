@@ -1,10 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { getPagination, getPagingData, QueryDto } from 'shared';
 import { EntityRepository, Repository } from 'typeorm';
-import { CreateTeacherDto } from './dto/create-teacher.dto';
 import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { TeacherEntity } from './entities/teacher.entity';
-import { ITeacher } from './interface/teacher.interface';
 @Injectable()
 @EntityRepository(TeacherEntity)
 export class TeachersRepository extends Repository<TeacherEntity> {

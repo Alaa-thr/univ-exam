@@ -36,7 +36,6 @@ export class UsersRepository extends Repository<UserEntity> {
   async findAll(query: QueryDto) {
     const { keyword, limit, page, order } = query;
     const { take, skip } = getPagination(page, limit);
-
     let orderField = 'users.email';
     let orderType: 'ASC' | 'DESC' = 'ASC';
 
@@ -46,12 +45,12 @@ export class UsersRepository extends Repository<UserEntity> {
     }
 
     const users = await this.createQueryBuilder('users')
-      .where(keyword ? `(LOWER(users.email) LIKE LOWER('%${keyword}%')` : '1=1')
+      .where(keyword ? `LOWER(users.email) LIKE LOWER('%${keyword}%')` : '1=1')
       .orderBy(orderField, orderType)
       .offset(skip)
       .limit(take)
       .getManyAndCount();
-
+    
     return getPagingData(users, take, skip);
   }
 

@@ -1,6 +1,7 @@
 import { InputTypeEnum } from "exams/enum/input-type.enum";
 import { IExam } from "./exam.interface";
 
+
 export interface IQuestion {
     
     id: string;

@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsAlpha, IsDate, IsNotEmpty, IsNumber } from 'class-validator';
-import { IStudent } from 'students/interface/student.interface';
 import { ITeacher } from 'teachers/interface/teacher.interface';
 
 export class CreateTeacherDto

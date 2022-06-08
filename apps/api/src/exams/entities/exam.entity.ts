@@ -1,4 +1,5 @@
-import { ExamTypeEnum } from 'exams/enum/exam-type.enum';
+
+import { ExamTypeEntity } from 'exam-type/entities/exam-type.entity';
 import { IExam } from 'exams/interfaces/exam.interface';
 import { TeacherEntity } from 'teachers/entities/teacher.entity';
 import { ITeacher } from 'teachers/interface/teacher.interface';
@@ -7,6 +8,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -40,13 +42,6 @@ export class ExamEntity implements IExam {
   isPublished: boolean;
 
   @Column({
-    type: 'enum',
-    enum: ExamTypeEnum,
-    default: ExamTypeEnum.EXAM,
-  })
-  examType: ExamTypeEnum;
-
-  @Column({
     default: false,
   })
   answersArePublished: boolean;
@@ -58,6 +53,9 @@ export class ExamEntity implements IExam {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @ManyToOne(() => ExamTypeEntity, (examType) => examType.exams)
+  examType: ExamTypeEntity;
 
   @OneToMany(() => QuestionEntity, (question) => question.exam)
   questions: QuestionEntity[];

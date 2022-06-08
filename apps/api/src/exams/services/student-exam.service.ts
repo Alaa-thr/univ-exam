@@ -1,10 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateExamDto ,UpdateExamDto } from 'exams';
 import { StudentExamRepository} from '../repositiries/student-exam.repository';
 import { IStudentExam } from '../interfaces/student-exam.interface';
-import { ExamRepository } from '../repositiries/exams.repository';
-import { IExam } from "exams/interfaces/exam.interface";
-import { IQuestion } from '../interfaces/question.interface';
 import { UpdateExamStudentDto } from '../dto/update-exam-student.dto';
 import { Cron } from '@nestjs/schedule';
 

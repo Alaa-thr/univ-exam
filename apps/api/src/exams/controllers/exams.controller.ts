@@ -12,10 +12,10 @@ import { IUser } from '@users';
 import { ExamsService} from 'exams';
 import { User } from 'shared/decorators/user.decorator';
 import { JwtAuthGuard } from 'users/guards/jwt-auth.guard';
-import { IQuestion } from '../interfaces/question.interface';
 import { IStudentExam } from '../interfaces/student-exam.interface';
 import { IExam } from "exams/interfaces/exam.interface";
 import { StudentExamService } from 'exams/services/student-exam.service';
+import { IQuestion } from 'exams/interfaces/question.interface';
 
 @Controller('exams')
 @UseGuards(JwtAuthGuard)

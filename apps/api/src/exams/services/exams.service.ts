@@ -16,25 +16,24 @@ export class ExamsService {
   ) {}
 
   async createOne(createExamDto: CreateExamDto) {
-    const createdQuestions: IQuestion[] =
-      await this.questionsService.createMany(createExamDto.questions);
+    // const createdQuestions: IQuestion[] = await this.questionsService.createMany(createExamDto.questions);
 
-    return this.examRepo.save({
-      ...createExamDto,
-      questions: createdQuestions,
-    });
+    // // return this.examRepo.save({
+    // //   ...createExamDto,
+    // //   questions: createdQuestions,
+    // // });
   }
 
   async updateOne(id: string, updateExamDto: UpdateExamDto) {
     const exam = await this.examRepo.findById(id);
 
-    const createdQuestions: IQuestion[] =
-      await this.questionsService.createMany({
-        ...exam.questions,
-        ...updateExamDto.questions,
-      });
+    // const createdQuestions: IQuestion[] =
+    //   await this.questionsService.createMany({
+    //     ...exam.questions,
+    //     ...updateExamDto.questions,
+    //   });
 
-    return this.examRepo.save({ ...updateExamDto, ...createdQuestions, id });
+    // return this.examRepo.save({ ...updateExamDto, ...createdQuestions, id });
   }
 
   async findTakenExamsById(studentId: string, examId: string): Promise<any> {
@@ -89,7 +88,7 @@ export class ExamsService {
       };
       qst.id = examDetails.questions[i].id;
       qst.text = examDetails.questions[i].text;
-      qst.inputType = examDetails.questions[i].inputType;
+      //qst.inputType = examDetails.questions[i].inputType;
       qst.point = examDetails.questions[i].point;
       for (let j = 0; j < examDetails.questions[i].answers.length; j++) {
         const answr = {

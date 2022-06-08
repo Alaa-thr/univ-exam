@@ -6,6 +6,7 @@ import { ExamEntity } from 'exams';
 import { AnswerEntity } from 'exams/entities/answer.entity';
 import { QuestionEntity } from 'exams/entities/question.entity';
 import { StudentExamEntity } from 'exams/entities/studentExam.entity';
+import { InputTypeEntity } from 'input-type/entities/input-type.entity';
 import { NotificationEntity } from 'notifications';
 import { StudentEntity } from 'students/entities/student.entity';
 import { TeacherEntity } from 'teachers/entities/teacher.entity';
@@ -28,7 +29,8 @@ export const typeOrmOptions: TypeOrmModuleOptions = {
     StudentExamEntity,
     QuestionEntity,
     AnswerEntity,
-    ExamTypeEntity
+    ExamTypeEntity,
+    InputTypeEntity
   ],
   synchronize: true,
 };

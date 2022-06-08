@@ -1,5 +1,5 @@
 import { ExamEntity } from 'exams';
-import { InputTypeEnum } from 'exams/enum/input-type.enum';
+import { InputTypeEnum } from 'input-type/enum/input-type.enum';
 import { IQuestion } from 'exams/interfaces/question.interface';
 import {
   Column,
@@ -12,6 +12,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { AnswerEntity } from './answer.entity';
+import { InputTypeEntity } from 'input-type/entities/input-type.entity';
 
 @Entity('questions')
 export class QuestionEntity implements IQuestion {
@@ -22,13 +23,6 @@ export class QuestionEntity implements IQuestion {
     nullable: false,
   })
   text: string;
-
-  @Column({
-    type: 'enum',
-    enum: InputTypeEnum,
-    default: InputTypeEnum.CHECKBOX,
-  })
-  inputType: string;
 
   @CreateDateColumn({
     update: false,
@@ -51,4 +45,7 @@ export class QuestionEntity implements IQuestion {
 
   @OneToMany(() => AnswerEntity, (answer) => answer.question)
   answers: AnswerEntity[];
+
+  @ManyToOne(() => InputTypeEntity, (inputType) => inputType.questions)
+  inputType: InputTypeEntity;
 }

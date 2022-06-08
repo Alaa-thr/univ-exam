@@ -17,22 +17,22 @@ export class QuestionsService {
       createQuestionDto.answers
     );
 
-    return await this.questionsRepo.save({
-      ...createQuestionDto,
-      answers: createdAnswers,
-    });
+    // return await this.questionsRepo.save({
+    //   ...createQuestionDto,
+    //   answers: createdAnswers,
+    // });
   }
 
   async createMany(createQuestionDtoList: CreateQuestionDto[]) {
     const createdQuestionsList: IQuestion[] = [];
 
-    for (let index = 0; index < createQuestionDtoList.length; index++) {
-      const createQuestionDto = createQuestionDtoList[index];
-      const createdQuestion: IQuestion = await this.createOne(
-        createQuestionDto
-      );
-      createdQuestionsList.push(createdQuestion);
-    }
-    return createdQuestionsList;
+    // for (let index = 0; index < createQuestionDtoList.length; index++) {
+    //   const createQuestionDto = createQuestionDtoList[index];
+    //   const createdQuestion: IQuestion = await this.createOne(
+    //     createQuestionDto
+    //   );
+    //   createdQuestionsList.push(createdQuestion);
+    // }
+    // return createdQuestionsList;
   }
 }

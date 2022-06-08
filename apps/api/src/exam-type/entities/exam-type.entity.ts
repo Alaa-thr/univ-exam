@@ -13,6 +13,7 @@ export class ExamTypeEntity implements IExamType{
     type: 'enum',
     enum: ExamTypeEnum,
     default: ExamTypeEnum.EXAM,
+    unique: true
   })
   type: string;
 

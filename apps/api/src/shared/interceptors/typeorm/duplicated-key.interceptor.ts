@@ -13,7 +13,7 @@ export class DuplicatedKeyExceptionInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       catchError((error) => {
-        console.log('error lkjflkjflkdjfl');
+        console.log('error ', error);
         if (error.code === '23505') {
           let value = error.detail.split('(')[1].split(')')[0];
           if (value.includes('"')) value = value.split('"')[1];

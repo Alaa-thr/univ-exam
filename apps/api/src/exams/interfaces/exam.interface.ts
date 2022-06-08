@@ -1,6 +1,6 @@
+import { QuestionEntity } from 'exams/entities/question.entity';
+import { StudentExamEntity } from 'exams/entities/studentExam.entity';
 
-import { QuestionEntity } from "exams/entities/question.entity";
-import { StudentExamEntity } from "exams/entities/studentExam.entity";
 import { ITeacher } from 'teachers/interface/teacher.interface';
 import { ExamTypeEntity } from "exam-type/entities/exam-type.entity";
 export interface IExam {
@@ -12,7 +12,7 @@ export interface IExam {
   isPublished: boolean;
   examType: ExamTypeEntity;
   answersArePublished: boolean;
-  questions : QuestionEntity[];
+  questions: QuestionEntity[];
   studentExams: StudentExamEntity[];
   teacher: ITeacher;
   created_at: Date;

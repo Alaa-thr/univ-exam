@@ -27,7 +27,7 @@ export class ExamEntity implements IExam {
   })
   title: string;
 
-  @Column()
+  @Column('date')
   date: Date;
 
   @Column('time')

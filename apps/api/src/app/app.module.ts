@@ -13,6 +13,7 @@ import { typeOrmOptions } from './config/typeorm.config';
 import { ExamTypeModule } from 'exam-type/exam-type.module';
 import { InputTypeModule } from 'input-type/input-type.module';
 import { SpecialityModule } from 'speciality/speciality.module';
+import { LevelModule } from 'level/level.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SpecialityModule } from 'speciality/speciality.module';
     ExamTypeModule,
     InputTypeModule,
     SpecialityModule,
+    LevelModule,
     ScheduleModule.forRoot(),
   ],
   controllers: [AppController],

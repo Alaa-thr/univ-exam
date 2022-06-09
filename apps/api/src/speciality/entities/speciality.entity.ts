@@ -1,7 +1,5 @@
-import { QuestionEntity } from "exams/entities/question.entity";
-import { InputTypeEnum } from "input-type/enum/input-type.enum";
 import { ISpeciality } from "speciality/interfaces/speciality.interface";
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('speciality')
 export class SpecialityEntity implements ISpeciality {
@@ -21,6 +19,4 @@ export class SpecialityEntity implements ISpeciality {
 
     @UpdateDateColumn()
     updated_at: Date;
-
-
 }

@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 import { typeOrmOptions } from './config/typeorm.config';
 import { ExamTypeModule } from 'exam-type/exam-type.module';
 import { InputTypeModule } from 'input-type/input-type.module';
+import { SpecialityModule } from 'speciality/speciality.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { InputTypeModule } from 'input-type/input-type.module';
     NotificationsModule,
     ExamTypeModule,
     InputTypeModule,
+    SpecialityModule,
     ScheduleModule.forRoot(),
   ],
   controllers: [AppController],

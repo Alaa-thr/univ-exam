@@ -1,7 +1,9 @@
 import { StudentExamEntity } from 'exams/entities/studentExam.entity';
+import { LevelEntity } from 'level/entities/level.entity';
 import { Person } from 'shared';
+import { SpecialityEntity } from 'speciality/entities/speciality.entity';
 import { IStudent } from 'students/interface/student.interface';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity('students')
 export class StudentEntity extends Person implements IStudent {
@@ -16,4 +18,10 @@ export class StudentEntity extends Person implements IStudent {
     onDelete: 'NO ACTION',
   })
   studentExams: StudentExamEntity[];
+
+  @ManyToOne(() => LevelEntity, level => level.students)
+  level: LevelEntity;
+
+  @ManyToOne(() => SpecialityEntity, speciality => speciality.students)
+  speciality: SpecialityEntity;
 }

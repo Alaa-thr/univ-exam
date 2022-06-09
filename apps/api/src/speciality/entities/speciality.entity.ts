@@ -1,5 +1,6 @@
 import { ISpeciality } from "speciality/interfaces/speciality.interface";
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { StudentEntity } from "students/entities/student.entity";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
 
 @Entity('speciality')
 export class SpecialityEntity implements ISpeciality {
@@ -19,4 +20,7 @@ export class SpecialityEntity implements ISpeciality {
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    @OneToMany(() => StudentEntity, student => student.level)
+    students: StudentEntity[];
 }

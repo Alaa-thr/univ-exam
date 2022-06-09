@@ -27,18 +27,16 @@ import { LoginGuard } from '../core/guards/login.guard';
 import { LoginComponent } from '../core/components/login/login.component';
 import { ScheduledExamsService } from '../modules/scheduled-exams/scheduled-exams.service';
 import { LoginInterceptorProvider } from '../core/interceptors/login.interceptor';
-import { CapitalizeLetterPipe } from '../core/pipes/capitalize-letter.pipe';
 import { TakenExamsService } from '../modules/taken-exams/taken-exams.service';
 import { NotificationService } from '../modules/notification/notification.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ExamDetailsComponent } from '../modules/exam-details/exam-details.component';
 import { ExamDetailsService } from '../modules/exam-details/exam-details.service';
-import { SeparateWordsPipe } from '../core/pipes/separate-words.pipe';
-import { QuestionMarkPipe } from '../core/pipes/question-mark.pipe';
 import { TakeExamService } from '../modules/take-exam/take-exam.service';
 import { ExamPreparationComponent } from '../modules/exam-preparation/exam-preparation.component';
 import { ExamPreparationService } from '../modules/exam-preparation/exam-preparation.service';
 import { RecordVideoComponent } from '../modules/record-video/record-video.component';
+import { CapitalizeLetterPipe, QuestionMarkPipe, SeparateWordsPipe } from '@univ-exam/common';
 
 @NgModule({
   declarations: [

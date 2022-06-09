@@ -1,11 +1,11 @@
-import { SpecialityEntity } from "speciality/entities/speciality.entity";
-import { StudentEntity } from "students/entities/student.entity";
+import { ISpeciality } from "speciality/interfaces/speciality.interface";
+import { IStudent } from "students/interface/student.interface";
 
 export interface ILevel{
     id: string;
     name: string;
     created_at: Date;
     updated_at: Date;
-    specialities: SpecialityEntity[];
-    students: StudentEntity[];
+    specialities: ISpeciality[];
+    students: IStudent[];
 }

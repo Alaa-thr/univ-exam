@@ -8,20 +8,20 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { LevelService } from './level.service';
-import { CreateLevelDto } from './dto/create-level.dto';
-import { UpdateLevelDto } from './dto/update-level.dto';
+import { ModuleService } from './module.service';
+import { CreateModuleDto } from './dto/create-module.dto';
+import { UpdateModuleDto } from './dto/update-module.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { QueryDto } from 'shared';
 
-@Controller('level')
-@ApiTags('Level')
-export class LevelController {
-  constructor(private readonly specialityService: LevelService) {}
+@Controller('module')
+@ApiTags('Module')
+export class ModuleController {
+  constructor(private readonly specialityService: ModuleService) {}
 
   @Post()
-  create(@Body() createLevelDto: CreateLevelDto) {
-    return this.specialityService.create(createLevelDto);
+  create(@Body() createModuleDto: CreateModuleDto) {
+    return this.specialityService.create(createModuleDto);
   }
 
   @Get()
@@ -37,9 +37,9 @@ export class LevelController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateLevelDto: UpdateLevelDto
+    @Body() updateModuleDto: UpdateModuleDto
   ) {
-    return this.specialityService.update(id, updateLevelDto);
+    return this.specialityService.update(id, updateModuleDto);
   }
 
   @Delete(':id')

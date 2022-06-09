@@ -1,5 +1,5 @@
-import { LevelEntity } from "level/entities/level.entity";
-import { SpecialityEntity } from "speciality/entities/speciality.entity";
+import { ILevel } from "level/interfaces/level.interface";
+import { ISpeciality } from "speciality/interfaces/speciality.interface";
 
 export interface IStudent {
     
@@ -11,6 +11,6 @@ export interface IStudent {
     created_at: Date;
     updated_at: Date;
     studentNumber: number;
-    level: LevelEntity;
-    speciality: SpecialityEntity;
+    level: ILevel;
+    speciality: ISpeciality;
 }

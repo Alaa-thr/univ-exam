@@ -1,8 +1,8 @@
 import { QuestionEntity } from 'exams/entities/question.entity';
 import { StudentExamEntity } from 'exams/entities/studentExam.entity';
-
 import { ITeacher } from 'teachers/interface/teacher.interface';
 import { ExamTypeEntity } from "exam-type/entities/exam-type.entity";
+import { IModule } from 'modulee/interfaces/module.interface';
 export interface IExam {
   id: string;
   title: string;
@@ -17,4 +17,5 @@ export interface IExam {
   teacher: ITeacher;
   created_at: Date;
   updated_at: Date;
+  module: IModule;
 }

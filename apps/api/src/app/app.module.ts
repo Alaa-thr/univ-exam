@@ -14,6 +14,7 @@ import { ExamTypeModule } from 'exam-type/exam-type.module';
 import { InputTypeModule } from 'input-type/input-type.module';
 import { SpecialityModule } from 'speciality/speciality.module';
 import { LevelModule } from 'level/level.module';
+import { ModuleModule } from 'modulee/module.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { LevelModule } from 'level/level.module';
     InputTypeModule,
     SpecialityModule,
     LevelModule,
+    ModuleModule,
     ScheduleModule.forRoot(),
   ],
   controllers: [AppController],

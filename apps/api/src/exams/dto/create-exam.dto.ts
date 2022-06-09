@@ -11,7 +11,7 @@ import { ExamTypeEnum } from 'exam-type/emun/exam-type.enum';
 import { IExam } from 'exams';
 import { CreateQuestionDto } from './create-question.dto';
 
-export class CreateExamDto implements Omit< IExam, 'id'| 'created_at'| 'updated_at'| 'teacher'| 'examType'| 'questions'| 'studentExams'>
+export class CreateExamDto implements Omit< IExam, 'id'| 'created_at'| 'updated_at'| 'teacher'| 'examType'| 'questions'| 'studentExams'|'module'>
 {
   @ApiProperty()
   @IsNotEmpty()

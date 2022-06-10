@@ -10,6 +10,7 @@ import { InputTypeEntity } from 'input-type/entities/input-type.entity';
 import { LevelEntity } from 'level/entities/level.entity';
 import { ModuleEntity } from 'modulee/entities/module.entity';
 import { NotificationEntity } from 'notifications';
+import { SpecialityModuleLevelEntity } from 'speciality-module-level/entities/speciality-module-level.entity';
 import { SpecialityEntity } from 'speciality/entities/speciality.entity';
 import { StudentEntity } from 'students/entities/student.entity';
 import { TeacherEntity } from 'teachers/entities/teacher.entity';
@@ -37,6 +38,7 @@ export const typeOrmOptions: TypeOrmModuleOptions = {
     SpecialityEntity,
     LevelEntity,
     ModuleEntity,
+    SpecialityModuleLevelEntity,
   ],
   synchronize: true,
 };

@@ -1,8 +1,8 @@
-import { QuestionEntity } from 'exams/entities/question.entity';
-import { StudentExamEntity } from 'exams/entities/studentExam.entity';
 import { ITeacher } from 'teachers/interface/teacher.interface';
-import { ExamTypeEntity } from "exam-type/entities/exam-type.entity";
 import { IModule } from 'modulee/interfaces/module.interface';
+import { IQuestion } from './question.interface';
+import { IStudentExam } from './student-exam.interface';
+import { IExamType } from 'exam-type/interface/exam-type.interface';
 export interface IExam {
   id: string;
   title: string;
@@ -10,10 +10,10 @@ export interface IExam {
   startHour: Date;
   endHour: Date;
   isPublished: boolean;
-  examType: ExamTypeEntity;
+  examType: IExamType;
   answersArePublished: boolean;
-  questions: QuestionEntity[];
-  studentExams: StudentExamEntity[];
+  questions: IQuestion[];
+  studentExams: IStudentExam[];
   teacher: ITeacher;
   created_at: Date;
   updated_at: Date;

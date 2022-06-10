@@ -1,8 +1,8 @@
 
 import { ExamEntity } from "exams";
-import { LevelEntity } from "level/entities/level.entity";
 import { IModule } from "modulee/interfaces/module.interface";
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, OneToMany } from "typeorm";
+import { SpecialityModuleLevelEntity } from "speciality-module-level/entities/speciality-module-level.entity";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
 
 @Entity('module')
 export class ModuleEntity implements IModule {
@@ -23,9 +23,8 @@ export class ModuleEntity implements IModule {
     @UpdateDateColumn()
     updated_at: Date;
 
-    @ManyToMany(() => LevelEntity)
-    @JoinTable()
-    levels: LevelEntity[];
+    @OneToMany(() => SpecialityModuleLevelEntity, (specialityModuleLevel) => specialityModuleLevel.module)
+    specialityModuleLevels: SpecialityModuleLevelEntity[];
 
     @OneToMany(() => ExamEntity, (exam) => exam.module)
     exams: ExamEntity[];

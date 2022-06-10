@@ -1,4 +1,5 @@
 import { IInputType } from 'input-type/interface/input-type.interface';
+import { IAnswer } from './answer.interface';
 import { IExam } from './exam.interface';
 
 
@@ -10,4 +11,5 @@ export interface IQuestion {
   updated_at: Date;
   exam: IExam;
   inputType: IInputType;
+  answers: IAnswer[];
 }

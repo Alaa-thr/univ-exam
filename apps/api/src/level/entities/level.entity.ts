@@ -1,8 +1,8 @@
 
 import { ILevel } from "level/interfaces/level.interface";
-import { SpecialityEntity } from "speciality/entities/speciality.entity";
+import { SpecialityModuleLevelEntity } from "speciality-module-level/entities/speciality-module-level.entity";
 import { StudentEntity } from "students/entities/student.entity";
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
 
 @Entity('level')
 export class LevelEntity implements ILevel {
@@ -23,9 +23,8 @@ export class LevelEntity implements ILevel {
     @UpdateDateColumn()
     updated_at: Date;
 
-    @ManyToMany(() => SpecialityEntity)
-    @JoinTable()
-    specialities: SpecialityEntity[];
+    @OneToMany(() => SpecialityModuleLevelEntity, (specialityModuleLevel) => specialityModuleLevel.level)
+    specialityModuleLevels: SpecialityModuleLevelEntity[];
 
     @OneToMany(() => StudentEntity, student => student.level)
     students: StudentEntity[];

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { IExamType, ILevel, IModule, ISpeciality } from '@univ-exam/common';
+import { CreateExamService } from './create-exam.service';
 
 @Component({
   selector: 'univ-exam-create-exam',
@@ -19,7 +21,14 @@ export class CreateExamComponent implements OnInit {
       isCorrect: false
     }]
   }];
-  constructor(private readonly fb: FormBuilder) {
+  examTypes: IExamType[] = [];
+  specialities: ISpeciality[] = [];
+  levels: ILevel[] = [];
+  Modules: IModule[] = []; 
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly createExamService: CreateExamService,
+  ) {
     this.createExamForm = this.fb.group({
       'title': this.fb.control('',[
         Validators.required,
@@ -57,8 +66,37 @@ export class CreateExamComponent implements OnInit {
     //this.createExamForm.value.questions.splice(0,1)
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.createExamService.getExamType().subscribe(
+      (response) => {
+        this.examTypes = response;
+        console.log("examType ",this.examTypes)
+      },(error)=>{
+        console.log('CreateExam Component error', error);
+      }
+    );
+    this.createExamService.getSpeciality().subscribe(
+      (response) => {
+        this.specialities = response.items;
+        console.log("speciality ",this.specialities)
+      },(error)=>{
+        console.log('CreateExam Component error', error);
+      }
+    );
+  }
 
+  getLevel(event: any){
+    const specialityId = event.target.value;
+    console.log("specialityId",specialityId)
+    this.createExamService.getLevelsBySpeciality(specialityId).subscribe(
+      (response) => {
+        this.levels = response;
+        console.log("level ",this.levels)
+      },(error)=>{
+        console.log('CreateExam Component error', error);
+      }
+    );
+  }
   addQuestion(){
     const qstWithAnswers = this.questionForm.value;
     this.questionsList.push(qstWithAnswers)

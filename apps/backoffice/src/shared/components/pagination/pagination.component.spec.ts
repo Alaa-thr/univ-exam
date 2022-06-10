@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateLevelComponent } from './create-level.component';
+import { PaginationComponent } from './pagination.component';
 
-describe('CreateLevelComponent', () => {
-  let component: CreateLevelComponent;
-  let fixture: ComponentFixture<CreateLevelComponent>;
+describe('PaginationComponent', () => {
+  let component: PaginationComponent;
+  let fixture: ComponentFixture<PaginationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CreateLevelComponent],
+      declarations: [PaginationComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateLevelComponent);
+    fixture = TestBed.createComponent(PaginationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

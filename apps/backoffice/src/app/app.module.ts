@@ -10,9 +10,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CreateExamService } from '../teacher/modules/create-exam/create-exam.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CapitalizeLetterPipe, SeparateWordsPipe } from '@univ-exam/common';
-import { CreateSpecialityComponent } from '../admin/modules/speciality/create-speciality/create-speciality.component';
-import { CreateLevelComponent } from '../admin/modules/level/create-level/create-level.component';
-import { CreateModuleComponent } from '../admin/modules/modulee/create-module/create-module.component';
+import { SpecialityComponent } from '../admin/modules/speciality/speciality.component';
+import { SpecialityService } from '../admin/modules/speciality/speciality.service';
+import { ModuleComponent } from '../admin/modules/modulee/module.component';
+import { ModuleService } from '../admin/modules/modulee/module.service';
+import { LevelComponent } from '../admin/modules/level/level.component';
+import { LevelService } from '../admin/modules/level/level.service';
+import { PaginationComponent } from '../shared/components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -22,9 +26,10 @@ import { CreateModuleComponent } from '../admin/modules/modulee/create-module/cr
     HeaderComponent,
     SeparateWordsPipe,
     CapitalizeLetterPipe,
-    CreateSpecialityComponent,
-    CreateLevelComponent,
-    CreateModuleComponent,
+    SpecialityComponent,
+    LevelComponent,
+    ModuleComponent,
+    PaginationComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,12 @@ import { CreateModuleComponent } from '../admin/modules/modulee/create-module/cr
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [CreateExamService],
+  providers: [
+    CreateExamService,
+    SpecialityService,
+    ModuleService,
+    LevelService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

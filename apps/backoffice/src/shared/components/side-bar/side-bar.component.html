@@ -6,84 +6,22 @@
                     <span>Main Menu</span>
                 </li>
                 <li class="submenu">
-                    <a href="#"><i class="fas fa-user-graduate"></i> <span> Dashboard</span> <span
-                            class="menu-arrow"></span></a>
+                    <a [routerLink]="['create-exam']"><i class="fas fa-user-graduate"></i> <span> Exams</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="index.html">Admin Dashboard</a></li>
-                        <li><a href="teacher-dashboard.html">Teacher Dashboard</a></li>
-                        <li><a href="student-dashboard.html">Student Dashboard</a></li>
-                    </ul>
-                </li>
-                <li class="submenu">
-                    <a href="#"><i class="fas fa-user-graduate"></i> <span> Students</span> <span
-                            class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="students.html">Student List</a></li>
+                        <li><a [routerLink]="['create-exam']">Add Exam</a></li>
                         <li><a href="student-details.html">Student View</a></li>
                         <li><a href="add-student.html">Student Add</a></li>
                         <li><a href="edit-student.html">Student Edit</a></li>
                     </ul>
                 </li>
-                <li class="submenu">
-                    <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Teachers</span> <span
-                            class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="teachers.html">Teacher List</a></li>
-                        <li><a href="teacher-details.html">Teacher View</a></li>
-                        <li><a href="add-teacher.html">Teacher Add</a></li>
-                        <li><a href="edit-teacher.html">Teacher Edit</a></li>
-                    </ul>
+                <li routerLinkActive="active">
+                    <a [routerLink]="['speciality']"><i class="fas fa-holly-berry"></i> <span>Specialities</span></a>
                 </li>
-                <li class="submenu">
-                    <a href="#"><i class="fas fa-building"></i> <span> Departments</span> <span
-                            class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="departments.html">Department List</a></li>
-                        <li><a href="add-department.html">Department Add</a></li>
-                        <li><a href="edit-department.html">Department Edit</a></li>
-                    </ul>
+                <li routerLinkActive="active">
+                    <a [routerLink]="['module']"><i class="fas fa-comment-dollar"></i> <span>Modules</span></a>
                 </li>
-                <li class="submenu">
-                    <a href="#"><i class="fas fa-book-reader"></i> <span> Subjects</span> <span
-                            class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="subjects.html">Subject List</a></li>
-                        <li><a href="add-subject.html">Subject Add</a></li>
-                        <li><a href="edit-subject.html">Subject Edit</a></li>
-                    </ul>
-                </li>
-                <li class="menu-title">
-                    <span>Management</span>
-                </li>
-                <li class="submenu">
-                    <a href="#"><i class="fas fa-file-invoice-dollar"></i> <span> Accounts</span> <span
-                            class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="fees-collections.html">Fees Collection</a></li>
-                        <li><a href="expenses.html">Expenses</a></li>
-                        <li><a href="salary.html">Salary</a></li>
-                        <li><a href="add-fees-collection.html">Add Fees</a></li>
-                        <li><a href="add-expenses.html">Add Expenses</a></li>
-                        <li><a href="add-salary.html">Add Salary</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="holiday.html"><i class="fas fa-holly-berry"></i> <span>Holiday</span></a>
-                </li>
-                <li>
-                    <a href="fees.html"><i class="fas fa-comment-dollar"></i> <span>Fees</span></a>
-                </li>
-                <li class="active">
-                    <a href="exam.html"><i class="fas fa-clipboard-list"></i> <span>Exam list</span></a>
-                </li>
-                <li>
-                    <a href="event.html"><i class="fas fa-calendar-day"></i> <span>Events</span></a>
-                </li>
-                <li>
-                    <a href="time-table.html"><i class="fas fa-table"></i> <span>Time Table</span></a>
-                </li>
-                <li>
-                    <a href="library.html"><i class="fas fa-book"></i> <span>Library</span></a>
+                <li routerLinkActive="active">
+                    <a [routerLink]="['level']"><i class="fas fa-clipboard-list"></i> <span>Levels</span></a>
                 </li>
                 <li class="menu-title">
                     <span>Pages</span>

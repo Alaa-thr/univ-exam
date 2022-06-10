@@ -36,8 +36,9 @@
                                     <label>Exam Type</label>
                                     <select class="form-select" formControlName="examType" [ngClass]="{'is-invalid':examType.invalid && (examType.dirty || examType.touched)}">
                                         <option value="" selected>Select type</option>
-                                        <option>LKG</option>
-                                        <option>UKG</option>
+                                        <option *ngFor="let type of examTypes"
+                                            [value]="type.id">{{type.type | SeparateWords | capitalizeLetter: "first"}}
+                                        </option>
                                     </select>
                                     <div *ngIf="examType.invalid && (examType.dirty || examType.touched)">
                                         <div *ngIf="examType.errors?.['required']" class="text-danger">
@@ -46,10 +47,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="col-12 col-sm-6">
+                            <div class="col-12 col-sm-6">
                                 <div class="form-group">
-                                    <label>Module</label>
-                                    <select class="form-control select">
+                                    <label>Speciality</label>
+                                    <select class="form-select" (change)="getLevel($event)">
+                                        <option value="">Select Speciality</option>
+                                        <option *ngFor="let speclt of specialities"
+                                         [value]="speclt.id">{{speclt.name | capitalizeLetter: "first"}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label>Level</label>
+                                    <select class="form-select" [disabled]="levels">
+                                        <option value="">Select Level</option>
+                                        <option>LKG</option>
+                                        <option>UKG</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label value="">Module</label>
+                                    <select class="form-select" [disabled]="Modules">
                                         <option>Select Module</option>
                                         <option>LKG</option>
                                         <option>UKG</option>
@@ -58,14 +79,15 @@
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
-                                    <label>Class</label>
-                                    <select class="form-control select">
-                                        <option>Select Class</option>
-                                        <option>LKG</option>
-                                        <option>UKG</option>
-                                    </select>
+                                    <label>Exam Date</label>
+                                    <input type="date" class="form-control" formControlName="date" [ngClass]="{'is-invalid':date.invalid && (date.dirty || date.touched)}">
+                                    <div *ngIf="date.invalid && (date.dirty || date.touched)">
+                                        <div *ngIf="date.errors?.['required']" class="text-danger">
+                                            Date is required.
+                                        </div>
+                                    </div>
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Start Time</label>
@@ -84,17 +106,6 @@
                                     <div *ngIf="endHour.invalid && (endHour.dirty || endHour.touched)">
                                         <div *ngIf="endHour.errors?.['required']" class="text-danger">
                                             End time is required.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <label>Exam Date</label>
-                                    <input type="date" class="form-control" formControlName="date" [ngClass]="{'is-invalid':date.invalid && (date.dirty || date.touched)}">
-                                    <div *ngIf="date.invalid && (date.dirty || date.touched)">
-                                        <div *ngIf="date.errors?.['required']" class="text-danger">
-                                            Date is required.
                                         </div>
                                     </div>
                                 </div>

@@ -13,7 +13,7 @@ export class ExamTypeService {
     return await this.examTypeRepo.save(createExamTypeDto);
   }
 
-  async findAll() {
+  async findAll(): Promise<IExamType[]> {
     return await this.examTypeRepo.find();
   }
 

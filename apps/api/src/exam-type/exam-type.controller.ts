@@ -11,6 +11,7 @@ import { ExamTypeService } from './exam-type.service';
 import { CreateExamTypeDto } from './dto/create-exam-type.dto';
 import { UpdateExamTypeDto } from './dto/update-exam-type.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { IExamType } from './interface/exam-type.interface';
 
 @Controller('exam-type')
 @ApiTags('ExamType')
@@ -23,8 +24,8 @@ export class ExamTypeController {
   }
 
   @Get()
-  findAll() {
-    return this.examTypeService.findAll();
+  async findAll(): Promise<IExamType[]> {
+    return await this.examTypeService.findAll();
   }
 
   @Get(':id')

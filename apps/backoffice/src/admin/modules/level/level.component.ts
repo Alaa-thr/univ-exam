@@ -14,9 +14,12 @@ export class LevelComponent implements OnInit {
   addForm: boolean;
   updateForm: boolean;
   form: FormGroup;
-  specialities: ILevel[] = [];
+  levels: ILevel[] = [];
   nameError: string;
   levelUpdate!: ILevel;
+  currentPage: number; 
+  totalPages: number;
+  itemsLimit: number;
   constructor(private readonly levelService: LevelService) {
     this.addForm = false;
     this.updateForm = false;
@@ -24,21 +27,36 @@ export class LevelComponent implements OnInit {
     this.form = new FormGroup({
       'name': new FormControl('',[
         Validators.required,
-        Validators.minLength(3)
+        Validators.minLength(2)
       ])
-    })
+    });
+    this.currentPage = 0;
+    this.totalPages = 0;
+    this.itemsLimit = 10;
   }
 
   ngOnInit(): void {
-    this.levelService.getLevel().subscribe(
+    this.fetchItems();
+  }
+
+  fetchItems(){
+    const query = {page: this.currentPage, limit: this.itemsLimit}
+    this.levelService.getLevel(query).subscribe(
       (response) =>{
-        this.specialities = response.items;
-        console.log("this.specialities",this.specialities);
+        this.levels = response.items;
+        this.totalPages = response.totalPages;
+        console.log("response",response);
+        console.log("this.totalPage",this.totalPages);
       },
       (error) =>{
-        console.log("Level component error", error);
+        console.log("Speciality component error", error);
       }
     )
+  }
+  changePage(page: number){
+    if(page < 0) return;
+    this.currentPage = page;
+    this.fetchItems();
   }
 
   get name() { 
@@ -49,7 +67,7 @@ export class LevelComponent implements OnInit {
     this.levelService.addLevel(data).subscribe(
       (response) =>{
         this.form.reset();
-        this.specialities.unshift(response)
+        this.levels.unshift(response)
       },
       (error) =>{
         this.nameError = error.error.message[0];
@@ -72,8 +90,8 @@ export class LevelComponent implements OnInit {
     const data = this.form.value;
     this.levelService.updateLevel(this.levelUpdate.id,data).subscribe(
       (response) =>{
-        const speclt = this.specialities.indexOf(this.levelUpdate);
-        this.specialities[speclt].name = data.name;
+        const speclt = this.levels.indexOf(this.levelUpdate);
+        this.levels[speclt].name = data.name;
       },
       (error) =>{
         this.nameError = error.error.message[0];
@@ -88,8 +106,8 @@ export class LevelComponent implements OnInit {
           'The level has been deleted.',
           'success'
         );
-        const speclt = this.specialities.indexOf(level);
-        this.specialities.splice(speclt,1);
+        const speclt = this.levels.indexOf(level);
+        this.levels.splice(speclt,1);
       },
       (error) =>{
         Swal.fire(

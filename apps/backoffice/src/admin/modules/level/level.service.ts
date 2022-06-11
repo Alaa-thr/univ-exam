@@ -1,7 +1,7 @@
 
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ILevel } from "@univ-exam/common";
+import { ILevel, QueryDto } from "@univ-exam/common";
 import { Observable } from "rxjs";
 
 @Injectable()
@@ -16,8 +16,8 @@ export class LevelService{
         return this.httpClient.post(this.link, data);
     }
 
-    getLevel(): Observable<any>{
-        return this.httpClient.get(this.link+'?limit=10');
+    getLevel(query: QueryDto): Observable<any>{
+        return this.httpClient.get(this.link,{params: {...query}});
     }
 
     deleteLevel(id: string): Observable<any>{

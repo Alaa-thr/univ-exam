@@ -2,7 +2,7 @@
     <div class="page-header">
         <div class="row align-items-center">
             <div class="col-8">
-                <h3 class="page-title">Add Speciality</h3>
+                <h3 class="page-title">Add Level</h3>
             </div>
             <div class="text-end col-4">
                 <button type="submit" class="btn btn-primary me-2" (click)="done()">Done</button>
@@ -17,17 +17,17 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="form-group row">
-                                    <label class="col-3 col-form-label">Speciality Name</label>
+                                    <label class="col-3 col-form-label">Level Name</label>
                                     <div class="col-9">
                                         <input type="text" class="form-control" formControlName="name"
                                             [ngClass]="{'is-invalid':(name.invalid && (name.dirty || name.touched))|| (nameError)}"
                                             (keypress)="nameError=''">
                                         <div *ngIf="name.invalid && (name.dirty || name.touched)">
                                             <div *ngIf="name.errors?.['required']" class="text-danger">
-                                                Title is required.
+                                                Name is required.
                                             </div>
                                             <div *ngIf="name.errors?.['minlength']" class="text-danger">
-                                                Title must be at least 3 characters long.
+                                                Name must be at least 2 characters long.
                                             </div>
                                         </div>
                                         <div *ngIf="nameError">
@@ -58,10 +58,10 @@
 <div class="page-header">
     <div class="row align-items-center">
         <div class="col-8">
-            <h3 class="page-title">Specialities</h3>
+            <h3 class="page-title">Levels</h3>
         </div>
         <div class="text-end col-4">
-            <button type="submit" class="btn btn-outline-primary me-2" (click)="addForm=true">Add Speciality <i
+            <button type="submit" class="btn btn-outline-primary me-2" (click)="addForm=true">Add level <i
                     class="fas fa-plus"></i></button>
         </div>
     </div>
@@ -81,16 +81,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let speclt of specialities; let indexSpeciality = index">
-                                <td>{{(indexSpeciality+1)}}</td>
-                                <td>{{speclt.name}}</td>
-                                <td>{{speclt.created_at | date :'mediumDate'}}</td>
+                            <tr *ngFor="let level of levels; let indexLevel = index">
+                                <td>{{(indexLevel+1)}}</td>
+                                <td>{{level.name}}</td>
+                                <td>{{level.created_at | date :'mediumDate'}}</td>
                                 <td class="text-end">
                                     <div class="actions">
-                                        <a (click)="editLevel(speclt)" class="btn btn-sm bg-success-light me-2">
+                                        <a (click)="editLevel(level)" class="btn btn-sm bg-success-light me-2">
                                             <i class="fas fa-pen"></i>
                                         </a>
-                                        <a class="btn btn-sm bg-danger-light" (click)="deleteAlert(speclt)">
+                                        <a class="btn btn-sm bg-danger-light" (click)="deleteAlert(level)">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </div>
@@ -101,16 +101,21 @@
                 </div>
                 <div class="col-12">
                     <ul class="pagination float-end">
-                        <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
-                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0"class="page-link"> << </a>
+                        <li class="paginate_button page-item previous "
+                        [ngClass]="{'disabled': currentPage-1 < 0}">
+                            <a (click)="changePage(currentPage-1)" class="page-link"> << </a>
                         </li>
-                        <li class="paginate_button page-item active" ><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link" >1</a>
+                        <li class="paginate_button page-item active disabled">
+                            <a (click)="changePage(currentPage+1)" class="page-link" >{{(currentPage+1)}}</a>
                         </li>
-                        <li class="paginate_button page-item ">
-                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">2</a>
+                        <li class="paginate_button page-item " [ngStyle]="{'display': currentPage+2 > totalPages ? 'none':'block'}">
+                            <a (click)="changePage(currentPage+1)" class="page-link">{{(currentPage+2)}}</a>
                         </li>
-                        <li class="paginate_button page-item next" id="DataTables_Table_0_next">
-                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">>></a>
+                        <li class="paginate_button page-item " [ngStyle]="{'display': currentPage+3 > totalPages ? 'none':'block'}">
+                            <a (click)="changePage(currentPage+2)" class="page-link">{{(currentPage+3)}}</a>
+                        </li>
+                        <li class="paginate_button page-item next" [ngClass]="{'disabled': currentPage+1 >= totalPages}">
+                            <a (click)="changePage(currentPage+1)" class="page-link">>></a>
                         </li>
                     </ul>
                 </div>

@@ -28,7 +28,7 @@ export class SpecialityModuleLevelEntity implements ISpecialityModuleLevel{
         { 
             nullable: false,
             eager: true,
-            onDelete: 'CASCADE'
+            onDelete: 'SET NULL'
         }
     )
     level: LevelEntity;
@@ -39,7 +39,7 @@ export class SpecialityModuleLevelEntity implements ISpecialityModuleLevel{
         { 
             nullable: true,
             eager: true,
-            onDelete: 'CASCADE'
+            onDelete: 'SET NULL'
         }
     )
     module: ModuleEntity;

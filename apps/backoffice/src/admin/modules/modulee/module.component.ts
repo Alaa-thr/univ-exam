@@ -12,16 +12,16 @@ import { ModuleService } from './module.service';
 export class ModuleComponent implements OnInit {
   
   addForm: boolean;
-  updateForm: boolean;
   form: FormGroup;
   modules: IModule[] = [];
   nameError: string;
-  moduleUpdate!: IModule;
   levels: ILevel[] = [];
   specialities: ISpeciality[] = [];
+  currentPage: number; 
+  totalPages: number;
+  itemsLimit: number;
   constructor(private readonly moduleService: ModuleService) {
     this.addForm = false;
-    this.updateForm = false;
     this.nameError = '';
     this.form = new FormGroup({
       'name': new FormControl('',[
@@ -34,11 +34,18 @@ export class ModuleComponent implements OnInit {
       'level': new FormControl('',[
         Validators.required
       ])
-    })
+    });
+    this.currentPage = 0;
+    this.totalPages = 0;
+    this.itemsLimit = 10;
+  }
+  ngOnInit(): void {
+    this.fetchItems();
   }
 
-  ngOnInit(): void {
-    this.moduleService.getModule().subscribe(
+  fetchItems(){
+    const query = {page: this.currentPage, limit: this.itemsLimit}
+    this.moduleService.getModule(query).subscribe(
       (response) =>{
         this.modules = response.items;
         console.log("this.modules",this.modules);
@@ -55,22 +62,25 @@ export class ModuleComponent implements OnInit {
       (error) =>{
         console.log("Module component error", error);
       }
-    )
+    );
+  }
+  changePage(page: number){
+    if(page < 0) return;
+    this.currentPage = page;
+    this.fetchItems();
   }
 
   getLevel(event: any){
+    this.levels = [];
     const specialityId = event.target.value;
-    console.log("form", this.form)
-    this.moduleService.getLevels().subscribe(
-      (response) =>{
-        this.levels = response.items;
-        console.log("this.levels",this.levels);
-      },
-      (error) =>{
-        console.log("Module component error", error);
+    for(let i=0; i < this.specialities.length; i++){
+      if(this.specialities[i].id == specialityId){
+        for(let j=0; j<this.specialities[i].specialityModuleLevels.length; j++ ){
+          this.levels.push(this.specialities[i].specialityModuleLevels[j].level)
+        }
       }
-    )
-    //get levels of speciality 
+    }
+    this.levels.sort((a, b) => a.name.localeCompare(b.name))
   }
 
   get name() { 
@@ -83,10 +93,25 @@ export class ModuleComponent implements OnInit {
     return this.form.get('level') as FormControl;
   }
   addModule(){
+    
     const data = this.form.value;
+    for(let i=0; i < this.specialities.length; i++){
+      if(this.specialities[i].id == data.speciality){
+        data.speciality = this.specialities[i];
+      }
+    }
+    for(let i=0; i < this.levels.length; i++){
+      if(this.levels[i].id == data.level){
+        data.level = this.levels[i];
+      }
+    }
+    console.log(data);
     this.moduleService.addModule(data).subscribe(
       (response) =>{
         this.form.reset();
+        console.log();
+        const index = this.modules.indexOf(response);
+        this.modules.splice(index,1)
         this.modules.unshift(response)
       },
       (error) =>{
@@ -96,27 +121,8 @@ export class ModuleComponent implements OnInit {
   }
   done(){
     this.addForm = false;
-    this.updateForm = false;
     this.form.reset();
     this.nameError = '';
-  }
-  editModule(module: IModule){
-    this.addForm = true;
-    this.updateForm = true;
-    this.moduleUpdate = module;
-    this.form.setValue({name: module.name});
-  }
-  updateModule(){
-    const data = this.form.value;
-    this.moduleService.updateModule(this.moduleUpdate.id,data).subscribe(
-      (response) =>{
-        const speclt = this.modules.indexOf(this.moduleUpdate);
-        this.modules[speclt].name = data.name;
-      },
-      (error) =>{
-        this.nameError = error.error.message[0];
-      }
-    )
   }
   deleteModule(module: IModule){
     this.moduleService.deleteModule(module.id).subscribe(

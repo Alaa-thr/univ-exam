@@ -22,8 +22,8 @@ export class SpecialityModuleLevelService {
     return await this.specialityRepo.findAll(query);
   }
 
-  async findOne(id: string) {
-    return await this.specialityRepo.findOne(id);
+  async findOneBySpecialityLevel(specialityId: string, levelId: string) {
+    return await this.specialityRepo.findOneBySpecialityLevel(specialityId,levelId);
   }
 
   update(id: string, updateSpecialityModuleLevelDto: UpdateSpecialityModuleLevelDto) {

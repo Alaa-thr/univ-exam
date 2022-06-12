@@ -49,8 +49,6 @@ export class SpecialityComponent implements OnInit {
       (response) =>{
         this.specialities = response.items;
         this.totalPages = response.totalPages;
-        console.log("response",response);
-        console.log("this.totalPage",this.totalPages);
       },
       (error) =>{
         console.log("Speciality component error", error);
@@ -59,7 +57,6 @@ export class SpecialityComponent implements OnInit {
     this.specialityService.getLevel().subscribe(
       (response) =>{
         this.levels = response.items;
-        console.log("levels",response);
       },
       (error) =>{
         console.log("Speciality component error", error);
@@ -79,12 +76,10 @@ export class SpecialityComponent implements OnInit {
   }
   addSpeciality(){
     const data = this.form.value;
-    console.log(this.form)
     this.specialityService.addSpeciality(data).subscribe(
       (response) =>{
         this.form.reset();
-        this.specialities.unshift(response)
-        console.log(response)
+        this.specialities.unshift(response);
       },
       (error) =>{
         this.nameError = error.error.message[0];

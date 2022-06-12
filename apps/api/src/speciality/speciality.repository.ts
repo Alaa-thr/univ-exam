@@ -35,7 +35,6 @@ export class SpecialityRepository extends Repository<SpecialityEntity>{
           .offset(skip)
           //.limit(take)
           .getManyAndCount();
-          console.log(users)
         return getPagingData(users, take, skip);
       }
 

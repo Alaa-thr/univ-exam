@@ -1,13 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { LevelEntity } from 'level/entities/level.entity';
-import { ModuleEntity } from 'modulee/entities/module.entity';
 import { QueryDto } from 'shared';
 import { CreateSpecialityModuleLevelDto } from 'speciality-module-level/dto/create-speciality-module-level.dto';
-import { SpecialityModuleLevelEntity } from 'speciality-module-level/entities/speciality-module-level.entity';
 import { SpecialityModuleLevelService } from 'speciality-module-level/speciality-module-level.service';
 import { CreateSpecialityDto } from './dto/create-speciality.dto';
 import { UpdateSpecialityDto } from './dto/update-speciality.dto';
-import { SpecialityEntity } from './entities/speciality.entity';
 import { ISpeciality } from './interfaces/speciality.interface';
 import { SpecialityRepository } from './speciality.repository';
 

@@ -28,12 +28,28 @@ export class ModuleRepository extends Repository<ModuleEntity>{
     
         const users = await this.createQueryBuilder('module')
           .where(keyword ? `(LOWER(module.name) LIKE LOWER('%${keyword}%')`: '1=1')
+          .leftJoinAndSelect("module.specialityModuleLevels","specialityModuleLevels")
+          .leftJoinAndSelect("specialityModuleLevels.level","level")
+          .leftJoinAndSelect("specialityModuleLevels.speciality","speciality")
           .orderBy(orderField, orderType)
           .offset(skip)
           .limit(take)
           .getManyAndCount();
-    
         return getPagingData(users, take, skip);
       }
+
+      async findOneById(id: string):Promise<IModule>{
+        return await this.createQueryBuilder('module')
+        .where("module.id = :idM", {idM: id})
+        .leftJoinAndSelect("module.specialityModuleLevels","specialityModuleLevels")
+        .leftJoinAndSelect("specialityModuleLevels.level","level")
+        .leftJoinAndSelect("specialityModuleLevels.speciality","speciality")
+        .getOne();
+      }
     
+      async findOneByName(name: string){
+        return await this.createQueryBuilder('module')
+        .where("module.name = :name", {name: name})
+        .getOne();
+      }
 }

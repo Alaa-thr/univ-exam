@@ -1,7 +1,7 @@
 
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { IModule } from "@univ-exam/common";
+import { IModule, QueryDto } from "@univ-exam/common";
 import { Observable } from "rxjs";
 
 @Injectable()
@@ -16,8 +16,8 @@ export class ModuleService{
         return this.httpClient.post(this.link, data);
     }
 
-    getModule(): Observable<any>{
-        return this.httpClient.get(this.link+'?limit=10');
+    getModule(query: QueryDto): Observable<any>{
+        return this.httpClient.get(this.link,{params: {...query}});
     }
 
     deleteModule(id: string): Observable<any>{
@@ -30,11 +30,6 @@ export class ModuleService{
 
     getSpecialities(): Observable<any>{
         const specialityLink = "http://localhost:3333/api/speciality";
-        return this.httpClient.get(specialityLink);
-    }
-
-    getLevels(): Observable<any>{
-        const specialityLink = "http://localhost:3333/api/level";
         return this.httpClient.get(specialityLink);
     }
 }

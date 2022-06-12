@@ -35,5 +35,12 @@ export class SpecialityModuleLevelRepository extends Repository<SpecialityModule
     
         return getPagingData(users, take, skip);
       }
+
+      async findOneBySpecialityLevel(specialityId: string, levelId: string){
+        return await this.createQueryBuilder('specialityModuleLevel')
+        .where("specialityModuleLevel.speciality = :id", {id: specialityId})
+        .andWhere("specialityModuleLevel.level = :level", {level: levelId})
+        .getOne();;
+      }
     
 }

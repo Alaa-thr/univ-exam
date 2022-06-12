@@ -38,14 +38,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-8">
                                 <div class="form-group row">
-                                    <div class="text-end">
-                                        <button type="submit" class="btn btn-primary" [disabled]="form.invalid"
-                                            *ngIf="!updateForm" (click)="addSpeciality()">Add</button>
-                                        <button type="submit" class="btn btn-primary" [disabled]="form.invalid"
-                                            *ngIf="updateForm" (click)="updateSpeciality()">Update</button>
+                                    <label class="col-3 col-form-label">Levels</label>
+                                    <div class="col-9" >
+                                        <select class="form-select" multiple formControlName="levels" [ngClass]="{'is-invalid':level.invalid && (level.dirty || level.touched)}">
+                                            <option value="" selected disabled>Select levels</option>
+                                            <option *ngFor="let level of levels" [value]="level">{{level.name}}</option>
+                                        </select>
+                                        <div *ngIf="level.invalid && (level.dirty || level.touched)">
+                                            <div *ngIf="level.errors?.['required']" class="text-danger">
+                                                Level or Levels are required.
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid"
+                                        *ngIf="!updateForm" (click)="addSpeciality()">Add</button>
+                                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid"
+                                        *ngIf="updateForm" (click)="updateSpeciality()">Update</button>
                                 </div>
                             </div>
                         </div>
@@ -61,8 +77,7 @@
             <h3 class="page-title">Specialities</h3>
         </div>
         <div class="text-end col-4">
-            <button type="submit" class="btn btn-outline-primary me-2" (click)="addForm=true">Add Speciality <i
-                    class="fas fa-plus"></i></button>
+            <button type="submit" class="btn btn-outline-primary me-2" (click)="openForm()">Add Speciality <i class="fas fa-plus"></i></button>
         </div>
     </div>
 </div>
@@ -76,6 +91,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Title</th>
+                                <th>Levels</th>
                                 <th>Created Date</th>
                                 <th class="text-end">Action</th>
                             </tr>
@@ -83,7 +99,10 @@
                         <tbody>
                             <tr *ngFor="let speclt of specialities; let indexSpeciality = index">
                                 <td>{{(indexSpeciality+1)}}</td>
-                                <td>{{speclt.name}}</td>
+                                <td>{{speclt.name | capitalizeLetter: 'first'}}</td>
+                                <td>
+                                    <span *ngFor="let level of speclt.specialityModuleLevels">{{level.level.name}}, </span>
+                                </td>
                                 <td>{{speclt.created_at | date :'mediumDate'}}</td>
                                 <td class="text-end">
                                     <div class="actions">
@@ -101,7 +120,7 @@
                 </div>
                 <div class="col-12">
                     <ul class="pagination float-end">
-                        <li class="paginate_button page-item previous "
+                        <li class="paginate_button page-item"
                         [ngClass]="{'disabled': currentPage-1 < 0}">
                             <a (click)="changePage(currentPage-1)" class="page-link"> << </a>
                         </li>
@@ -114,7 +133,7 @@
                         <li class="paginate_button page-item " [ngStyle]="{'display': currentPage+3 > totalPages ? 'none':'block'}">
                             <a (click)="changePage(currentPage+2)" class="page-link">{{(currentPage+3)}}</a>
                         </li>
-                        <li class="paginate_button page-item next" [ngClass]="{'disabled': currentPage+1 >= totalPages}">
+                        <li class="paginate_button page-item" [ngClass]="{'disabled': currentPage+1 >= totalPages}">
                             <a (click)="changePage(currentPage+1)" class="page-link">>></a>
                         </li>
                     </ul>

@@ -18,16 +18,16 @@ export class SpecialityModuleLevelRepository extends Repository<SpecialityModule
         const { keyword, limit, page, order } = query;
         const { take, skip } = getPagination(page, limit);
     
-        let orderField = 'speciality.name';
+        let orderField = 'specialityModuleLevel.name';
         let orderType: 'ASC' | 'DESC' = 'ASC';
     
         if (order) {
-          orderField = 'speciality.' + order.split(' ')[0];
+          orderField = 'specialityModuleLevel.' + order.split(' ')[0];
           orderType = order.split(' ')[1] === 'DESC' ? 'DESC' : 'ASC';
         }
     
-        const users = await this.createQueryBuilder('speciality')
-          .where(keyword ? `(LOWER(speciality.name) LIKE LOWER('%${keyword}%')`: '1=1')
+        const users = await this.createQueryBuilder('specialityModuleLevel')
+          .where(keyword ? `(LOWER(specialityModuleLevel.name) LIKE LOWER('%${keyword}%')`: '1=1')
           .orderBy(orderField, orderType)
           .offset(skip)
           .limit(take)

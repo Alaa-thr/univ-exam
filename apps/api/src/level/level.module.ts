@@ -10,5 +10,6 @@ import { LevelService } from './level.service';
   ],
   controllers: [LevelController],
   providers: [LevelService],
+  exports: [LevelService]
 })
 export class LevelModule {}

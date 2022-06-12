@@ -2,17 +2,22 @@ import { LevelEntity } from "level/entities/level.entity";
 import { ModuleEntity } from "modulee/entities/module.entity";
 import { ISpecialityModuleLevel } from "speciality-module-level/interfaces/speciality-module-level.interface";
 import { SpecialityEntity } from "speciality/entities/speciality.entity";
-import { Entity, CreateDateColumn, UpdateDateColumn,  ManyToOne } from "typeorm";
+import { Entity, CreateDateColumn, UpdateDateColumn,  ManyToOne, Index, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('speciality_module_level')
+@Index(["speciality", "level", "module"], { unique: true })
 export class SpecialityModuleLevelEntity implements ISpecialityModuleLevel{
+
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @ManyToOne(
         () => SpecialityEntity, 
         speciality => speciality.specialityModuleLevels, 
         { 
-            primary: true,
+            nullable: false,
             eager: true,
+            onDelete: 'CASCADE'
         }
     )
     speciality: SpecialityEntity;
@@ -21,8 +26,9 @@ export class SpecialityModuleLevelEntity implements ISpecialityModuleLevel{
         () => LevelEntity,
         level => level.specialityModuleLevels, 
         { 
-            primary: true,
+            nullable: false,
             eager: true,
+            onDelete: 'CASCADE'
         }
     )
     level: LevelEntity;
@@ -31,8 +37,9 @@ export class SpecialityModuleLevelEntity implements ISpecialityModuleLevel{
         () => ModuleEntity,
         module => module.specialityModuleLevels, 
         { 
-            primary: true,
+            nullable: true,
             eager: true,
+            onDelete: 'CASCADE'
         }
     )
     module: ModuleEntity;

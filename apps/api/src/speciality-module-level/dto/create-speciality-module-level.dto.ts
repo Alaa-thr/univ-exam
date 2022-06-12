@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 import { ILevel } from "level/interfaces/level.interface";
 import { IModule } from "modulee/interfaces/module.interface";
 import { ISpecialityModuleLevel } from "speciality-module-level/interfaces/speciality-module-level.interface";
@@ -14,6 +14,7 @@ export class CreateSpecialityModuleLevelDto implements Omit<ISpecialityModuleLev
     level: ILevel;
 
     @IsNotEmpty()
+    @IsOptional()
     module: IModule;
   
 }

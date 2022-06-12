@@ -45,11 +45,9 @@ export class LevelComponent implements OnInit {
       (response) =>{
         this.levels = response.items;
         this.totalPages = response.totalPages;
-        console.log("response",response);
-        console.log("this.totalPage",this.totalPages);
       },
       (error) =>{
-        console.log("Speciality component error", error);
+        console.log("Level component error", error);
       }
     )
   }

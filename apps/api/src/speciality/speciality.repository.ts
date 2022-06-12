@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { getPagination, getPagingData, QueryDto } from "shared";
-import { EntityRepository, Repository } from "typeorm";
+import { SpecialityModuleLevelEntity } from "speciality-module-level/entities/speciality-module-level.entity";
+import { EntityRepository, getManager, Repository } from "typeorm";
 import { UpdateSpecialityDto } from "./dto/update-speciality.dto";
 import { SpecialityEntity } from "./entities/speciality.entity";
 import { ISpeciality } from "./interfaces/speciality.interface";
@@ -28,12 +29,22 @@ export class SpecialityRepository extends Repository<SpecialityEntity>{
     
         const users = await this.createQueryBuilder('speciality')
           .where(keyword ? `(LOWER(speciality.name) LIKE LOWER('%${keyword}%')`: '1=1')
+          .leftJoinAndSelect("speciality.specialityModuleLevels","specialityModuleLevels")
+          .leftJoinAndSelect("specialityModuleLevels.level","level")
           .orderBy(orderField, orderType)
           .offset(skip)
-          .limit(take)
+          //.limit(take)
           .getManyAndCount();
-    
+          console.log(users)
         return getPagingData(users, take, skip);
+      }
+
+      async findOneById(id: string):Promise<ISpeciality>{
+        return await this.createQueryBuilder('speciality')
+        .where("speciality.id = :id", {id: id})
+        .leftJoinAndSelect("speciality.specialityModuleLevels","specialityModuleLevels")
+        .leftJoinAndSelect("specialityModuleLevels.level","level")
+        .getOne();
       }
     
 }

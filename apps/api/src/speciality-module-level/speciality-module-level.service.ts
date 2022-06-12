@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { LevelService } from 'level/level.service';
 import { QueryDto } from 'shared';
 import { CreateSpecialityModuleLevelDto } from './dto/create-speciality-module-level.dto';
 import { UpdateSpecialityModuleLevelDto } from './dto/update-speciality-module-level.dto';
@@ -8,10 +9,13 @@ import { SpecialityModuleLevelRepository } from './speciality-module-level.repos
 @Injectable()
 export class SpecialityModuleLevelService {
 
-  constructor(private readonly specialityRepo: SpecialityModuleLevelRepository) {}
+  constructor(
+    private readonly specialityRepo: SpecialityModuleLevelRepository,
+    private readonly levelService: LevelService
+  ) {}
 
   async create(data: CreateSpecialityModuleLevelDto): Promise<ISpecialityModuleLevel> {
-    return await this.specialityRepo.save(data);
+    return  await this.specialityRepo.save(data);
   }
 
   async findAll(query: QueryDto) {

@@ -13,7 +13,6 @@ export class StudentComponent implements OnInit {
   
 
   students: IStudent[] = [];
-  studentUpdate!: IStudent;
   currentPage: number; 
   totalPages: number;
   itemsLimit: number;
@@ -24,26 +23,27 @@ export class StudentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.fetchItems();
+    this.fetchItems();
   }
 
-  // fetchItems(){
-  //   const query = {page: this.currentPage, limit: this.itemsLimit}
-  //   this.studentService.getStudent(query).subscribe(
-  //     (response) =>{
-  //       this.students = response.items;
-  //       this.totalPages = response.totalPages;
-  //     },
-  //     (error) =>{
-  //       console.log("Student component error", error);
-  //     }
-  //   )
-  // }
-  // changePage(page: number){
-  //   if(page < 0) return;
-  //   this.currentPage = page;
-  //   this.fetchItems();
-  // }
+  fetchItems(){
+    const query = {page: this.currentPage, limit: this.itemsLimit}
+    this.studentService.getStudents(query).subscribe(
+      (response) =>{
+        this.students = response.items;
+        this.totalPages = response.totalPages;
+        console.log("students", this.students)
+      },
+      (error) =>{
+        console.log("Student component error", error);
+      }
+    )
+  }
+  changePage(page: number){
+    if(page < 0) return;
+    this.currentPage = page;
+    this.fetchItems();
+  }
 
   // get name() { 
   //   return this.form.get('name') as FormControl;

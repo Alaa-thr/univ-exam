@@ -83,7 +83,7 @@
                         <tbody>
                             <tr *ngFor="let level of levels; let indexLevel = index">
                                 <td>{{(indexLevel+1)}}</td>
-                                <td>{{level.name}}</td>
+                                <td>{{level.name | capitalizeLetter: 'first'}}</td>
                                 <td>{{level.created_at | date :'mediumDate'}}</td>
                                 <td class="text-end">
                                     <div class="actions">

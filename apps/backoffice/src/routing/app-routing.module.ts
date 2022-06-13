@@ -7,6 +7,7 @@ import { ModuleComponent } from '../admin/modules/modulee/module.component';
 import { LevelComponent } from '../admin/modules/level/level.component';
 import { CreateStudentComponent } from '../admin/modules/student/create-student/create-student.component';
 import { StudentService } from '../admin/modules/student/all-students/student.service';
+import { StudentComponent } from '../admin/modules/student/all-students/student.component';
 
 const APP_ROUTING: Routes = [ 
 
@@ -23,8 +24,8 @@ const APP_ROUTING: Routes = [
     component: LevelComponent,
   },
   {
-    path: 'students', 
-    component: StudentService,
+    path: 'students-list', 
+    component: StudentComponent,
   },
   {
     path: 'create-student', 

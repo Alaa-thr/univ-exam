@@ -36,6 +36,8 @@ export class StudentsRepository extends Repository<StudentEntity> {
           LOWER(students.phoneNumber) LIKE LOWER('%${keyword}%') ) `
           : '1=1'
       )
+      .leftJoinAndSelect("students.level","level")
+      .leftJoinAndSelect("students.speciality","speciality")
       .orderBy(orderField, orderType)
       .offset(skip)
       .limit(take)

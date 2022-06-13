@@ -7,16 +7,12 @@ import { Observable } from "rxjs";
 @Injectable()
 export class StudentService{
 
-    link = "http://localhost:3333/api/level"
+    link = "http://localhost:3333/api/students"
     constructor(
         private readonly httpClient: HttpClient
     ){}
 
-    addLevel(data: ILevel): Observable<any>{
-        return this.httpClient.post(this.link, data);
-    }
-
-    getLevel(query: QueryDto): Observable<any>{
+    getStudents(query: QueryDto): Observable<any>{
         return this.httpClient.get(this.link,{params: {...query}});
     }
 

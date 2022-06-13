@@ -19,9 +19,9 @@ export class StudentEntity extends Person implements IStudent {
   })
   studentExams: StudentExamEntity[];
 
-  @ManyToOne(() => LevelEntity, level => level.students)
+  @ManyToOne(() => LevelEntity, level => level.students, {eager: true})
   level: LevelEntity;
 
-  @ManyToOne(() => SpecialityEntity, speciality => speciality.students)
+  @ManyToOne(() => SpecialityEntity, speciality => speciality.students , {eager: true})
   speciality: SpecialityEntity;
 }

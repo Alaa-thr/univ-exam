@@ -14,33 +14,20 @@ export class SpecialityModuleLevelRepository extends Repository<SpecialityModule
         return this.findOne(id);
     }
 
-    async findAll(query: QueryDto) {
-        const { keyword, limit, page, order } = query;
-        const { take, skip } = getPagination(page, limit);
-    
-        let orderField = 'specialityModuleLevel.name';
-        let orderType: 'ASC' | 'DESC' = 'ASC';
-    
-        if (order) {
-          orderField = 'specialityModuleLevel.' + order.split(' ')[0];
-          orderType = order.split(' ')[1] === 'DESC' ? 'DESC' : 'ASC';
-        }
-    
-        const users = await this.createQueryBuilder('specialityModuleLevel')
-          .where(keyword ? `(LOWER(specialityModuleLevel.name) LIKE LOWER('%${keyword}%')`: '1=1')
-          .orderBy(orderField, orderType)
-          .offset(skip)
-          .limit(take)
-          .getManyAndCount();
-    
-        return getPagingData(users, take, skip);
+    async findBySpeciality(specialityId: string) {
+        return await this.createQueryBuilder('specialityModuleLevel')
+          .leftJoin("specialityModuleLevel.speciality","speciality")
+          .leftJoinAndSelect("specialityModuleLevel.level","level")
+          .leftJoinAndSelect("specialityModuleLevel.module","module")
+          .where("specialityModuleLevel.speciality = :id", {id: specialityId})
+          .getMany();
       }
 
       async findOneBySpecialityLevel(specialityId: string, levelId: string){
         return await this.createQueryBuilder('specialityModuleLevel')
         .where("specialityModuleLevel.speciality = :id", {id: specialityId})
         .andWhere("specialityModuleLevel.level = :level", {level: levelId})
-        .getOne();;
+        .getOne();
       }
     
 }

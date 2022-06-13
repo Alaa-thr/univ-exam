@@ -18,8 +18,8 @@ export class SpecialityModuleLevelService {
     return  await this.specialityRepo.save(data);
   }
 
-  async findAll(query: QueryDto) {
-    return await this.specialityRepo.findAll(query);
+  async findBySpeciality(specialityId: string) {
+    return await this.specialityRepo.findBySpeciality(specialityId);
   }
 
   async findOneBySpecialityLevel(specialityId: string, levelId: string) {

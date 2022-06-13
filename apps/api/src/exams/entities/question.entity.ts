@@ -34,6 +34,7 @@ export class QuestionEntity implements IQuestion {
 
   @Column({
     default: 0,
+    type: "real"
   })
   point: number;
 

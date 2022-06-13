@@ -7,21 +7,31 @@ import { QuestionsRepository } from 'exams/repositiries/questions.repository';
 import { QuestionsService } from './questions.service';
 import { UpdateExamDto } from 'exams/dto/update-exam.dto';
 import { getStudentAnswers } from 'shared/fonctions/common-functions';
+import { ExamTypeService } from 'exam-type/exam-type.service';
 
 @Injectable()
 export class ExamsService {
   constructor(
     private readonly examRepo: ExamRepository,
-    private readonly questionsService: QuestionsService
+    private readonly questionsService: QuestionsService,
+    private readonly examTypeService: ExamTypeService
   ) {}
 
   async createOne(createExamDto: CreateExamDto) {
-    // const createdQuestions: IQuestion[] = await this.questionsService.createMany(createExamDto.questions);
 
-    // // return this.examRepo.save({
-    // //   ...createExamDto,
-    // //   questions: createdQuestions,
-    // // });
+    const {questions, title, date,startHour,endHour,isPublished,examType, module} = createExamDto;
+    const createdQuestions: IQuestion[] = await this.questionsService.createMany(questions);
+    const getInputType = await this.examTypeService.findOneByType(examType);
+    return this.examRepo.save({
+      title: title,
+      date: date,
+      startHour: startHour,
+      endHour: endHour,
+      isPublished: isPublished,
+      examType: getInputType,
+      module: module,
+      questions: createdQuestions,
+    });
   }
 
   async updateOne(id: string, updateExamDto: UpdateExamDto) {

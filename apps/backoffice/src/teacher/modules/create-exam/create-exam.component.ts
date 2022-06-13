@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IExamType, ILevel, IModule, ISpeciality } from '@univ-exam/common';
+import { ISpecialityModuleLevel } from '@univ-exam/common';
 import { CreateExamService } from './create-exam.service';
 
 @Component({
@@ -16,15 +17,16 @@ export class CreateExamComponent implements OnInit {
     text: '',
     inputType: "",
     point: 0.25,
-    ansewrs: [{
-      text: '',
+    answers: [{
+      title: '',
       isCorrect: false
     }]
   }];
   examTypes: IExamType[] = [];
   specialities: ISpeciality[] = [];
   levels: ILevel[] = [];
-  Modules: IModule[] = []; 
+  modules: IModule[] = []; 
+  specialityLevelModule: ISpecialityModuleLevel[] = [];
   constructor(
     private readonly fb: FormBuilder,
     private readonly createExamService: CreateExamService,
@@ -35,6 +37,10 @@ export class CreateExamComponent implements OnInit {
         Validators.minLength(3),
       ]),
       'examType': this.fb.control('',[
+        Validators.required
+      ]),
+      'isPublished': this.fb.control(false),
+      'module': this.fb.control('',[
         Validators.required
       ]),
       'startHour': this.fb.control('',[
@@ -51,10 +57,10 @@ export class CreateExamComponent implements OnInit {
           'text': this.fb.control(''),
           'inputType': this.fb.control(''),
           'point': this.fb.control(''),
-          'ansewrs': this.fb.array([
+          'answers': this.fb.array([
             new FormGroup({
-              'text': this.fb.control(''),
-              'isCorrect': this.fb.control('')
+              'title': this.fb.control(''),
+              'isCorrect': this.fb.control(false)
             })
           ])
         }) 
@@ -62,8 +68,6 @@ export class CreateExamComponent implements OnInit {
     });
     this.questionForm = this.initQuestion();
     this.questionsList.splice(0,1); 
-    console.log("this.questionsList",this.questionsList.length)
-    //this.createExamForm.value.questions.splice(0,1)
   }
 
   ngOnInit(): void {
@@ -87,23 +91,51 @@ export class CreateExamComponent implements OnInit {
 
   getLevel(event: any){
     const specialityId = event.target.value;
-    console.log("specialityId",specialityId)
-    this.createExamService.getLevelsBySpeciality(specialityId).subscribe(
+    this.createExamService.getLevelsModulesBySpeciality(specialityId).subscribe(
       (response) => {
-        this.levels = response;
-        console.log("level ",this.levels)
+        this.levels = [];
+        this.modules = [];
+        this.specialityLevelModule = response;
+        for(let i=0; i< this.specialityLevelModule.length; i++){
+          const index = this.levels.findIndex(object => {
+            return object.id === this.specialityLevelModule[i].level.id;
+          });
+          if(index == -1){
+            this.levels.push(this.specialityLevelModule[i].level)
+          }
+        }
+        this.levels.sort((a, b) => a.name.localeCompare(b.name))
       },(error)=>{
         console.log('CreateExam Component error', error);
       }
     );
   }
+  getModule(event: any){
+    this.modules = [];
+    const levelId = event.target.value;
+    for(let i=0; i< this.specialityLevelModule.length; i++){
+      if(this.specialityLevelModule[i].module && this.specialityLevelModule[i].level.id == levelId){
+        this.modules.push(this.specialityLevelModule[i].module)
+      }
+    }
+    console.log("modules", this.modules)
+    console.log("this.specialityLevelModule", this.specialityLevelModule)
+    console.log("form", this.createExamForm)
+  }
   addQuestion(){
     const qstWithAnswers = this.questionForm.value;
     this.questionsList.push(qstWithAnswers)
-    //this.createExamForm.controls[0].value.splice(0,1)
+    
     console.log("qstWithAnswers",qstWithAnswers)
     this.createExamForm.value.questions.push(qstWithAnswers)
     this.questionForm.reset();
+    console.log("getansewrs",this.getansewrs().length)
+    const answersLength = this.getansewrs().length;
+    for(let i=0; i< answersLength-1; i++){
+      this.getansewrs().controls.pop()
+    }
+    console.log("getansewrs after ",this.getansewrs().length)
+    
     console.log("after form push", this.createExamForm)
   }
   addAnswer(){
@@ -111,7 +143,7 @@ export class CreateExamComponent implements OnInit {
   }
   initAnswer() {
     return new FormGroup({
-      'text': this.fb.control('',[
+      'title': this.fb.control('',[
         Validators.required,
         Validators.minLength(3),
       ]),
@@ -132,7 +164,7 @@ export class CreateExamComponent implements OnInit {
         'point': this.fb.control('',[
           Validators.required
         ]),
-        'ansewrs': this.fb.array([
+        'answers': this.fb.array([
           this.initAnswer()
         ])
       });
@@ -140,6 +172,12 @@ export class CreateExamComponent implements OnInit {
 
   get title() { 
     return this.createExamForm.get('title') as FormControl;
+  }
+  get isPublished() { 
+    return this.createExamForm.get('isPublished') as FormControl;
+  }
+  get module() { 
+    return this.createExamForm.get('module') as FormControl;
   }
   get examType() { 
     return this.createExamForm.get('examType') as FormControl;
@@ -163,15 +201,27 @@ export class CreateExamComponent implements OnInit {
     return this.questionForm.get('point') as FormControl; 
   }
   answerText(answrIndex: number) { 
-    return this.getansewrs().controls[answrIndex].get("text") as FormControl; 
+    return this.getansewrs().controls[answrIndex].get("title") as FormControl; 
   }
   isCorrect(answrIndex: number) { 
     return this.getansewrs().controls[answrIndex].get("isCorrect") as FormControl; 
   }
   getansewrs() : FormArray {
-    return this.questionForm.get("ansewrs") as FormArray
+    return this.questionForm.get("answers") as FormArray
   }
   createExam(): void{
-    console.log("createExamForm",this.createExamForm)
+    this.createExamForm.value.questions.splice(0,1);
+    const startHour = this.createExamForm.value.startHour;
+    const endHour = this.createExamForm.value.endHour;
+    this.createExamForm.value.startHour = new Date('2000-01-01'+' '+startHour)
+    this.createExamForm.value.endHour = new Date('2000-01-01'+' '+endHour)
+    console.log("createExamForm",this.createExamForm.value)
+    this.createExamService.addExam(this.createExamForm.value).subscribe(
+      (response) => {
+        console.log(response)
+      },(error)=>{
+        console.log('CreateExam Component error', error);
+      }
+    );
   }
 }

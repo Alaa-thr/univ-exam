@@ -105,11 +105,9 @@ export class ModuleComponent implements OnInit {
         data.level = this.levels[i];
       }
     }
-    console.log(data);
     this.moduleService.addModule(data).subscribe(
       (response) =>{
         this.form.reset();
-        console.log();
         const index = this.modules.indexOf(response);
         this.modules.splice(index,1)
         this.modules.unshift(response)

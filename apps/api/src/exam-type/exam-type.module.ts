@@ -10,5 +10,6 @@ import { ExamTypeRepository } from './exam-type.repository';
   ],
   controllers: [ExamTypeController],
   providers: [ExamTypeService],
+  exports: [ExamTypeService]
 })
 export class ExamTypeModule {}

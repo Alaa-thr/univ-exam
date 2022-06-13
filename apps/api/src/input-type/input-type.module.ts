@@ -10,5 +10,6 @@ import { InputTypeRepository } from './input-type.repository';
   ],
   controllers: [InputTypeController],
   providers: [InputTypeService],
+  exports:[InputTypeService]
 })
 export class InputTypeModule {}

@@ -21,6 +21,10 @@ export class InputTypeService {
     return await this.inputTypeRepo.findOne(id);
   }
 
+  async findOneByType(type: string) {
+    return await this.inputTypeRepo.findOneByType(type);
+  }
+
   update(id: string, updateTeacherDto: UpdateInputTypeDto) {
     return this.inputTypeRepo.updateOne(id, updateTeacherDto);
   }

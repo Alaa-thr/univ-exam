@@ -7,15 +7,21 @@ import {
   IsNotEmpty,
   ValidateNested,
 } from 'class-validator';
+import { time } from 'cron';
 import { ExamTypeEnum } from 'exam-type/emun/exam-type.enum';
 import { IExam } from 'exams';
+import { IModule } from 'modulee/interfaces/module.interface';
 import { CreateQuestionDto } from './create-question.dto';
 
-export class CreateExamDto implements Omit< IExam, 'id'| 'created_at'| 'updated_at'| 'teacher'| 'examType'| 'questions'| 'studentExams'|'module'>
+export class CreateExamDto implements Omit< IExam, 'id'| 'created_at'| 'updated_at'| 'teacher'| 'examType'| 'questions'| 'studentExams'|'answersArePublished'>
 {
   @ApiProperty()
   @IsNotEmpty()
   title: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  module: IModule;
 
   @ApiProperty()
   @Type(() => Date)
@@ -24,12 +30,10 @@ export class CreateExamDto implements Omit< IExam, 'id'| 'created_at'| 'updated_
 
   @ApiProperty()
   @Type(() => Date)
-  @IsDate()
   startHour: Date;
 
   @ApiProperty()
   @Type(() => Date)
-  @IsDate()
   endHour: Date;
 
   @ApiProperty()
@@ -40,11 +44,6 @@ export class CreateExamDto implements Omit< IExam, 'id'| 'created_at'| 'updated_
   @ApiProperty()
   @IsEnum(ExamTypeEnum)
   examType: string;
-
-  @ApiProperty()
-  @Type(() => Boolean)
-  @IsBoolean()
-  answersArePublished: boolean;
 
   @ApiProperty()
   @Type(() => CreateQuestionDto)

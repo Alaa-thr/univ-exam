@@ -35,5 +35,10 @@ export class InputTypeRepository extends Repository<InputTypeEntity>{
     
         return getPagingData(users, take, skip);
       }
-    
+      
+      async findOneByType(type: string): Promise<IInputType>{
+        return await this.createQueryBuilder('input_type')
+        .where('input_type.type = :type', {type: type})
+        .getOne();
+      }
 }

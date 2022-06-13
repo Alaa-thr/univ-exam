@@ -13,5 +13,9 @@ export class ExamTypeRepository extends Repository<ExamTypeEntity>{
         await this.update(id, updateExamTypeDto);
         return this.findOne(id);
     }
-    
+    async findOneByType(type: string): Promise<IExamType>{
+        return await this.createQueryBuilder('exam_type')
+        .where('exam_type.type = :type', {type: type})
+        .getOne();
+      }
 }

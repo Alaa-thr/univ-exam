@@ -8,25 +8,25 @@ import { LevelRepository } from './level.repository';
 @Injectable()
 export class LevelService {
 
-  constructor(private readonly specialityRepo: LevelRepository) {}
+  constructor(private readonly levelRepo: LevelRepository) {}
 
   async create(data: CreateLevelDto): Promise<ILevel> {
-    return await this.specialityRepo.save(data);
+    return await this.levelRepo.save(data);
   }
 
   async findAll(query: QueryDto) {
-    return await this.specialityRepo.findAll(query);
+    return await this.levelRepo.findAll(query);
   }
 
   async findOne(id: string) {
-    return await this.specialityRepo.findOne(id);
+    return await this.levelRepo.findOne(id);
   }
 
   update(id: string, updateLevelDto: UpdateLevelDto) {
-    return this.specialityRepo.updateOne(id, updateLevelDto);
+    return this.levelRepo.updateOne(id, updateLevelDto);
   }
 
   remove(id: string) {
-    return this.specialityRepo.delete(id);
+    return this.levelRepo.delete(id);
   }
 }

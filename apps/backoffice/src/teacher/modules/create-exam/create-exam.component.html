@@ -37,7 +37,7 @@
                                     <select class="form-select" formControlName="examType" [ngClass]="{'is-invalid':examType.invalid && (examType.dirty || examType.touched)}">
                                         <option value="" selected>Select type</option>
                                         <option *ngFor="let type of examTypes"
-                                            [value]="type.id">{{type.type | SeparateWords | capitalizeLetter: "first"}}
+                                            [value]="type.type">{{type.type | SeparateWords | capitalizeLetter: "first"}}
                                         </option>
                                     </select>
                                     <div *ngIf="examType.invalid && (examType.dirty || examType.touched)">
@@ -60,21 +60,26 @@
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Level</label>
-                                    <select class="form-select" [disabled]="levels">
-                                        <option value="">Select Level</option>
-                                        <option>LKG</option>
-                                        <option>UKG</option>
+                                    <select class="form-select" [disabled]="!levels.length" (change)="getModule($event)">
+                                        <option value="" selected disabled>Select Level</option>
+                                        <option *ngFor="let level of levels"
+                                         [value]="level.id">{{level.name | capitalizeLetter: "first"}}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label value="">Module</label>
-                                    <select class="form-select" [disabled]="Modules">
-                                        <option>Select Module</option>
-                                        <option>LKG</option>
-                                        <option>UKG</option>
+                                    <select class="form-select" formControlName="module" [disabled]="!modules.length" [ngClass]="{'is-invalid':module.invalid && (module.dirty || module.touched)}">
+                                        <option value="" selected disabled>Select Module</option>
+                                        <option *ngFor="let module of modules"
+                                         [value]="module.id">{{module.name | capitalizeLetter: "first"}}</option>
                                     </select>
+                                    <div *ngIf="module.invalid && (module.dirty || module.touched)">
+                                        <div *ngIf="module.errors?.['required']" class="text-danger">
+                                            Module is required.
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
@@ -108,6 +113,12 @@
                                             End time is required.
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <input type="checkbox" class="isPublished" formControlName="isPublished" id="check">
+                                    <label for="check"> Publish the exam? </label>
                                 </div>
                             </div>
                         </div>
@@ -200,12 +211,12 @@
                                     <button class="btn btn-outline-primary me-2" (click)="addAnswer()"><i class="fas fa-plus"></i> Add</button>
                                 </div>
                             </div>
-                            <div class="row m-l-9 m-r-9" formArrayName="ansewrs" >
+                            <div class="row m-l-9 m-r-9" formArrayName="answers" >
                                 <div class="col-xl-12" *ngFor="let answr of getansewrs().controls; let j=index">
                                     <div class="row" [formGroupName]="j">
                                         <div class="col-12 col-sm-9">
                                             <h5 class="card-title">Answer</h5>
-                                            <input type="text" class="form-control" formControlName="text" [ngClass]="{'is-invalid':answerText(j).invalid && (answerText(j).dirty || answerText(j).touched)}">
+                                            <input type="text" class="form-control" formControlName="title" [ngClass]="{'is-invalid':answerText(j).invalid && (answerText(j).dirty || answerText(j).touched)}">
                                             <div *ngIf="answerText(j).invalid && (answerText(j).dirty || answerText(j).touched)">
                                                 <div *ngIf="answerText(j).errors?.['required']" class="text-danger">
                                                     Text is required.
@@ -219,8 +230,8 @@
                                             <h5 class="card-title">Is True</h5>
                                             <select class="form-control form-select" formControlName="isCorrect" [ngClass]="{'is-invalid':isCorrect(j).invalid && (isCorrect(j).dirty || isCorrect(j).touched)}">
                                                 <option selected value="">Select</option>
-                                                <option value="true">True</option>
-                                                <option value="false">False</option>
+                                                <option [ngValue]="true">True</option>
+                                                <option [ngValue]="false">False</option>
                                             </select>
                                             <div *ngIf="isCorrect(j).invalid && (isCorrect(j).dirty || isCorrect(j).touched)">
                                                 <div *ngIf="isCorrect(j).errors?.['required']" class="text-danger">

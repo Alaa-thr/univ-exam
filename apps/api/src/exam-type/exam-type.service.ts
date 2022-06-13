@@ -21,6 +21,10 @@ export class ExamTypeService {
     return await this.examTypeRepo.findOne(id);
   }
 
+  async findOneByType(type: string) {
+    return await this.examTypeRepo.findOneByType(type);
+  }
+
   async update(id: string, updateExamTypeDto: UpdateExamTypeDto): Promise<IExamType> {
     return await this.examTypeRepo.updateOne(id, updateExamTypeDto);
   }

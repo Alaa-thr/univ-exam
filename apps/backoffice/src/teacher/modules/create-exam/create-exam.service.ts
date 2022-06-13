@@ -6,7 +6,8 @@ import { Observable } from "rxjs";
 @Injectable()
 export class CreateExamService{
 
-    linkSpeciality = "http://localhost:3333/api/speciality"
+    linkSpeciality = "http://localhost:3333/api/speciality";
+    examlink = "http://localhost:3333/api/exams";
     constructor(
         private readonly httpClient: HttpClient
     ){}
@@ -15,12 +16,14 @@ export class CreateExamService{
         const link = "http://localhost:3333/api/exam-type"
         return this.httpClient.get(link);
     }
-
     getSpeciality(): Observable<any>{
         return this.httpClient.get(this.linkSpeciality);
     }
-
-    getLevelsBySpeciality(specialityId: string): Observable<any>{
-        return this.httpClient.get(this.linkSpeciality+`/${specialityId}`);
+    getLevelsModulesBySpeciality(specialityId: string): Observable<any>{
+        const link = "http://localhost:3333/api/speciality-module-level"
+        return this.httpClient.get(link+`/${specialityId}`);
+    }
+    addExam(data: any){
+        return this.httpClient.post(this.examlink, data);
     }
 }

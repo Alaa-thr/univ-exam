@@ -20,6 +20,7 @@ import { PaginationComponent } from '../shared/components/pagination/pagination.
 import { CreateStudentComponent } from '../admin/modules/student/create-student/create-student.component';
 import { StudentComponent } from '../admin/modules/student/all-students/student.component';
 import { StudentService } from '../admin/modules/student/all-students/student.service';
+import { CreateStudentService } from '../admin/modules/student/create-student/create-student.service';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,7 @@ import { StudentService } from '../admin/modules/student/all-students/student.se
     ModuleService,
     LevelService,
     StudentService,
-    CreateStudentComponent
+    CreateStudentService
   ],
   bootstrap: [AppComponent],
 })

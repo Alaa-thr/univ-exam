@@ -6,9 +6,16 @@
                     <span>Main Menu</span>
                 </li>
                 <li class="submenu">
+                    <a><i class="fas fa-user-graduate"></i> <span> Students</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a routerLinkActive="active" [routerLink]="['students']">Student View</a></li>
+                        <li><a routerLinkActive="active" [routerLink]="['create-student']">Add Student</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
                     <a [routerLink]="['create-exam']"><i class="fas fa-user-graduate"></i> <span> Exams</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a [routerLink]="['create-exam']">Add Exam</a></li>
+                        <li><a routerLinkActive="active" [routerLink]="['create-exam']">Add Exam</a></li>
                         <li><a href="student-details.html">Student View</a></li>
                         <li><a href="add-student.html">Student Add</a></li>
                         <li><a href="edit-student.html">Student Edit</a></li>

@@ -17,6 +17,9 @@ import { ModuleService } from '../admin/modules/modulee/module.service';
 import { LevelComponent } from '../admin/modules/level/level.component';
 import { LevelService } from '../admin/modules/level/level.service';
 import { PaginationComponent } from '../shared/components/pagination/pagination.component';
+import { CreateStudentComponent } from '../admin/modules/student/create-student/create-student.component';
+import { StudentComponent } from '../admin/modules/student/all-students/student.component';
+import { StudentService } from '../admin/modules/student/all-students/student.service';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,8 @@ import { PaginationComponent } from '../shared/components/pagination/pagination.
     LevelComponent,
     ModuleComponent,
     PaginationComponent,
+    StudentComponent,
+    CreateStudentComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +48,8 @@ import { PaginationComponent } from '../shared/components/pagination/pagination.
     SpecialityService,
     ModuleService,
     LevelService,
+    StudentService,
+    CreateStudentComponent
   ],
   bootstrap: [AppComponent],
 })

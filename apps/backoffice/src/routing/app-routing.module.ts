@@ -5,6 +5,8 @@ import { CreateExamComponent } from '../teacher/modules/create-exam/create-exam.
 import { SpecialityComponent } from '../admin/modules/speciality/speciality.component';
 import { ModuleComponent } from '../admin/modules/modulee/module.component';
 import { LevelComponent } from '../admin/modules/level/level.component';
+import { CreateStudentComponent } from '../admin/modules/student/create-student/create-student.component';
+import { StudentService } from '../admin/modules/student/all-students/student.service';
 
 const APP_ROUTING: Routes = [ 
 
@@ -19,6 +21,14 @@ const APP_ROUTING: Routes = [
   {
     path: 'level', 
     component: LevelComponent,
+  },
+  {
+    path: 'students', 
+    component: StudentService,
+  },
+  {
+    path: 'create-student', 
+    component: CreateStudentComponent,
   },
   {
     path: 'module', 

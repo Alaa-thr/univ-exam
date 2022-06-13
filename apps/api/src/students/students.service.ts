@@ -21,6 +21,10 @@ export class StudentsService {
     return await this.studentRepo.findOne(id);
   }
 
+  async findOneBySpecialityLevel(specialityId: string, levelId:string) {
+    return await this.studentRepo.findOneBySpecialityLevel(specialityId,levelId);
+  }
+
   update(id: string, updateStudentDto: UpdateStudentDto) {
     return this.studentRepo.updateOne(id, updateStudentDto);
   }

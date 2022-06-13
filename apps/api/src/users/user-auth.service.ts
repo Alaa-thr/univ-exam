@@ -25,7 +25,6 @@ export class UserAuthService {
   public async registerStudent(
     data: RegisterStudentUserDto
   ): Promise<Partial<IUser>> {
-    console.log("data",data)
     const { email, password, student } = data;
     const cryptedPassword = await this.cryptPassword(password);
     try {

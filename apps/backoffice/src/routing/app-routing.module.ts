@@ -8,6 +8,7 @@ import { LevelComponent } from '../admin/modules/level/level.component';
 import { CreateStudentComponent } from '../admin/modules/student/create-student/create-student.component';
 import { StudentService } from '../admin/modules/student/all-students/student.service';
 import { StudentComponent } from '../admin/modules/student/all-students/student.component';
+import { StudentExamListComponent } from '../teacher/modules/student-exam-list/student-exam-list.component';
 
 const APP_ROUTING: Routes = [ 
 
@@ -34,6 +35,10 @@ const APP_ROUTING: Routes = [
   {
     path: 'module', 
     component: ModuleComponent,
+  },
+  {
+    path: 'students-list/:specialityId/:levelId', 
+    component: StudentExamListComponent,
   },
 ]
 export const ROUTING = RouterModule.forRoot(APP_ROUTING);

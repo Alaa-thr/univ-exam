@@ -29,6 +29,10 @@ export class StudentsController {
     return this.studentsService.findAll(query);
   }
 
+  @Get(':specialityId/:levelId')
+  findOneBySpecialityLevel(@Param('specialityId') specialityId: string,@Param('levelId') levelId: string) {
+    return this.studentsService.findOneBySpecialityLevel(specialityId,levelId);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.studentsService.findOne(id);

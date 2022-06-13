@@ -45,4 +45,13 @@ export class StudentsRepository extends Repository<StudentEntity> {
 
     return getPagingData(users, take, skip);
   }
+
+  async findOneBySpecialityLevel(specialityId: string, levelId:string){
+    return await this.createQueryBuilder('student')
+    .where("student.speciality = :specialityId",{specialityId:specialityId})
+    .andWhere("student.level = :levelId",{levelId:levelId})
+    .leftJoinAndSelect("student.level","level")
+    .leftJoinAndSelect("student.speciality","speciality")
+    .getMany();
+  }
 }

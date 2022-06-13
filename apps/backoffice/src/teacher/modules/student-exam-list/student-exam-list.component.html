@@ -1,0 +1,43 @@
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col-8">
+            <h3 class="page-title">Students List</h3>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-nowrap mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fisrt Name</th>
+                                <th>Last Name</th>
+                                <th>Birthday</th>
+                                <th>Phone Number</th>
+                                <th>Student Number</th>
+                                <th>Level</th>
+                                <th>Speciality</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let student of students; let studentIndex = index">
+                                <td>{{studentIndex+1}}</td>
+                                <td>{{student.firstName | capitalizeLetter: 'first'}}</td>
+                                <td>{{student.lastName | capitalizeLetter: 'first'}}</td>
+                                <td>{{student.birthDate | date: 'mediumDate'}}</td>
+                                <td>{{student.phoneNumber}}</td>
+                                <td>{{student.studentNumber}}</td>
+                                <td>{{student.level.name}}</td>
+                                <td>{{student.speciality.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

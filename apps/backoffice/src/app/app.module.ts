@@ -21,6 +21,8 @@ import { CreateStudentComponent } from '../admin/modules/student/create-student/
 import { StudentComponent } from '../admin/modules/student/all-students/student.component';
 import { StudentService } from '../admin/modules/student/all-students/student.service';
 import { CreateStudentService } from '../admin/modules/student/create-student/create-student.service';
+import { StudentExamListComponent } from '../teacher/modules/student-exam-list/student-exam-list.component';
+import { StudentExamListService } from '../teacher/modules/student-exam-list/student-exam-list.service';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { CreateStudentService } from '../admin/modules/student/create-student/cr
     PaginationComponent,
     StudentComponent,
     CreateStudentComponent,
+    StudentExamListComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { CreateStudentService } from '../admin/modules/student/create-student/cr
     ModuleService,
     LevelService,
     StudentService,
-    CreateStudentService
+    CreateStudentService,
+    StudentExamListService
   ],
   bootstrap: [AppComponent],
 })

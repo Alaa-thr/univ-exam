@@ -24,6 +24,7 @@ import { CreateStudentService } from '../admin/modules/student/create-student/cr
 import { StudentExamListComponent } from '../teacher/modules/student-exam-list/student-exam-list.component';
 import { StudentExamListService } from '../teacher/modules/student-exam-list/student-exam-list.service';
 import { ExamListComponent } from '../teacher/modules/exam/exam-list/exam-list.component';
+import { ExamListService } from '../teacher/modules/exam/exam-list/student-exam-list.service';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { ExamListComponent } from '../teacher/modules/exam/exam-list/exam-list.c
     StudentService,
     CreateStudentService,
     StudentExamListService,
+    ExamListService,
   ],
   bootstrap: [AppComponent],
 })

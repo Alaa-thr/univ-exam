@@ -47,9 +47,12 @@ export class ExamInformationCardComponent implements OnInit {
     const todayTime = this.todayDateTime.time;
     const todayDate = this.todayDateTime.date;
     const date = new Date(todayDate+' '+todayTime)
-    const examDate = new Date(this.exams[examIndex].exam.date+' '+this.exams[examIndex].exam.startHour)
-    if(examDate < date){
+    const examStartDate = new Date(this.exams[examIndex].exam.date+' '+this.exams[examIndex].exam.startHour);
+    const examEndDate = new Date(this.exams[examIndex].exam.date+' '+this.exams[examIndex].exam.endHour);
+    if(examStartDate < date && examEndDate > date){
       return false;
+    }else if(examEndDate < date){
+      return true;
     }
     return true;
   }

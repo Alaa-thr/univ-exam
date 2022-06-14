@@ -1,8 +1,9 @@
+import { ExamEntity } from "exams";
 import { LevelEntity } from "level/entities/level.entity";
 import { ModuleEntity } from "modulee/entities/module.entity";
 import { ISpecialityModuleLevel } from "speciality-module-level/interfaces/speciality-module-level.interface";
 import { SpecialityEntity } from "speciality/entities/speciality.entity";
-import { Entity, CreateDateColumn, UpdateDateColumn,  ManyToOne, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, CreateDateColumn, UpdateDateColumn,  ManyToOne, Index, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 
 @Entity('speciality_module_level')
 @Index(["speciality", "level", "module"], { unique: true })
@@ -43,6 +44,15 @@ export class SpecialityModuleLevelEntity implements ISpecialityModuleLevel{
         }
     )
     module: ModuleEntity;
+
+    @OneToMany(
+        () => ExamEntity,
+        exam => exam.specialityModuleLevel, 
+        { 
+            eager: true,
+        }
+    )
+    exams: ExamEntity[];
 
     @CreateDateColumn({
         update: false

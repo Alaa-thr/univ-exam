@@ -2,10 +2,40 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import { ExamEntity } from 'exams/entities/exam.entity';
 import { IExam } from 'exams/interfaces/exam.interface';
+import { getPagination, getPagingData, QueryDto } from 'shared';
 
 @Injectable()
 @EntityRepository(ExamEntity)
 export class ExamRepository extends Repository<ExamEntity> {
+
+  async findAll(query: QueryDto,teacherId: string) {
+    const { keyword, limit, page, order } = query;
+    const { take, skip } = getPagination(page, limit);
+
+    let orderField = 'exam.title';
+    let orderType: 'ASC' | 'DESC' = 'ASC';
+
+    if (order) {
+      orderField = 'exam.' + order.split(' ')[0];
+      orderType = order.split(' ')[1] === 'DESC' ? 'DESC' : 'ASC';
+    }
+
+    const users = await this.createQueryBuilder('exam')
+      .where( keyword? `(LOWER(exam.title) LIKE LOWER('%${keyword}%')`: '1=1')
+      .andWhere("exam.teacher = :teacherId",{teacherId: teacherId})
+      .leftJoinAndSelect("exam.examType","examType")
+      .leftJoinAndSelect("exam.module","module")
+      .leftJoinAndSelect("exam.questions","questions")
+      .leftJoinAndSelect("questions.answers","answers")
+      .leftJoinAndSelect("module.specialityModuleLevels","specialityModuleLevels")
+      .leftJoinAndSelect("specialityModuleLevels.speciality","speciality")
+      .leftJoinAndSelect("specialityModuleLevels.level","level")
+      .orderBy(orderField, orderType)
+      .offset(skip)
+      .getManyAndCount();
+
+    return getPagingData(users, take, skip);
+  }
   findById(id: string) {
     return this.findOne(id, { relations: ['questions', 'questions.answers'] });
   }

@@ -3,15 +3,12 @@ import { ExamRepository } from '../repositiries/exams.repository';
 import { IExam } from 'exams/interfaces/exam.interface';
 import { IQuestion } from '../interfaces/question.interface';
 import { CreateExamDto } from 'exams/dto/create-exam.dto';
-import { QuestionsRepository } from 'exams/repositiries/questions.repository';
 import { QuestionsService } from './questions.service';
 import { UpdateExamDto } from 'exams/dto/update-exam.dto';
 import { getStudentAnswers } from 'shared/fonctions/common-functions';
 import { ExamTypeService } from 'exam-type/exam-type.service';
 import { StudentExamService } from './student-exam.service';
-import { IStudentExam } from 'exams/interfaces/student-exam.interface';
-import { CreateExamStudentDto } from 'exams/dto/create-exam-student.dto';
-import { timestamp } from 'rxjs';
+import { QueryDto } from 'shared';
 
 @Injectable()
 export class ExamsService {
@@ -22,8 +19,13 @@ export class ExamsService {
     private readonly studentExamService: StudentExamService,
   ) {}
 
+  async findAllExams(query: QueryDto,teacherId: string){
+    return await this.examRepo.findAll(query,teacherId);
+  }
+
   async createOne(createExamDto: CreateExamDto) {
-    const {questions, title, date,startHour,endHour,isPublished,examType, module, students} = createExamDto;
+    const {questions, title, date,startHour,endHour,isPublished,examType, specialityModuleLevel, students} = createExamDto;
+    console.log("createExamDto",createExamDto)
     const createdQuestions: IQuestion[] = await this.questionsService.createMany(questions);
     const getInputType = await this.examTypeService.findOneByType(examType);
     const exam =  await this.examRepo.save({
@@ -33,7 +35,7 @@ export class ExamsService {
       endHour: endHour,
       isPublished: isPublished,
       examType: getInputType,
-      module: module,
+      specialityModuleLevel: specialityModuleLevel,
       questions: createdQuestions,
     });
     await this.studentExamService.createMany(students,exam);

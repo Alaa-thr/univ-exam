@@ -5,6 +5,7 @@ import { ISpeciality } from "./speciality.interface";
 
 export interface ISpecialityModuleLevel{
 
+    id: string;
     created_at: Date;
     updated_at: Date;
     speciality: ISpeciality;

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { IUser } from '@users';
 import { CreateExamDto, ExamsService, UpdateExamDto } from 'exams';
@@ -17,10 +18,11 @@ import { IExam } from 'exams/interfaces/exam.interface';
 import { StudentExamService } from 'exams/services/student-exam.service';
 import { IQuestion } from 'exams/interfaces/question.interface';
 import { ApiTags } from '@nestjs/swagger';
+import { QueryDto } from 'shared';
 
 @Controller('exams')
 @ApiTags('Exams')
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 export class ExamsController {
   constructor(
     private readonly examsService: ExamsService,
@@ -35,6 +37,15 @@ export class ExamsController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() UpdateExamDto) {
     return this.examsService.updateOne(id, UpdateExamDto);
+  }
+
+  @Get()
+  async findAllExams(
+    //@User() userLogged: IUser,
+    @Query() query: QueryDto
+  ) {
+    //const { teacher } = userLogged;
+    return await this.examsService.findAllExams(query,"e5374b05-c23c-40cd-8fc4-883fd0b7dc85");
   }
 
   @Get('scheduled-exams')

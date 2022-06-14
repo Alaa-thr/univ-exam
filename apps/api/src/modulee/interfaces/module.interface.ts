@@ -5,5 +5,4 @@ export interface IModule{
     name: string;
     created_at: Date;
     updated_at: Date;
-    exams: IExam[];
 }

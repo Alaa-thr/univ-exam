@@ -47,7 +47,7 @@ export class CreateExamComponent implements OnInit {
         Validators.required
       ]),
       'isPublished': this.fb.control(false),
-      'module': this.fb.control('',[
+      'specialityModuleLevel': this.fb.control('',[
         Validators.required
       ]),
       'startHour': this.fb.control('',[
@@ -104,6 +104,7 @@ export class CreateExamComponent implements OnInit {
         this.levels = [];
         this.modules = [];
         this.specialityLevelModule = response;
+        console.log("specialityLevelModule",this.specialityLevelModule)
         for(let i=0; i< this.specialityLevelModule.length; i++){
           const index = this.levels.findIndex(object => {
             return object.id === this.specialityLevelModule[i].level.id;
@@ -127,18 +128,11 @@ export class CreateExamComponent implements OnInit {
       }
     }
     this.getStudents(this.specialityId,this.levelId);
-    console.log("modules", this.modules)
-    console.log("this.specialityLevelModule", this.specialityLevelModule)
-    console.log("form", this.createExamForm)
   }
   getStudents(specialityId: string, levelId: string){
     this.createExamService.getStudentsBySpecialityLevel(specialityId,levelId).subscribe(
       (response) =>{
         this.students = response;
-        console.log("students", response)
-        
-        console.log("students", response)
-        console.log("this.createExamForm.value", this.createExamForm.value)
       },
       (error) => {
         console.log('CreateExam Component error', error);
@@ -148,18 +142,12 @@ export class CreateExamComponent implements OnInit {
   addQuestion(){
     const qstWithAnswers = this.questionForm.value;
     this.questionsList.push(qstWithAnswers);
-    
-    console.log("qstWithAnswers",qstWithAnswers)
     this.createExamForm.value.questions.push(qstWithAnswers);
     this.questionForm.reset();
-    console.log("getansewrs",this.getansewrs().length)
     const answersLength = this.getansewrs().length;
     for(let i=0; i< answersLength-1; i++){
       this.getansewrs().controls.pop();
     }
-    console.log("getansewrs after ",this.getansewrs().length)
-    
-    console.log("after form push", this.createExamForm)
   }
   addAnswer(){
     this.getansewrs().push(this.initAnswer());
@@ -231,6 +219,15 @@ export class CreateExamComponent implements OnInit {
   }
   getansewrs() : FormArray {
     return this.questionForm.get("answers") as FormArray
+  }
+  setSpecialityModuleLevel(event: any){
+    this.createExamForm.controls['specialityModuleLevel'].setValue(this.initSpecialityModuleLevel(event.target.value));
+  }
+  initSpecialityModuleLevel(moduleId: string){
+    const index = this.specialityLevelModule.findIndex(object => {
+      return object.level.id === this.levelId && object.module.id === moduleId;
+    });
+    return this.specialityLevelModule[index].id;
   }
   createExam(): void{
     if(this.addExamError == 0){

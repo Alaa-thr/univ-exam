@@ -25,7 +25,4 @@ export class ModuleEntity implements IModule {
 
     @OneToMany(() => SpecialityModuleLevelEntity, (specialityModuleLevel) => specialityModuleLevel.module, {onDelete: 'CASCADE'})
     specialityModuleLevels: SpecialityModuleLevelEntity[];
-
-    @OneToMany(() => ExamEntity, (exam) => exam.module)
-    exams: ExamEntity[];
 }

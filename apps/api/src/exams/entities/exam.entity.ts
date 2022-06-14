@@ -2,6 +2,7 @@
 import { ExamTypeEntity } from 'exam-type/entities/exam-type.entity';
 import { IExam } from 'exams/interfaces/exam.interface';
 import { ModuleEntity } from 'modulee/entities/module.entity';
+import { SpecialityModuleLevelEntity } from 'speciality-module-level/entities/speciality-module-level.entity';
 import { TeacherEntity } from 'teachers/entities/teacher.entity';
 import { ITeacher } from 'teachers/interface/teacher.interface';
 import {
@@ -64,13 +65,17 @@ export class ExamEntity implements IExam {
   @OneToMany(() => StudentExamEntity, (studentExam) => studentExam.exam)
   studentExams: StudentExamEntity[];
 
-  @OneToOne(() => TeacherEntity, { onDelete: 'CASCADE' })
+  @ManyToOne(() => TeacherEntity, { onDelete: 'CASCADE' })
   @JoinColumn()
   teacher: TeacherEntity;
 
-  @ManyToOne(() => ModuleEntity, (module) => module.exams, {
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(
+    () => SpecialityModuleLevelEntity, 
+    (specialityModuleLevel) => specialityModuleLevel.exams, 
+    {
+      onDelete: 'CASCADE',
+    }
+  )
   @JoinColumn()
-  module: ModuleEntity;
+  specialityModuleLevel: SpecialityModuleLevelEntity;
 }

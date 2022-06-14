@@ -7,12 +7,11 @@ import {
   IsNotEmpty,
   ValidateNested,
 } from 'class-validator';
-import { time } from 'cron';
 import { ExamTypeEnum } from 'exam-type/emun/exam-type.enum';
 import { IExam } from 'exams';
 import { IModule } from 'modulee/interfaces/module.interface';
+import { ISpecialityModuleLevel } from 'speciality-module-level/interfaces/speciality-module-level.interface';
 import { CreateStudentDto } from 'students/dto/create-student.dto';
-import { CreateExamStudentDto } from './create-exam-student.dto';
 import { CreateQuestionDto } from './create-question.dto';
 
 export class CreateExamDto implements Omit< IExam, 'id'| 'created_at'| 'updated_at'| 'teacher'| 'examType'| 'questions'| 'studentExams'|'answersArePublished'>
@@ -23,7 +22,7 @@ export class CreateExamDto implements Omit< IExam, 'id'| 'created_at'| 'updated_
 
   @ApiProperty()
   @IsNotEmpty()
-  module: IModule;
+  specialityModuleLevel: ISpecialityModuleLevel;
 
   @ApiProperty()
   @Type(() => Date)

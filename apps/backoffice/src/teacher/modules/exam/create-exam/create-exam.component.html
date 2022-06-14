@@ -70,16 +70,11 @@
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label value="">Module</label>
-                                    <select class="form-select" formControlName="module" [disabled]="!modules.length" [ngClass]="{'is-invalid':module.invalid && (module.dirty || module.touched)}">
-                                        <option value="" selected disabled>Select Module</option>
+                                    <select class="form-select"  [disabled]="!modules.length" (change)="setSpecialityModuleLevel($event)">
+                                        <option value="" selected >Select Module</option>
                                         <option *ngFor="let module of modules"
                                          [value]="module.id">{{module.name | capitalizeLetter: "first"}}</option>
                                     </select>
-                                    <div *ngIf="module.invalid && (module.dirty || module.touched)">
-                                        <div *ngIf="module.errors?.['required']" class="text-danger">
-                                            Module is required.
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">

@@ -48,11 +48,11 @@ export class StudentExamService {
   async createStudentVideo(studentId: string,examId: string,updateExamStudentDto: UpdateExamStudentDto): Promise<IStudentExam> {
     return await this.studentExamRepo.createStudentVideo(studentId,examId,updateExamStudentDto);
   }
-  getExamStartedTime(): {startedExam: string} {
-    const today = new Date();
-    const startedExam = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    return {
-      startedExam: startedExam
-    }; 
-  }
+  // getExamStartedTime(): {startedExam: string} {
+  //   const today = new Date();
+  //   const startedExam = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  //   return {
+  //     startedExam: startedExam
+  //   }; 
+  // }
 }

@@ -53,7 +53,12 @@ export class ExamsController {
 
   @Get('scheduled-exam/get-exam-started-time')
   getExamStartedTime(): { startedExam: string } {
-    return this.examsService.getExamStartedTime();
+    return this.examsService.getTodayTime();
+  }
+
+  @Get('scheduled-exam/get-today-date-time')
+  getTodayDateWithTime() {
+    return this.examsService.getTodayDateWithTime();
   }
 
   @Get('taken-exams/:id')

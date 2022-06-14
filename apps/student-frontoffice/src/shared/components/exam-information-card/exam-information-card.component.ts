@@ -11,11 +11,13 @@ import { calculeTime } from '../../functions/commonFunction';
 export class ExamInformationCardComponent implements OnInit {
 
   @Input() exams: any[];
+  @Input() todayDateTime: any;
   circleClass: string = 'circle-warning';
   circleGraphClass: string = 'circle-graph-warning';
   dataPercent: number = 0;
   constructor(private readonly router: Router) {
     this.exams = [];
+    
   }
 
   ngOnInit(): void {}
@@ -41,6 +43,16 @@ export class ExamInformationCardComponent implements OnInit {
     }
   }
 
+  startNow(examIndex: number): boolean{
+    const todayTime = this.todayDateTime.time;
+    const todayDate = this.todayDateTime.date;
+    const date = new Date(todayDate+' '+todayTime)
+    const examDate = new Date(this.exams[examIndex].exam.date+' '+this.exams[examIndex].exam.startHour)
+    if(examDate < date){
+      return false;
+    }
+    return true;
+  }
   getTime(startHour: string, endHour: string){
     return calculeTime(startHour,endHour);
   }

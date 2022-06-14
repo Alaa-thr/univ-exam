@@ -11,6 +11,7 @@ import { ExamTypeService } from 'exam-type/exam-type.service';
 import { StudentExamService } from './student-exam.service';
 import { IStudentExam } from 'exams/interfaces/student-exam.interface';
 import { CreateExamStudentDto } from 'exams/dto/create-exam-student.dto';
+import { timestamp } from 'rxjs';
 
 @Injectable()
 export class ExamsService {
@@ -144,12 +145,21 @@ export class ExamsService {
     return await this.examRepo.findById(id);
   }
 
-  getExamStartedTime(): { startedExam: string } {
+  getTodayTime(): { startedExam: string } {
     const today = new Date();
     const startedExam =
       today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
     return {
       startedExam: startedExam,
     };
+  }
+  getTodayDateWithTime() {
+    const today = new Date();
+    const time = this.getTodayTime();
+    const startedExam = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    return {
+      time: time.startedExam,
+      date: today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
+    }; 
   }
 }

@@ -1,4 +1,4 @@
-<div *ngFor="let exm of exams;" class="col-12 col-md-6 col-lg-4 d-flex">
+<div *ngFor="let exm of exams; let examIndex = index" class="col-12 col-md-6 col-lg-4 d-flex">
     <div  class="card flex-fill">
         <div class="card-header">
             <div class="row align-items-center">
@@ -32,7 +32,7 @@
                         <!--li><i class='fas fa-user-edit'></i> Mr Mohammed TEDLAOUI</li-->
                     </ul>
                     <div class="dash-btn">
-                        <button type="submit" class="btn btn-info" *ngIf="!exm.isDone" [routerLink]="['preparation-exam/'+exm.exam.id]">Start</button>
+                        <button type="submit" class="btn btn-info" *ngIf="!exm.isDone" [routerLink]="['preparation-exam/'+exm.exam.id]" [disabled]="startNow(examIndex)">Start</button>
                         <button type="submit" class="btn btn-info" *ngIf="exm.isDone" [routerLink]="[exm.exam.id]">View</button>
                     </div>
                 </div>

@@ -209,64 +209,63 @@ Version      : 1.0
 
 	// Circle Progress Bar
 	function animateElements() {
-		$('.circle-danger').each(function () {
+		$('.circle-bar1').each(function () {
 			var elementPos = $(this).offset().top;
 			var topOfWindow = $(window).scrollTop();
-			var percent = $(this).find('.circle-graph-danger').attr('data-percent');
+			var percent = $(this).find('.circle-graph1').attr('data-percent');
 			var animate = $(this).data('animate');
 			if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
 				$(this).data('animate', true);
-				$(this).find('.circle-graph-danger').circleProgress({
-					value: percent / 100,
-					size : 500,
-					thickness: 30,
-					fill: {
-						color: '#e84646'
-					}
-				});
-			}
-		});
-		$('.circle-warning').each(function () {
-			var elementPos = $(this).offset().top;
-			var topOfWindow = $(window).scrollTop();
-			var percent = $(this).find('.circle-graph-warning').attr('data-percent');
-			var animate = $(this).data('animate');
-			if (elementPos < topOfWindow + $(window).height() - 30  && !animate) {
-				$(this).data('animate', true);
-				$(this).find('.circle-graph-warning').circleProgress({
+				$(this).find('.circle-graph1').circleProgress({
 					value: percent / 100,
 					size : 400,
 					thickness: 30,
 					fill: {
-						color: '#FFBC53'
+						color: '#6e6bfa'
 					}
 				});
 			}
 		});
-		$('.circle-success').each(function () {
+		$('.circle-bar2').each(function () {
 			var elementPos = $(this).offset().top;
 			var topOfWindow = $(window).scrollTop();
-			var percent = $(this).find('.circle-graph-success').attr('data-percent');
+			var percent = $(this).find('.circle-graph2').attr('data-percent');
 			var animate = $(this).data('animate');
 			if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
 				$(this).data('animate', true);
-				$(this).find('.circle-graph-success').circleProgress({
+				$(this).find('.circle-graph2').circleProgress({
 					value: percent / 100,
-					size : 500,
+					size : 400,
 					thickness: 30,
 					fill: {
-						color: '#7bb13c'
+						color: '#6e6bfa'
+					}
+				});
+			}
+		});
+		$('.circle-bar3').each(function () {
+			var elementPos = $(this).offset().top;
+			var topOfWindow = $(window).scrollTop();
+			var percent = $(this).find('.circle-graph3').attr('data-percent');
+			var animate = $(this).data('animate');
+			if (elementPos < topOfWindow + $(window).height() - 30 && !animate) {
+				$(this).data('animate', true);
+				$(this).find('.circle-graph3').circleProgress({
+					value: percent / 100,
+					size : 400,
+					thickness: 30,
+					fill: {
+						color: '#6e6bfa'
 					}
 				});
 			}
 		});
 	}	
-
-	$(window).on('mousemove',function(){
-		if($('.circle-bar').length > 0) {
-			animateElements();
-		}
-	});
+	
+	if($('.circle-bar').length > 0) {
+		animateElements();
+	}
+	$(window).scroll(animateElements);
 	
 	// Preloader
 	
@@ -274,7 +273,7 @@ Version      : 1.0
 		if($('#loader').length > 0) {
 			$('#loader').delay(350).fadeOut('slow');
 			$('body').delay(350).css({ 'overflow': 'visible' });
-		}	
+		}
 	})
 
 	// Inspect keyCode

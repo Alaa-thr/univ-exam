@@ -6,7 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./side-bar.component.css'],
 })
 export class SideBarComponent implements OnInit {
+  multiStepScript: any;
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.initStepsScript();
+  }
+  private initStepsScript():void{
+    this.multiStepScript = document.createElement("script");
+    this.multiStepScript.type = "text/javascript";
+    this.multiStepScript.src = "assets/js/script.js";
+    document.body.appendChild(this.multiStepScript);
+  }
 }

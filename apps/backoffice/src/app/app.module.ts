@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { CreateExamComponent } from '../teacher/modules/create-exam/create-exam.component';
+import { CreateExamComponent } from '../teacher/modules/exam/create-exam/create-exam.component';
 import { AppRoutingModule, ROUTING } from '../routing/app-routing.module';
 import { SideBarComponent } from '../shared/components/side-bar/side-bar.component';
 import { HeaderComponent } from '../shared/components/header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CreateExamService } from '../teacher/modules/create-exam/create-exam.service';
+import { CreateExamService } from '../teacher/modules/exam/create-exam/create-exam.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CapitalizeLetterPipe, SeparateWordsPipe } from '@univ-exam/common';
 import { SpecialityComponent } from '../admin/modules/speciality/speciality.component';
@@ -23,6 +23,7 @@ import { StudentService } from '../admin/modules/student/all-students/student.se
 import { CreateStudentService } from '../admin/modules/student/create-student/create-student.service';
 import { StudentExamListComponent } from '../teacher/modules/student-exam-list/student-exam-list.component';
 import { StudentExamListService } from '../teacher/modules/student-exam-list/student-exam-list.service';
+import { ExamListComponent } from '../teacher/modules/exam/exam-list/exam-list.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { StudentExamListService } from '../teacher/modules/student-exam-list/stu
     StudentComponent,
     CreateStudentComponent,
     StudentExamListComponent,
+    ExamListComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,7 +56,7 @@ import { StudentExamListService } from '../teacher/modules/student-exam-list/stu
     LevelService,
     StudentService,
     CreateStudentService,
-    StudentExamListService
+    StudentExamListService,
   ],
   bootstrap: [AppComponent],
 })

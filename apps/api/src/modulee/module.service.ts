@@ -18,23 +18,25 @@ export class ModuleService {
   ) {}
 
   async create(data: CreateModuleDto): Promise<IModule> {
-    const {name, speciality, level} = data
+    const {name, speciality, level} = data;
     const nameLowerCase = name.toLowerCase();
     let existModule = await this.findOneByName(nameLowerCase);
-     if(!existModule){
-      existModule = await this.moduleRepo.save({name: nameLowerCase});
-      const specialityModuleLevel = await this.specialityModuleLevelService.findOneBySpecialityLevel(speciality.id, level.id);
+    const specialityModuleLevel = await this.specialityModuleLevelService.findOneBySpecialityLevel(speciality.id, level.id);
+    let createModule;
+    if(!existModule){
+      createModule = await this.moduleRepo.save({name: nameLowerCase});
+      existModule = createModule;
+    }
+    if(specialityModuleLevel){
       specialityModuleLevel.module = existModule;
-      await this.specialityModuleLevelService.create(specialityModuleLevel);
-     }
-     else{
+      await this.specialityModuleLevelService.create(specialityModuleLevel);  
+    }else{
       const specialityModuleLevel = new SpecialityModuleLevelEntity();
       specialityModuleLevel.level = level as LevelEntity;
       specialityModuleLevel.module = existModule;
       specialityModuleLevel.speciality = speciality as SpecialityEntity;
       await this.specialityModuleLevelService.create(specialityModuleLevel);
-     } 
-    
+    }
     return await this.findOne(existModule.id);
   }
 

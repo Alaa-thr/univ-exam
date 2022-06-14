@@ -13,4 +13,8 @@ export class ScheduledExamsService{
         const link = "http://localhost:3333/api/exams/scheduled-exams";
         return this.httpClient.get(link);
     }
+    startExam():Promise<any>{
+        const sentLink = "http://localhost:3333/api/exams/scheduled-exam/get-exam-started-time";
+        return this.httpClient.get(sentLink).toPromise();
+    }
 }

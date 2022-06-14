@@ -61,7 +61,7 @@
                                 <div class="form-group">
                                     <label>Level</label>
                                     <select class="form-select" [disabled]="!levels.length" (change)="getModule($event)">
-                                        <option value="" selected disabled>Select Level</option>
+                                        <option value="" selected >Select Level</option>
                                         <option *ngFor="let level of levels"
                                          [value]="level.id">{{level.name | capitalizeLetter: "first"}}</option>
                                     </select>
@@ -115,10 +115,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-6">
+                            <div class="col-12">
                                 <div class="form-group">
                                     <input type="checkbox" class="isPublished" formControlName="isPublished" id="check">
                                     <label for="check"> Publish the exam? </label>
+                                </div>
+                            </div>
+                            <div class="col-12 ">
+                                <div class="form-group">
+                                    <a style="color: blue" (click)="showStudents('students-list/'+specialityId+'/'+levelId)" *ngIf="students.length"> Check student List</a>
                                 </div>
                             </div>
                         </div>
@@ -214,7 +219,7 @@
                             <div class="row m-l-9 m-r-9" formArrayName="answers" >
                                 <div class="col-xl-12" *ngFor="let answr of getansewrs().controls; let j=index">
                                     <div class="row" [formGroupName]="j">
-                                        <div class="col-12 col-sm-9">
+                                        <div class="col-12 col-sm-8">
                                             <h5 class="card-title">Answer</h5>
                                             <input type="text" class="form-control" formControlName="title" [ngClass]="{'is-invalid':answerText(j).invalid && (answerText(j).dirty || answerText(j).touched)}">
                                             <div *ngIf="answerText(j).invalid && (answerText(j).dirty || answerText(j).touched)">
@@ -237,6 +242,13 @@
                                                 <div *ngIf="isCorrect(j).errors?.['required']" class="text-danger">
                                                     State is required.
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-1" *ngIf="j>0">
+                                            <div class="actions m-t-2rem">
+                                                <a class="btn btn-sm bg-success-light" >
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -338,6 +350,7 @@
                                             <tr>
                                                 <th class="width-80">Answers</th>
                                                 <th>Is True</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -352,6 +365,7 @@
                                                         <option value="2">False</option>
                                                     </select>
                                                 </td>
+                                                
                                             </tr>
                                             <tr>
                                                 <td>
@@ -421,3 +435,4 @@
         </div>
     </div>
 </div>
+

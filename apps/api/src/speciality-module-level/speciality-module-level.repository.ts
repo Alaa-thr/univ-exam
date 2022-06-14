@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { getPagination, getPagingData, QueryDto } from "shared";
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, IsNull, Repository } from "typeorm";
 import { UpdateSpecialityModuleLevelDto } from "./dto/update-speciality-module-level.dto";
 import { SpecialityModuleLevelEntity } from "./entities/speciality-module-level.entity";
 import { ISpecialityModuleLevel } from "./interfaces/speciality-module-level.interface";
@@ -27,6 +27,7 @@ export class SpecialityModuleLevelRepository extends Repository<SpecialityModule
         return await this.createQueryBuilder('specialityModuleLevel')
         .where("specialityModuleLevel.speciality = :id", {id: specialityId})
         .andWhere("specialityModuleLevel.level = :level", {level: levelId})
+        .andWhere("specialityModuleLevel.module IS NULL")
         .getOne();
       }
     

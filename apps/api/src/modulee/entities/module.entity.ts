@@ -23,7 +23,7 @@ export class ModuleEntity implements IModule {
     @UpdateDateColumn()
     updated_at: Date;
 
-    @OneToMany(() => SpecialityModuleLevelEntity, (specialityModuleLevel) => specialityModuleLevel.module)
+    @OneToMany(() => SpecialityModuleLevelEntity, (specialityModuleLevel) => specialityModuleLevel.module, {onDelete: 'CASCADE'})
     specialityModuleLevels: SpecialityModuleLevelEntity[];
 
     @OneToMany(() => ExamEntity, (exam) => exam.module)

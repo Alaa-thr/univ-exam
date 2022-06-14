@@ -37,7 +37,6 @@ export class ExamDetailsComponent implements OnInit,AfterContentChecked {
         this.examDetailsService.getTakenExamsById(examId).subscribe(
           (response) => {
             this.examDetails = response;
-            console.log("examDetails ",response)
           },(error)=>{
             console.log('ExamDetails Component error', error);
           }

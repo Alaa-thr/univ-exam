@@ -37,7 +37,7 @@ export class StudentExamEntity implements IStudentExam{
         exam => exam.studentExams, 
         { 
             primary: true,
-            eager: true,
+            eager: true
         }
     )
     exam: ExamEntity;

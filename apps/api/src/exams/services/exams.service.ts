@@ -8,21 +8,24 @@ import { QuestionsService } from './questions.service';
 import { UpdateExamDto } from 'exams/dto/update-exam.dto';
 import { getStudentAnswers } from 'shared/fonctions/common-functions';
 import { ExamTypeService } from 'exam-type/exam-type.service';
+import { StudentExamService } from './student-exam.service';
+import { IStudentExam } from 'exams/interfaces/student-exam.interface';
+import { CreateExamStudentDto } from 'exams/dto/create-exam-student.dto';
 
 @Injectable()
 export class ExamsService {
   constructor(
     private readonly examRepo: ExamRepository,
     private readonly questionsService: QuestionsService,
-    private readonly examTypeService: ExamTypeService
+    private readonly examTypeService: ExamTypeService,
+    private readonly studentExamService: StudentExamService,
   ) {}
 
   async createOne(createExamDto: CreateExamDto) {
-
-    const {questions, title, date,startHour,endHour,isPublished,examType, module} = createExamDto;
+    const {questions, title, date,startHour,endHour,isPublished,examType, module, students} = createExamDto;
     const createdQuestions: IQuestion[] = await this.questionsService.createMany(questions);
     const getInputType = await this.examTypeService.findOneByType(examType);
-    return this.examRepo.save({
+    const exam =  await this.examRepo.save({
       title: title,
       date: date,
       startHour: startHour,
@@ -32,6 +35,8 @@ export class ExamsService {
       module: module,
       questions: createdQuestions,
     });
+    await this.studentExamService.createMany(students,exam);
+    return exam;
   }
 
   async updateOne(id: string, updateExamDto: UpdateExamDto) {
@@ -98,7 +103,7 @@ export class ExamsService {
       };
       qst.id = examDetails.questions[i].id;
       qst.text = examDetails.questions[i].text;
-      //qst.inputType = examDetails.questions[i].inputType;
+      qst.inputType = examDetails.questions[i].inputType.type;
       qst.point = examDetails.questions[i].point;
       for (let j = 0; j < examDetails.questions[i].answers.length; j++) {
         const answr = {

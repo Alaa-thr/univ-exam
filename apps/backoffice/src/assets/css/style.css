@@ -3601,3 +3601,6 @@ table.table-inbox tbody tr.checked {
 .width-80{
 	width: 80%;
 }
+.m-t-2rem{
+	margin-top: 2rem!important;
+}

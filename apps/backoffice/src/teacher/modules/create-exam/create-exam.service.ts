@@ -26,4 +26,8 @@ export class CreateExamService{
     addExam(data: any){
         return this.httpClient.post(this.examlink, data);
     }
+    getStudentsBySpecialityLevel(specialityId: string, levelId: string){
+        const link = "http://localhost:3333/api/students"
+        return this.httpClient.get(link+`/${specialityId}/${levelId}`);
+    }
 }

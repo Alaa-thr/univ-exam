@@ -73,6 +73,7 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
         try{
             return await this.createQueryBuilder('exmStdnt')
             .leftJoinAndSelect('exmStdnt.exam', 'exam')
+            .leftJoinAndSelect('exam.examType', 'examType')
             .leftJoin("exam.questions","question")
             .where("exmStdnt.student = :id",{id: studentId})
             .andWhere("exmStdnt.isDone = :done", {done: isDone})

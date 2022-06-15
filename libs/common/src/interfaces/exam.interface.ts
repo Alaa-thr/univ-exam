@@ -1,6 +1,6 @@
 import { IExamType } from "./exam-type.interface";
-import { IModule } from "./module.interface";
 import { IQuestion } from "./question.interface";
+import { ISpecialityModuleLevel } from "./speciality-module-level.interface";
 import { IStudentExam } from "./student-exam.interface";
 import { ITeacher } from "./teacher.interface";
 
@@ -18,5 +18,5 @@ export interface IExam {
   teacher: ITeacher;
   created_at: Date;
   updated_at: Date;
-  module: IModule;
+  specialityModuleLevel: ISpecialityModuleLevel;
 }

@@ -19,13 +19,15 @@ export class ExamsService {
     private readonly studentExamService: StudentExamService,
   ) {}
 
+  async deleteOne(id: string){
+    return await this.examRepo.delete(id);
+  }
   async findAllExams(query: QueryDto,teacherId: string){
     return await this.examRepo.findAll(query,teacherId);
   }
 
   async createOne(createExamDto: CreateExamDto) {
     const {questions, title, date,startHour,endHour,isPublished,examType, specialityModuleLevel, students} = createExamDto;
-    console.log("createExamDto",createExamDto)
     const createdQuestions: IQuestion[] = await this.questionsService.createMany(questions);
     const getInputType = await this.examTypeService.findOneByType(examType);
     const exam =  await this.examRepo.save({

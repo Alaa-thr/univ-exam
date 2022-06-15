@@ -1,1 +1,140 @@
-<p>exam-list works!</p>
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col-8">
+            <h3 class="page-title">Exams</h3>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-nowrap mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Exam Type</th>
+                                <th>Questions</th>
+                                <th>Date</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Is Published</th>
+                                <th>Module</th>
+                                <th>Level</th>
+                                <th>Speciality</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let exam of exams; let examIndex = index">
+                                <td>{{examIndex+1}}</td>
+                                <td>{{exam.title | capitalizeLetter: 'first'}}</td>
+                                <td>{{exam.examType.type | SeparateWords | capitalizeLetter: 'first'}}</td>
+                                <td><a (click)="getQuestions(examIndex)" data-bs-toggle="modal"
+                                        data-bs-target="#questionModal"><u>Questions</u></a></td>
+                                <td>{{exam.date | date: 'mediumDate'}}</td>
+                                <td>{{exam.startHour}}</td>
+                                <td>{{exam.endHour}}</td>
+                                <td>{{exam.isPublished}}</td>
+                                <td>{{exam.specialityModuleLevel.module.name}}</td>
+                                <td>{{exam.specialityModuleLevel.level.name}}</td>
+                                <td>{{exam.specialityModuleLevel.speciality.name}}</td>
+                                <td class="text-end">
+                                    <div class="actions">
+                                        <a class="btn btn-sm bg-success-light me-2">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        <a class="btn btn-sm bg-danger-light" (click)="deleteAlert(exam)">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12">
+                    <ul class="pagination float-end">
+                        <li class="paginate_button page-item previous " [ngClass]="{'disabled': currentPage-1 < 0}">
+                            <a (click)="changePage(currentPage-1)" class="page-link">
+                                << </a>
+                        </li>
+                        <li class="paginate_button page-item active disabled">
+                            <a (click)="changePage(currentPage+1)" class="page-link">{{(currentPage+1)}}</a>
+                        </li>
+                        <li class="paginate_button page-item "
+                            [ngStyle]="{'display': currentPage+2 > totalPages ? 'none':'block'}">
+                            <a (click)="changePage(currentPage+1)" class="page-link">{{(currentPage+2)}}</a>
+                        </li>
+                        <li class="paginate_button page-item "
+                            [ngStyle]="{'display': currentPage+3 > totalPages ? 'none':'block'}">
+                            <a (click)="changePage(currentPage+2)" class="page-link">{{(currentPage+3)}}</a>
+                        </li>
+                        <li class="paginate_button page-item next"
+                            [ngClass]="{'disabled': currentPage+1 >= totalPages}">
+                            <a (click)="changePage(currentPage+1)" class="page-link">>></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="questionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Questions</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12 d-flex">
+                    <div class="card flex-fill">
+                        <div 
+                            *ngFor="let qst of questions;
+                                    let indexQuestion=index;">
+                            <div class="card-header d-flex col-12">
+                                <div class="col-10">
+                                    <h4 class="mb-0">
+                                        <strong>#{{indexQuestion+1}}</strong>
+                                        {{qst.text | QuestionMark}}
+                                    </h4>
+                                </div>
+                                <div class="col-2">
+                                    <h6 class="text-danger mt-1 float-end" >{{qst.point}} pts</h6>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div *ngIf="qst.inputType.type === 'checkbox'">
+                                    <div class="form-group"
+                                        *ngFor="let answr of qst.answers">
+                                         <div class="form-check" >
+                                            <input type="checkbox" name="checkbox" class="form-check-input" id="{{answr.id}}"
+                                            (click)="false" [ngClass]="{'is-valid':answr.isCorrect}" [checked]="answr.isCorrect">
+                                            <label class="form-check-label" for="{{answr.id}}">{{answr.title}}</label>
+                                        </div>
+                                    </div>  
+                                </div>
+                                <div *ngIf="qst.inputType.type === 'select'">
+                                    <select class="form-select mb-4">
+                                        <option *ngFor="let answr of qst.answers"
+                                            value="{{answr.id}}" [selected]="answr.isCorrect">
+                                            {{answr.title}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>   
+                    </div>   
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-success-light">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

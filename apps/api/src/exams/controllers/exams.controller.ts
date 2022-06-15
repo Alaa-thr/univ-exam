@@ -94,4 +94,9 @@ export class ExamsController {
   async findOne(@Param('id') id: string): Promise<IExam> {
     return await this.examsService.findOne(id);
   }
+
+  @Delete(':id')
+  async deleteOne(@Param('id') id: string){
+    return await this.examsService.deleteOne(id);
+  }
 }

@@ -9,7 +9,7 @@ import { HeaderComponent } from '../shared/components/header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateExamService } from '../teacher/modules/exam/create-exam/create-exam.service';
 import { HttpClientModule } from '@angular/common/http';
-import { CapitalizeLetterPipe, SeparateWordsPipe } from '@univ-exam/common';
+import { CapitalizeLetterPipe, QuestionMarkPipe, SeparateWordsPipe } from '@univ-exam/common';
 import { SpecialityComponent } from '../admin/modules/speciality/speciality.component';
 import { SpecialityService } from '../admin/modules/speciality/speciality.service';
 import { ModuleComponent } from '../admin/modules/modulee/module.component';
@@ -34,6 +34,7 @@ import { ExamListService } from '../teacher/modules/exam/exam-list/student-exam-
     HeaderComponent,
     SeparateWordsPipe,
     CapitalizeLetterPipe,
+    QuestionMarkPipe,
     SpecialityComponent,
     LevelComponent,
     ModuleComponent,

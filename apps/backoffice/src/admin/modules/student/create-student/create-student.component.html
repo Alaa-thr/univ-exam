@@ -113,7 +113,7 @@
                                     <label value="">Level</label>
                                     <select class="form-select" formControlName="level"
                                         [ngClass]="{'is-invalid':level.invalid && (level.dirty || level.touched)}">
-                                        <option value="" selected disabled>Select Module</option>
+                                        <option value="" selected disabled>Select Level</option>
                                         <option *ngFor="let level of levels" [value]="level.id">{{level.name |
                                             capitalizeLetter: 'first'}}</option>
                                     </select>

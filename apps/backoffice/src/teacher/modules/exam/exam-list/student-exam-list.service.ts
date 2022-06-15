@@ -15,4 +15,8 @@ export class ExamListService{
     getExams(query: QueryDto): Observable<any>{
         return this.httpClient.get(this.link,{params: {...query}});
     }
+
+    deleteExam(examId: string): Observable<any>{
+        return this.httpClient.delete(this.link+`/${examId}`);
+    }
 }

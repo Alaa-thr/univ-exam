@@ -48,6 +48,7 @@ export class SpecialityComponent implements OnInit {
     this.specialityService.getSpeciality(query).subscribe(
       (response) =>{
         this.specialities = response.items;
+        console.log("spaciality",this.specialities)
         this.totalPages = response.totalPages;
       },
       (error) =>{
@@ -57,11 +58,28 @@ export class SpecialityComponent implements OnInit {
     this.specialityService.getLevel().subscribe(
       (response) =>{
         this.levels = response.items;
+        console.log("levels",this.levels)
       },
       (error) =>{
         console.log("Speciality component error", error);
       }
     );
+  }
+  getLevelsListOfSpecialities(specialityId: string){
+    const specialityModuleLevels: ILevel[] = [];
+    for(let i = 0; i< this.specialities.length; i++){
+      if(this.specialities[i].id === specialityId){
+        for(let j = 0; j< this.specialities[i].specialityModuleLevels.length; j++){
+          const index = specialityModuleLevels.find((object) => {
+            return object.id === this.specialities[i].specialityModuleLevels[j].level.id});
+          if(!index){
+            specialityModuleLevels.push(this.specialities[i].specialityModuleLevels[j].level)
+          }
+        }
+      }
+    }
+    specialityModuleLevels.sort((a, b) => a.name.localeCompare(b.name))
+    return specialityModuleLevels;
   }
   changePage(page: number){
     if(page < 0) return;

@@ -101,7 +101,7 @@
                                 <td>{{(indexSpeciality+1)}}</td>
                                 <td>{{speclt.name | capitalizeLetter: 'first'}}</td>
                                 <td>
-                                    <span *ngFor="let level of speclt.specialityModuleLevels">{{level.level.name}}, </span>
+                                    <span *ngFor="let level of getLevelsListOfSpecialities(speclt.id)">{{level.name}}, </span>
                                 </td>
                                 <td>{{speclt.created_at | date :'mediumDate'}}</td>
                                 <td class="text-end">

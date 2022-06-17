@@ -148,6 +148,7 @@ export class CreateExamComponent implements OnInit {
     for(let i=0; i< answersLength-1; i++){
       this.getansewrs().controls.pop();
     }
+    console.log(this.createExamForm.value)
   }
   addAnswer(){
     this.getansewrs().push(this.initAnswer());
@@ -256,5 +257,11 @@ export class CreateExamComponent implements OnInit {
   }
   showStudents(url:string) {
     window.open("http://localhost:4201/"+url, '_blank');
+  }
+  deleteAnswerItem(index: number){
+    this.getansewrs().controls.splice(index,1)
+    this.questionForm.value.answers.splice(index,1)
+    console.log((this.questionForm.value))
+    console.log(index)
   }
 }

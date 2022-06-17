@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { HeaderComponent } from '../header/header.component';
+import { HeaderService } from '../header/header.service';
 
 @Component({
   selector: 'univ-exam-login',
@@ -15,6 +17,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
+    private readonly headerService: HeaderService
   ) {}
 
   ngOnInit(): void {}
@@ -25,6 +28,7 @@ export class LoginComponent implements OnInit {
         const token = response.token;
         this.authService.setLoggedValue(true);// declanché l'evenement
         localStorage.setItem('access_token', token);
+        this.headerService.getUser();
         this.router.navigate(['exam/scheduled-exams']);
       },
       (error)=>{

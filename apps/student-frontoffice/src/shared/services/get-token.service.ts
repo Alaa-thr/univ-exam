@@ -5,14 +5,17 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 export class GetTokenService{
 
     jwtHelper = new JwtHelperService();
-    token: any;
     constructor(){}
 
     getUser(){
-        this.token = localStorage.getItem('access_token');
-        return this.decodeToken().userData;
+        const token = localStorage.getItem('access_token');
+        if(token){
+            return this.decodeToken(token).userData;
+        }
+        return null;
+        
     }
-    private decodeToken(){
-        return this.jwtHelper.decodeToken(this.token)
+    private decodeToken(token: any){
+        return this.jwtHelper.decodeToken(token)
     }
 }

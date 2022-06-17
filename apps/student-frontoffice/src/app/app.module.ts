@@ -43,6 +43,8 @@ import {
 } from '@univ-exam/common';
 import { ProfileComponent } from '../modules/profile/profile.component';
 import { GetTokenService } from '../shared/services/get-token.service';
+import { QrCodeReaderComponent } from '../modules/qr-code-reader/qr-code-reader.component';
+import { HeaderService } from '../core/components/header/header.service';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,7 @@ import { GetTokenService } from '../shared/services/get-token.service';
     ExamPreparationComponent,
     RecordVideoComponent,
     ProfileComponent,
+    QrCodeReaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +79,7 @@ import { GetTokenService } from '../shared/services/get-token.service';
     NgxPaginationModule,
     CountdownModule,
     NgxQRCodeModule,
+    
   ],
   providers: [
     LoginGuard,
@@ -88,6 +92,7 @@ import { GetTokenService } from '../shared/services/get-token.service';
     TakeExamService,
     ExamPreparationService,
     GetTokenService,
+    HeaderService,
   ],
   bootstrap: [AppComponent],
 })

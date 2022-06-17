@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { EntityRepository, Equal, LessThanOrEqual, Repository } from "typeorm";
+import { EntityRepository, Equal, LessThan, LessThanOrEqual, Repository } from "typeorm";
 import { IStudentExam } from "../interfaces/student-exam.interface";
 import { StudentExamEntity } from "../entities/studentExam.entity";
 import { UpdateExamStudentDto } from "exams/dto/update-exam-student.dto";
@@ -40,13 +40,23 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
         const studentExams = await this.find(
             {
                 relations:["exam"],
-                where:{
+                where:[
+                    {
                         isDone : false,
                         exam: {
                             date: date,
                             endHour: LessThanOrEqual(time)
                         }
-                },
+                    },
+                    {
+                        isDone : false,
+                        exam: {
+                            date: LessThan(date)
+                        }
+                    }
+                    
+
+                ],
                 select: [
                     "isDone",
                     "exam",
@@ -59,15 +69,6 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
             studentExams[i].grade = -1;
             await this.save(studentExams[i]);
         }  
-    }
-    private checkExamDateHourExpiration(examDate: Date, endHour: Date):boolean{
-        const today = new Date();
-        if(examDate.getDate() < today.getDate()){
-            return true;
-        }else if((examDate.getDate() == today.getDate()) && (today.getTime() <= endHour.getTime())){
-            return true;
-        }
-        return false;
     }
     private async findExams(studentId: string, isDone: boolean): Promise<IStudentExam[]>{
         try{

@@ -4,6 +4,7 @@ import { UsersRepository } from 'users/users.repository';
 import * as dotenv from 'dotenv';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { EUserRoles } from 'users/user-roles.enum';
+import { IUser } from 'users/interface/user.interface';
 
 dotenv.config();
 
@@ -17,13 +18,12 @@ export class TokenValidationStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: { email: string; role: EUserRoles }) {
-    const { email } = payload;
-    const user = await this.userRepo.findUser(email);
+  async validate(payload: { userData: IUser; role: EUserRoles }) {
+    const { userData } = payload;
+    const user = await this.userRepo.findUser(userData.email);
     if (!user) {
       throw new UnauthorizedException('You are not authorized for this route');
     }
-    const { password, ...userFound } = user;
-    return userFound;
+    return userData;
   }
 }

@@ -66,7 +66,7 @@ export class UserAuthService {
       : user.teacher
       ? EUserRoles.TEACHER
       : null;
-    const token = await this.checkUserPassword(data, user.password, role);
+    const token = await this.checkUserPassword(data, user, role);
     return token;
   }
 
@@ -86,19 +86,20 @@ export class UserAuthService {
 
   private async checkUserPassword(
     data: LoginUserDto,
-    userPassword: string,
+    user: IUser,
     userRole: EUserRoles
   ) {
     const { email, password } = data;
-    const isPasswordMatch = await bcrypt.compare(password, userPassword);
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Username or Password is invalid');
     }
-    return this.generateToken(email, userRole);
+    return this.generateToken(user, userRole);
   }
 
-  private async generateToken(email: string, userRole: EUserRoles) {
-    const payload = { email, role: userRole };
+  private async generateToken(user: IUser, userRole: EUserRoles) {
+    const {password, ...userData} = user;
+    const payload = { userData, role: userRole };
     const jwtToken = await this.jwtService.signAsync(payload);
     return {
       token: jwtToken,

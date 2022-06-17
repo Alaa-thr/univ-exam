@@ -3,9 +3,7 @@ import { StudentExamRepository} from '../repositiries/student-exam.repository';
 import { IStudentExam } from '../interfaces/student-exam.interface';
 import { UpdateExamStudentDto } from '../dto/update-exam-student.dto';
 import { Cron } from '@nestjs/schedule';
-import { CreateExamStudentDto } from 'exams/dto/create-exam-student.dto';
 import { CreateStudentDto } from 'students/dto/create-student.dto';
-import { CreateExamDto } from 'exams/dto/create-exam.dto';
 import { IExam } from 'exams/interfaces/exam.interface';
 import { IStudent } from 'students/interface/student.interface';
 

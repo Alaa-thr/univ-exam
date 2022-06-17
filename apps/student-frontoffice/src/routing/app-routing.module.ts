@@ -9,12 +9,18 @@ import { LoginComponent } from '../core/components/login/login.component';
 import { ExamDetailsComponent } from '../modules/exam-details/exam-details.component';
 import { ExamPreparationComponent } from '../modules/exam-preparation/exam-preparation.component';
 import { RecordVideoComponent } from '../modules/record-video/record-video.component';
+import { ProfileComponent } from '../modules/profile/profile.component';
 
 const APP_ROUTING: Routes = [ 
     
   {
     path: 'notification', 
     component: NotificationComponent,
+    canActivate: [LoginGuard]
+  },
+  {
+    path: 'profile', 
+    component: ProfileComponent,
     canActivate: [LoginGuard]
   },
   {

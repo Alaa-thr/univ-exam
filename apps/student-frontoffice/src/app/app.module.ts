@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule, ROUTING } from '../routing/app-routing.module';
 import { CountdownModule } from 'ngx-countdown';
-
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import {
   HeaderComponent,
   FooterComponent,
@@ -36,7 +36,13 @@ import { TakeExamService } from '../modules/take-exam/take-exam.service';
 import { ExamPreparationComponent } from '../modules/exam-preparation/exam-preparation.component';
 import { ExamPreparationService } from '../modules/exam-preparation/exam-preparation.service';
 import { RecordVideoComponent } from '../modules/record-video/record-video.component';
-import { CapitalizeLetterPipe, QuestionMarkPipe, SeparateWordsPipe } from '@univ-exam/common';
+import {
+  CapitalizeLetterPipe,
+  QuestionMarkPipe,
+  SeparateWordsPipe,
+} from '@univ-exam/common';
+import { ProfileComponent } from '../modules/profile/profile.component';
+import { GetTokenService } from '../shared/services/get-token.service';
 
 @NgModule({
   declarations: [
@@ -58,6 +64,7 @@ import { CapitalizeLetterPipe, QuestionMarkPipe, SeparateWordsPipe } from '@univ
     QuestionMarkPipe,
     ExamPreparationComponent,
     RecordVideoComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +75,7 @@ import { CapitalizeLetterPipe, QuestionMarkPipe, SeparateWordsPipe } from '@univ
     ROUTING,
     NgxPaginationModule,
     CountdownModule,
+    NgxQRCodeModule,
   ],
   providers: [
     LoginGuard,
@@ -79,6 +87,7 @@ import { CapitalizeLetterPipe, QuestionMarkPipe, SeparateWordsPipe } from '@univ
     ExamDetailsService,
     TakeExamService,
     ExamPreparationService,
+    GetTokenService,
   ],
   bootstrap: [AppComponent],
 })

@@ -1,6 +1,7 @@
 export * from './lib/commons.module';
 export * from './dto';
 export * from './interfaces/exam-type.interface'
+export * from './interfaces/user.interface'
 export * from './interfaces/speciality.interface'
 export * from './interfaces/answer.interface'
 export * from './interfaces/exam.interface'

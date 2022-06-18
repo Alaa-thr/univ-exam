@@ -11,6 +11,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { QueryDto } from 'shared';
 import { IUser, UserAuthService, LoginUserDto, UsersService } from 'users';
+import { QrCodeLoginDto } from './dto/qr-code-login.dto';
 import { RegisterStudentUserDto } from './dto/register-student-user.dto';
 import { RegisterTeacherUserDto } from './dto/register-teacher-user.dto';
 
@@ -39,6 +40,11 @@ export class UsersController {
   @Post('login')
   async login(@Body() data: LoginUserDto) {
     return await this.userAuthService.login(data);
+  }
+
+  @Post('login-qr-code')
+  async qrLogin(@Body() data: QrCodeLoginDto) {
+    return await this.userAuthService.qrLogin(data);
   }
 
   @Get()

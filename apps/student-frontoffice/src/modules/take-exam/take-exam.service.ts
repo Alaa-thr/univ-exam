@@ -1,11 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class TakeExamService{
 
-    link: string = "http://localhost:3333/api/exams";
+    link: string = environment.api+"exams";
     constructor(
         private readonly httpClient: HttpClient
     ){}
@@ -14,7 +15,7 @@ export class TakeExamService{
         return this.httpClient.get(sentLink+`/${examId}`);
     }
     addStudentAnswers(data: FormData):Observable<any>{
-        const sentLink = "http://localhost:3333/api/answers/student-answers";
+        const sentLink = environment.api+"answers/student-answers";
         return this.httpClient.post(sentLink,data);
     }
     startExam():Promise<any>{

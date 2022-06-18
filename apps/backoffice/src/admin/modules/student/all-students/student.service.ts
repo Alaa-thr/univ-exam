@@ -3,11 +3,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ILevel, QueryDto } from "@univ-exam/common";
 import { Observable } from "rxjs";
-
+import { environment } from "apps/backoffice/src/environments/environment";
 @Injectable()
 export class StudentService{
 
-    link = "http://localhost:3333/api/students"
+    link = environment.api+"students"
     constructor(
         private readonly httpClient: HttpClient
     ){}

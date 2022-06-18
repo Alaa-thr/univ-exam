@@ -12,6 +12,7 @@ import { RegisterStudentUserDto } from './dto/register-student-user.dto';
 import { RegisterTeacherUserDto } from './dto/register-teacher-user.dto';
 import { TeachersService } from 'teachers/teacher.service';
 import { EUserRoles } from './user-roles.enum';
+import { QrCodeLoginDto } from './dto/qr-code-login.dto';
 
 @Injectable()
 export class UserAuthService {
@@ -69,6 +70,22 @@ export class UserAuthService {
     const token = await this.checkUserPassword(data, user, role);
     return token;
   }
+
+  public async qrLogin(data: QrCodeLoginDto) {
+    const { code } = data;
+    const user = await this.userRepo.findOne({id: code});
+    if (!user) {
+      throw new UnauthorizedException('The QR Code is invalid');
+    }
+    const role = user.student
+      ? EUserRoles.STUDENT
+      : user.teacher
+      ? EUserRoles.TEACHER
+      : null;
+    const token = await this.generateToken(user, role);
+    return token;
+  }
+  
 
   private async cryptPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt();

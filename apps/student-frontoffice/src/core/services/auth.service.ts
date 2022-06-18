@@ -22,11 +22,17 @@ export class AuthService{
         return this.httpClient.post(link, data);
     }
 
+    qrLogin(data:any): Observable<any>{
+        const link = "http://localhost:3333/api/users/login-qr-code";
+        return this.httpClient.post(link, data);
+    }
+
     logout(): void{
         try{
             this.setLoggedValue(false);// declanché l'evenement
             localStorage.removeItem('access_token');
-            this.router.navigate(['login']);
+            if(this.router.url == '/login') this.router.navigate(['login']);
+            else this.router.navigate(['login-qrCode']);
         }catch(error){
             console.log('error logout', error);
         }   

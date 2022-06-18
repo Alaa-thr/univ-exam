@@ -4326,3 +4326,9 @@ input[name="checkbox"][ng-readonly="true"]{
 .text-is-valid{
     color: #198754;
 }
+.zxing-scanner{
+    height: 100% !important;
+}
+.zxing-scanner > video {
+    height: 100% !important;
+}

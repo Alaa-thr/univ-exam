@@ -45,6 +45,7 @@ import { ProfileComponent } from '../modules/profile/profile.component';
 import { GetTokenService } from '../shared/services/get-token.service';
 import { QrCodeReaderComponent } from '../modules/qr-code-reader/qr-code-reader.component';
 import { HeaderService } from '../core/components/header/header.service';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { HeaderService } from '../core/components/header/header.service';
     NgxPaginationModule,
     CountdownModule,
     NgxQRCodeModule,
+    ZXingScannerModule,
     
   ],
   providers: [

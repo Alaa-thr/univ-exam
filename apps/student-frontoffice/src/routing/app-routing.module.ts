@@ -10,7 +10,6 @@ import { ExamDetailsComponent } from '../modules/exam-details/exam-details.compo
 import { ExamPreparationComponent } from '../modules/exam-preparation/exam-preparation.component';
 import { RecordVideoComponent } from '../modules/record-video/record-video.component';
 import { ProfileComponent } from '../modules/profile/profile.component';
-import { QrCodeReaderComponent } from '../modules/qr-code-reader/qr-code-reader.component';
 
 const APP_ROUTING: Routes = [ 
     
@@ -53,11 +52,6 @@ const APP_ROUTING: Routes = [
   {
     path: 'login', 
     component: LoginComponent,
-    canActivate: [LogoutGuard] 
-  },
-  {
-    path: 'login-qrCode', 
-    component: QrCodeReaderComponent,
     canActivate: [LogoutGuard] 
   },
   {

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
 import {LoginUserDto} from '@univ-exam/common'
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AuthService{
     ){}
 
     login(data:any): Observable<any>{
-        const link = "http://localhost:3333/api/users/login";
+        const link =  environment.api+"users/login";
         return this.httpClient.post(link, data);
     }
 

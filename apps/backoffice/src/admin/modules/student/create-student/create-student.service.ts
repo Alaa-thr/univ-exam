@@ -3,11 +3,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { IStudent, QueryDto } from "@univ-exam/common";
 import { Observable } from "rxjs";
-
+import { environment } from "apps/backoffice/src/environments/environment";
 @Injectable()
 export class CreateStudentService{
 
-    link = "http://localhost:3333/api/users/register/student";
+    link = environment.api+"users/register/student";
     constructor(
         private readonly httpClient: HttpClient
     ){}
@@ -16,11 +16,11 @@ export class CreateStudentService{
         return this.httpClient.post(this.link,data);
     }
     getSpeciality(): Observable<any>{
-        const link = "http://localhost:3333/api/speciality";
+        const link = environment.api+"speciality";
         return this.httpClient.get(link);
     }
     getLevelsBySpeciality(specialityId: string): Observable<any>{
-        const link = "http://localhost:3333/api/speciality-module-level"
+        const link = environment.api+"speciality-module-level"
         return this.httpClient.get(link+`/${specialityId}`);
     }
 }

@@ -2,12 +2,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ILevel, QueryDto } from "@univ-exam/common";
+import { environment } from "apps/backoffice/src/environments/environment";
 import { Observable } from "rxjs";
 
 @Injectable()
 export class LevelService{
 
-    link = "http://localhost:3333/api/level"
+    link = environment.api+"level"
     constructor(
         private readonly httpClient: HttpClient
     ){}

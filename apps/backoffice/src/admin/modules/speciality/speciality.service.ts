@@ -4,11 +4,11 @@ import { Injectable } from "@angular/core";
 import { ISpeciality, QueryDto } from "@univ-exam/common";
 import { Observable } from "rxjs";
 import { LevelService } from "../level/level.service";
-
+import { environment } from "apps/backoffice/src/environments/environment";
 @Injectable()
 export class SpecialityService{
 
-    link = "http://localhost:3333/api/speciality"
+    link = environment.api+"speciality"
     constructor(
         private readonly httpClient: HttpClient,
         private readonly levelService: LevelService

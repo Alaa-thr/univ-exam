@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class NotificationService{
@@ -9,7 +10,7 @@ export class NotificationService{
     constructor(
         private readonly httpClient: HttpClient
     ){
-        this.link = "http://localhost:3333/api/notifications";
+        this.link =  environment.api+"notifications";
     }
 
     getNotification(): Observable<any>{

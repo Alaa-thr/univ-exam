@@ -2,7 +2,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-
+import { environment } from "apps/backoffice/src/environments/environment";
 @Injectable()
 export class StudentExamListService{
 
@@ -11,7 +11,7 @@ export class StudentExamListService{
     ){}
 
     getStudentsBySpecialityLevel(specialityId: string, levelId: string){
-        const link = "http://localhost:3333/api/students"
+        const link = environment.api+"students"
         return this.httpClient.get(link+`/${specialityId}/${levelId}`);
     }
 }

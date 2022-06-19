@@ -1,11 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class ExamDetailsService{
 
-    link: string = "http://localhost:3333/api/exams/taken-exams";
+    link: string =  environment.api+"exams/taken-exams";
     constructor(
         private readonly httpClient: HttpClient
     ){}

@@ -3,11 +3,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { IModule, QueryDto } from "@univ-exam/common";
 import { Observable } from "rxjs";
-
+import { environment } from "apps/backoffice/src/environments/environment";
 @Injectable()
 export class ModuleService{
 
-    link = "http://localhost:3333/api/module"
+    link = environment.api+"module"
     constructor(
         private readonly httpClient: HttpClient
     ){}
@@ -29,7 +29,7 @@ export class ModuleService{
     }
 
     getSpecialities(): Observable<any>{
-        const specialityLink = "http://localhost:3333/api/speciality";
-        return this.httpClient.get(specialityLink);
+        const specialitylink = environment.api+"speciality";
+        return this.httpClient.get(specialitylink);
     }
 }

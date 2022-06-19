@@ -1,0 +1,89 @@
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">{{examDetails.examType | SeparateWords | capitalizeLetter: 'first'}} {{examDetails.title | capitalizeLetter: 'first'}}</h3>
+        </div>
+    </div>
+</div>
+<div class="col-12">
+    <div class="col-12 d-flex">
+        <div class="card flex-fill">
+            <div class="card-group">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mb-0"><strong>Date: </strong></h4>
+                        <small class="text-muted-light">{{examDetails.date | date:"dd/MM/yyyy"}}</small>
+                        <h4 class="mt-3 mb-0"><strong>Time: </strong></h4>
+                        <small class="text-muted-light">{{examDetails.startHour}} - {{examDetails.endHour}}</small>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body text-center m-t-30">
+                        <h4 class="mb-0"><strong>Grade</strong></h4>
+                        <small class="text-muted-light" >{{examDetails.grade}}/20</small>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-12 d-flex">
+        <div class="card flex-fill">
+            <div 
+                *ngFor="let qst of examDetails.questions;
+                        let indexOfelement=index;">
+                <div class="card-header d-flex col-12">
+                    <div class="col-10">
+                        <h4 class="mb-0">
+                            <strong>#{{indexOfelement+1}}</strong>
+                            {{qst.text | QuestionMark}}
+                        </h4>
+                    </div>
+                    <div class="col-2">
+                        <h6 class="text-danger mt-1 float-end" >{{qst.point}} pts</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="qst.inputType === 'checkbox'">
+                        <div class="form-group"
+                            *ngFor="let answr of qst.answers">
+                             <div class="form-check" >
+                                <input type="checkbox" name="checkbox" class="form-check-input"
+                                [ngClass]="{'is-valid':answr.isCorrect,'is-invalid':!answr.isCorrect && answr.isSelected}"
+                                [checked]="answr.isSelected" id="{{answr.id}}"
+                                (click)="false">
+                                <label class="form-check-label" for="{{answr.id}}">{{answr.title}}</label>
+                            </div>
+                        </div>  
+                    </div>
+                    <div *ngIf="qst.inputType === 'radio'">
+                        <div class="form-group"
+                            *ngFor="let answr of qst.answers">
+                             <div class="form-check" >
+                                <input type="radio" name="{{qst.id}}" class="form-check-input"
+                                [ngClass]="{'is-valid':answr.isCorrect,'is-invalid':!answr.isCorrect && answr.isSelected}"
+                                [checked]="answr.isSelected" id="{{answr.id}}"
+                                (click)="false">
+                                <label class="form-check-label" for="{{answr.id}}">{{answr.title}}</label>
+                            </div>
+                        </div> 
+                        <!-- <select class="form-select mb-4"
+                            [ngClass]="{'is-valid':selectIsValid,'is-invalid':!selectIsValid}">
+                            <option *ngFor="let answr of qst.answers"
+                                value="{{answr.id}}" 
+                                [selected]="answr.isSelected"
+                                disabled>
+                                <input *ngIf="(answr.isCorrect && answr.isSelected)||(!answr.isCorrect && answr.isSelected) ?setSelectIsValid(answr.isCorrect):''" hidden>
+                                <input *ngIf="answr.isCorrect && !answr.isSelected ?setCorrectAnswerInSelect(answr.title):''" hidden>
+                                {{answr.title}}
+                            </option>
+                        </select>
+                        <label *ngIf="correctAnswerInSelect" class="mb-4"> 
+                            The correct answer is: <span class="text-is-valid">{{correctAnswerInSelect}}</span> 
+                        </label> -->
+                    </div>
+                </div>
+            </div>   
+        </div>   
+    </div>
+</div>

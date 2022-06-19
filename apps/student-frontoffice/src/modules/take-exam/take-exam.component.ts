@@ -75,9 +75,9 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     document.body.removeChild(this.multiStepScript);
   }
-  setSelectedValue(selected: any, questionId: string): void {
+  setRadioValue(selected: any, questionId: string): void {
     this.selectedOption = true;
-    this.addAnswerToQuestion(selected.target.value, questionId);
+    this.addAnswerToQuestion(selected, questionId);
   }
   addAnswerToQuestion(answerId: string, questionId: string): void {
     const allQuestions = this.questions.value;
@@ -91,14 +91,11 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       const allAnswersOfQuestion = allQuestions[questionIndex].answers;
       const answerIndex = allAnswersOfQuestion.findIndex((obj: string) => obj === answerId);
-      if (answerId == '') { //case of select the default option "Select an answer"
-        allAnswersOfQuestion.splice(0, allAnswersOfQuestion.length);
-      }
-      else if (this.selectedOption == true) { // case of the answer is in select
+      if (this.selectedOption == true) { // case of the answer is in radio
         allAnswersOfQuestion.splice(0, allAnswersOfQuestion.length);
         allAnswersOfQuestion.push(answerId);
 
-      } else { //case of the answer is in the checkbox
+      }else { //case of the answer is in the checkbox
         if (answerIndex === -1) {
           allAnswersOfQuestion.push(answerId);
         } else {

@@ -80,16 +80,14 @@
                                                 (change)="addAnswerToQuestion(answer.id,qst.id)">
                                             <label class="form-check-label" for="{{answer.id}}">{{answer.title}}</label>                
                                         </div>
-                                    </div>
-                                    <div class="form-group" *ngIf="qst.inputType.type === 'select'">
-                                        <select class="form-select mb-6" 
-                                            (change)="setSelectedValue($event,qst.id)">
-                                            <option value="">Select an answer</option>
-                                            <option *ngFor="let answer of qst.answers"
-                                                value="{{answer.id}}">
-                                                {{answer.title}}
-                                            </option>
-                                        </select>
+                                        <div class="form-check" 
+                                            *ngIf="qst.inputType.type === 'radio'">
+                                            <input type="radio" name="{{qst.id}}"
+                                                class="form-check-input"
+                                                id="{{answer.id}}"
+                                                (change)="setRadioValue(answer.id,qst.id)">
+                                            <label class="form-check-label" for="{{answer.id}}">{{answer.title}}</label>                
+                                        </div>
                                     </div>
                                 </div> 
                             </div>

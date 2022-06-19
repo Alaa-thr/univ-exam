@@ -1,8 +1,10 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { EntityRepository, getConnection, Repository } from "typeorm";
+import { EntityRepository, getConnection, getRepository, Repository } from "typeorm";
 import { AnswerEntity } from "exams/entities/answer.entity";
 import { StudentEntity } from "students/entities/student.entity";
 import { IAnswer } from "exams/interfaces/answer.interface";
+import { QuestionEntity } from "exams/entities/question.entity";
+import { IQuestion } from "exams/interfaces/question.interface";
 
 @Injectable()
 @EntityRepository(AnswerEntity)
@@ -23,15 +25,14 @@ export class AnswersRepository extends Repository<AnswerEntity>{
             throw new InternalServerErrorException("Something went wrong, student answers cannot be saved.") 
         }
     }
-    async findAnswersByExamId(examId: string): Promise<IAnswer[]>{
+    async findAnswersByExamId(examId: string): Promise<IQuestion[]>{
         try{
-            return await this.createQueryBuilder('answr')
-            .leftJoin("answr.question","qst")
+            return await  getRepository(QuestionEntity).createQueryBuilder('qst')
+            .leftJoinAndSelect("qst.answers","answr")
             .leftJoin("qst.exam","exm")
-            .select([
+            .addSelect([
                 "answr.id",
                 "answr.isCorrect",
-                "qst.point"
             ])
             .where("exm.id = :id",{id:examId})
             .getMany();

@@ -7,6 +7,7 @@ import { swaggerConfig } from './app/config/swagger.config';
 import { ValidationPipe } from '@nestjs/common';
 import * as bodyParser from 'body-parser';
 import { globalInterceptors } from 'shared/interceptors';
+import * as csurf from 'csurf';
 
 dotenv.config();
 
@@ -20,6 +21,8 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
   app.enableCors(corsOption);
   app.setGlobalPrefix(globalPrefix);
+  //app.use(csurf());
+
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);

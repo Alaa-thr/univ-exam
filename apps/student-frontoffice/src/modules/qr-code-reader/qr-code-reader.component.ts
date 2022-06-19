@@ -24,10 +24,10 @@ export class QrCodeReaderComponent implements OnInit {
 
   scanSucess(result: any){
     if(!this.waitForSendingData){
-      this.loginn(result);
+      this.login(result);
     }
   }
-  loginn(code: string){
+  login(code: string){
     this.authService.qrLogin({code: code}).subscribe(
       (response)=>{
         this.errorMessage = '';

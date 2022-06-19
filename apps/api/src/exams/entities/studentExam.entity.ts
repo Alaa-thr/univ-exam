@@ -9,7 +9,8 @@ export class StudentExamEntity implements IStudentExam{
 
     @Column({
         nullable: false,
-        default: 0
+        default: 0,
+        type: "real"
     })
     grade: number;
 

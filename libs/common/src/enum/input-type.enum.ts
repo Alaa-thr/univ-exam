@@ -1,4 +1,4 @@
 export enum InputTypeEnum{
     CHECKBOX = 'checkbox',
-    SELECT = 'select',
+    RADIO = 'radio',
 }

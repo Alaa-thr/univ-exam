@@ -8,7 +8,7 @@ export class NotificationsService {
     private readonly notificationRepo: NotificationsRepository
   ){}
   create(createNotificationDto: CreateNotificationDto) {
-    return 'This action adds a new notification';
+    return this.notificationRepo.save(createNotificationDto);
   }
 
   async findAll(userId: string):Promise<INotification[]> {

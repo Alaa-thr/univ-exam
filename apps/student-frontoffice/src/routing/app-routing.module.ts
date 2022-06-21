@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { WebcamComponent, NotificationComponent, TakenExamsComponent, TakeExamComponent, ScheduledExamsComponent } from '../modules';
+import { NotificationComponent, TakenExamsComponent, TakeExamComponent, ScheduledExamsComponent } from '../modules';
 import { PageNotFoundComponent } from '../core/components';
 import { LoginGuard } from '../core/guards/login.guard';
 import { LogoutGuard } from '../core/guards/logout.guard';
 import { LoginComponent } from '../core/components/login/login.component';
 import { ExamDetailsComponent } from '../modules/exam-details/exam-details.component';
 import { ExamPreparationComponent } from '../modules/exam-preparation/exam-preparation.component';
-import { RecordVideoComponent } from '../modules/record-video/record-video.component';
 import { ProfileComponent } from '../modules/profile/profile.component';
+import { QrCodeReaderComponent } from '../modules/qr-code-reader/qr-code-reader.component';
 
 const APP_ROUTING: Routes = [ 
     
@@ -52,6 +52,11 @@ const APP_ROUTING: Routes = [
   {
     path: 'login', 
     component: LoginComponent,
+    canActivate: [LogoutGuard] 
+  },
+  {
+    path: 'login-qrCode', 
+    component: QrCodeReaderComponent,
     canActivate: [LogoutGuard] 
   },
   {

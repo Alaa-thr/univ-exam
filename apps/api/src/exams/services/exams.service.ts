@@ -9,6 +9,9 @@ import { getStudentAnswers } from 'shared/fonctions/common-functions';
 import { ExamTypeService } from 'exam-type/exam-type.service';
 import { StudentExamService } from './student-exam.service';
 import { QueryDto } from 'shared';
+import { IStudent } from 'students/interface/student.interface';
+import { NotificationsService } from 'notifications';
+import { UsersService } from '@users';
 
 @Injectable()
 export class ExamsService {
@@ -17,8 +20,26 @@ export class ExamsService {
     private readonly questionsService: QuestionsService,
     private readonly examTypeService: ExamTypeService,
     private readonly studentExamService: StudentExamService,
+    private readonly notificationService: NotificationsService,
+    private readonly userService: UsersService,
   ) {}
 
+  async publishExam(id: string){
+    const studentWillTakeExam = await this.studentExamService.findAllStudentOfExam(id);
+    await this.examRepo.update(id, {isPublished: true});
+    const exam = await this.examRepo.findOne(id);
+    for(let i=0; i< studentWillTakeExam.length ; i++){
+      await this.sendInvitationToStuduent(studentWillTakeExam[i].student, exam.title);
+    }
+    
+  }
+  async sendInvitationToStuduent(student: IStudent, title:string){
+    const notif = {
+      description: "The exam "+title+" is published now",
+      user: await this.userService.findOneByStudent(student.id)
+    }
+    return await this.notificationService.create(notif);  
+  }
   async deleteOne(id: string){
     return await this.examRepo.delete(id);
   }
@@ -41,6 +62,9 @@ export class ExamsService {
       questions: createdQuestions,
     });
     await this.studentExamService.createMany(students,exam);
+    if(isPublished){
+      await this.publishExam(exam.id);
+    }
     return exam;
   }
 
@@ -65,7 +89,10 @@ export class ExamsService {
       studentId,
       examId
     );
-    const getAnswers = getStudentAnswers(studentAnswer.questions);
+    let getAnswers = [];
+    if(studentAnswer){
+      getAnswers = getStudentAnswers(studentAnswer.questions);
+    }
     const takenExam = this.getQuestionAndItsAnswersAndStudentAnswers(
       examDetails,
       getAnswers
@@ -84,58 +111,64 @@ export class ExamsService {
       endHour: null,
       grade: 0,
       questions: [],
+      videoPath: '',
+      student: {}
     };
-    details.examType = examDetails.examType;
+    details.examType = examDetails.examType.type;
     details.date = examDetails.date;
     details.endHour = examDetails.endHour;
     details.startHour = examDetails.startHour;
     details.title = examDetails.title;
     details.grade = examDetails.studentExams[0].grade;
-    for (let i = 0; i < examDetails.questions.length; i++) {
-      const qst = {
-        id: '',
-        text: '',
-        inputType: '',
-        point: 0,
-        answers: [
-          {
+    details.videoPath = examDetails.studentExams[0].videoPath;
+    details.student = examDetails.studentExams[0].student;
+    
+    if(studentAnswers.length > 0){
+      for (let i = 0; i < examDetails.questions.length; i++) {
+        const qst = {
+          id: '',
+          text: '',
+          inputType: '',
+          point: 0,
+          answers: [
+            {
+              id: '',
+              title: '',
+              isCorrect: false,
+              isSelected: false,
+            },
+          ],
+        };
+        qst.id = examDetails.questions[i].id;
+        qst.text = examDetails.questions[i].text;
+        qst.inputType = examDetails.questions[i].inputType.type;
+        qst.point = examDetails.questions[i].point;
+        for (let j = 0; j < examDetails.questions[i].answers.length; j++) {
+          const answr = {
             id: '',
             title: '',
             isCorrect: false,
             isSelected: false,
-          },
-        ],
-      };
-      qst.id = examDetails.questions[i].id;
-      qst.text = examDetails.questions[i].text;
-      qst.inputType = examDetails.questions[i].inputType.type;
-      qst.point = examDetails.questions[i].point;
-      for (let j = 0; j < examDetails.questions[i].answers.length; j++) {
-        const answr = {
-          id: '',
-          title: '',
-          isCorrect: false,
-          isSelected: false,
-        };
-        answr.id = examDetails.questions[i].answers[j].id;
-        answr.title = examDetails.questions[i].answers[j].title;
-        answr.isCorrect = examDetails.questions[i].answers[j].isCorrect;
-        let qstAnswrIsSelected = 0;
-        for (let k = 0; k < studentAnswers.length && !qstAnswrIsSelected; k++) {
-          if (studentAnswers[k].id == examDetails.questions[i].answers[j].id) {
-            answr.isSelected = true;
-            qstAnswrIsSelected++;
+          };
+          answr.id = examDetails.questions[i].answers[j].id;
+          answr.title = examDetails.questions[i].answers[j].title;
+          answr.isCorrect = examDetails.questions[i].answers[j].isCorrect;
+          let qstAnswrIsSelected = 0;
+          for (let k = 0; k < studentAnswers.length && !qstAnswrIsSelected; k++) {
+            if (studentAnswers[k].id == examDetails.questions[i].answers[j].id) {
+              answr.isSelected = true;
+              qstAnswrIsSelected++;
+            }
           }
+          if (!qstAnswrIsSelected) {
+            answr.isSelected = false;
+          }
+          qst.answers.push(answr);
         }
-        if (!qstAnswrIsSelected) {
-          answr.isSelected = false;
-        }
-        qst.answers.push(answr);
+        qst.answers.splice(0, 1);
+        details.questions.push(qst);
       }
-      qst.answers.splice(0, 1);
-      details.questions.push(qst);
     }
-    //details.questions.splice(0, 1);
     return details;
   }
   async findScheduledExamById(

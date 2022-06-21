@@ -45,13 +45,18 @@ export class ExamRepository extends Repository<ExamEntity> {
     try {
       return await this.createQueryBuilder('exm')
         .leftJoinAndSelect('exm.questions', 'qst')
+        .leftJoinAndSelect('exm.examType', 'examType')
         .leftJoinAndSelect('qst.answers', 'answr')
         .leftJoinAndSelect('qst.inputType', 'inputType')
         .leftJoin('exm.studentExams', 'studentExams')
+        .leftJoinAndSelect('studentExams.student', 'student')
         .where('exm.id = :id', { id: examId })
         .andWhere('exm.isPublished = :isPublished', { isPublished: true })
         .andWhere('studentExams.studentId = :sId', { sId: studentId })
-        .addSelect('studentExams.grade')
+        .addSelect([
+          'studentExams.grade',
+          'studentExams.videoPath'
+        ])
         .getOne();
     } catch (error) {
       console.log('exam repo error', error);

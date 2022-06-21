@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IExamType, ILevel, IModule, ISpeciality, IStudent } from '@univ-exam/common';
 import { ISpecialityModuleLevel } from '@univ-exam/common';
+import Swal from 'sweetalert2';
 import { CreateExamService } from './create-exam.service';
 
 @Component({
@@ -249,6 +250,11 @@ export class CreateExamComponent implements OnInit {
         this.levels =[];
         this.questionsList = [];
         this.addExamError = 0;
+        Swal.fire(
+          'Creates!',
+          'The exam has been created successfully.',
+          'success'
+        );
       },(error)=>{
         this.addExamError++;
         console.log('CreateExam Component error', error);

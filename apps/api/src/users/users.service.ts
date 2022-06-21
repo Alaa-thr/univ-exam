@@ -17,6 +17,10 @@ export class UsersService {
     return this.usersRepository.findOne(id);
   }
 
+  findOneByStudent(studentId: string) {
+    return this.usersRepository.findOneByStudent(studentId);
+  }
+
   update(id: string, updateUserDto: LoginUserDto) {
     return this.usersRepository.updateOne(id, updateUserDto);
   }

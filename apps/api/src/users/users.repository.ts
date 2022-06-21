@@ -58,4 +58,9 @@ export class UsersRepository extends Repository<UserEntity> {
     await this.update(id, loginUserDto);
     return this.findOne(id);
   }
+  async findOneByStudent(studentId: string){
+    return await this.createQueryBuilder('user')
+    .where('user.student = :id',{id: studentId})
+    .getOne();
+  }
 }

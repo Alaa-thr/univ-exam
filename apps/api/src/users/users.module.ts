@@ -28,5 +28,6 @@ dotenv.config();
   ],
   controllers: [UsersController],
   providers: [UsersService, UserAuthService, TokenValidationStrategy],
+  exports: [UsersService]
 })
 export class UsersModule {}

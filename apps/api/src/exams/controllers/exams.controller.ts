@@ -22,7 +22,7 @@ import { QueryDto } from 'shared';
 
 @Controller('exams')
 @ApiTags('Exams')
-@UseGuards(JwtAuthGuard)
+//@UseGuards(JwtAuthGuard)
 export class ExamsController {
   constructor(
     private readonly examsService: ExamsService,
@@ -47,6 +47,7 @@ export class ExamsController {
     //const { teacher } = userLogged;
     return await this.examsService.findAllExams(query,"e5374b05-c23c-40cd-8fc4-883fd0b7dc85");
   }
+  
 
   @Get('scheduled-exams')
   async findAllScheduledExams(
@@ -71,7 +72,23 @@ export class ExamsController {
   getTodayDateWithTime() {
     return this.examsService.getTodayDateWithTime();
   }
-
+  @Get('student-exam-answers/:examId/:studentId')
+  async findStudentExamAmswers(
+    @Param('examId') examId: string,
+    @Param('studentId') studentId: string,
+  ): Promise<{ examDetails: IExam; studentAnswewr: IQuestion[] }> {
+    return await this.examsService.findTakenExamsById(studentId, examId);
+  }
+  @Get('publish/:id')
+  publishExam(@Param('id') examId: string) {
+    return this.examsService.publishExam(examId);
+  }
+  @Get('exam-student/:id')
+  async findAllStudentOfExam(
+    @Param('id') examId: string
+  ) {
+    return await this.studentExamService.findAllStudentOfExam(examId);
+  }
   @Get('taken-exams/:id')
   async findTakenExamsById(
     @Param('id') examId: string,

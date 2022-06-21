@@ -27,7 +27,7 @@ export class AnswersController {
   @UseInterceptors(FileInterceptor('video', 
     {
       storage: diskStorage({
-        destination: "apps/api/uploads",
+        destination: "uploads",
         filename:(req,file,callbackFunct)=>{
           const videoName = file.originalname;
           callbackFunct(null, videoName);

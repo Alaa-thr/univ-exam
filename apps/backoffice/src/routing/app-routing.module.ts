@@ -9,6 +9,7 @@ import { CreateStudentComponent } from '../admin/modules/student/create-student/
 import { StudentComponent } from '../admin/modules/student/all-students/student.component';
 import { StudentExamListComponent } from '../teacher/modules/student-exam-list/student-exam-list.component';
 import { ExamListComponent } from '../teacher/modules/exam/exam-list/exam-list.component';
+import { StudentsAnswersDetailsComponent } from '../teacher/modules/students-answers-details/students-answers-details.component';
 
 const APP_ROUTING: Routes = [ 
 
@@ -19,6 +20,10 @@ const APP_ROUTING: Routes = [
   {
     path: 'exam-list', 
     component: ExamListComponent,
+  },
+  {
+    path: 'students-answers-list/:examId/:studentId', 
+    component: StudentsAnswersDetailsComponent,
   },
   {
     path: 'speciality', 

@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  api:"https://localhost:3333/api/"
+  api:"http://localhost:3333/api/",
+  uploads:"http://localhost:3333/uploads/"
 
 };
 

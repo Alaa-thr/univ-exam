@@ -24,7 +24,7 @@ import { CreateStudentService } from '../admin/modules/student/create-student/cr
 import { StudentExamListComponent } from '../teacher/modules/student-exam-list/student-exam-list.component';
 import { StudentExamListService } from '../teacher/modules/student-exam-list/student-exam-list.service';
 import { ExamListComponent } from '../teacher/modules/exam/exam-list/exam-list.component';
-import { ExamListService } from '../teacher/modules/exam/exam-list/student-exam-list.service';
+import { ExamListService } from '../teacher/modules/exam/exam-list/exam-list.service';
 import { StudentsAnswersDetailsComponent } from '../teacher/modules/students-answers-details/students-answers-details.component';
 import { StudentsAnswersDetailsService } from '../teacher/modules/students-answers-details/students-answers-details.service';
 

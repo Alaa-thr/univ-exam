@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { IExam, IQuestion } from '@univ-exam/common';
+import { IExam, IQuestion, IStudentExam } from '@univ-exam/common';
 import Swal from 'sweetalert2';
-import { ExamListService } from './student-exam-list.service';
-
+import { ExamListService } from './exam-list.service';
 @Component({
   selector: 'univ-exam-exam-list',
   templateUrl: './exam-list.component.html',
@@ -15,10 +14,18 @@ export class ExamListComponent implements OnInit {
   totalPages: number;
   itemsLimit: number;
   questions: IQuestion[] = [];
-  constructor(private readonly examListService: ExamListService) {
+  studentsExam: IStudentExam[] = [];
+  examId: string;
+  todayDateTime= {
+    time: '',
+    date: ''
+  };
+  constructor(
+    private readonly examListService: ExamListService) {
     this.currentPage = 0;
     this.totalPages = 0;
     this.itemsLimit = 10;
+    this.examId = '';
   }
 
   ngOnInit(): void {
@@ -30,7 +37,7 @@ export class ExamListComponent implements OnInit {
     this.examListService.getExams(query).subscribe(
       (response) => {
         this.exams = response.items;
-        console.log(response)
+        console.log(this.exams)
       },
       (error) => {
         console.log("ExamListComponent error ", error);
@@ -39,7 +46,6 @@ export class ExamListComponent implements OnInit {
   }
   getQuestions(index: number){
     this.questions = this.exams[index].questions;
-    console.log(this.questions)
   }
   changePage(page: number){
     if(page < 0) return;
@@ -60,7 +66,7 @@ export class ExamListComponent implements OnInit {
       (error) =>{
         Swal.fire(
           'Error!',
-          'The level didnt deleted.',
+          'The exam didnt deleted.',
           'error'
         );
       }
@@ -81,4 +87,77 @@ export class ExamListComponent implements OnInit {
       }
     });
   }
+  getStudentsOfThisExam(examId:string) {
+    this.examId = examId;
+    this.examListService.getStudents(examId).subscribe(
+      (response) => {
+        this.studentsExam = response;
+        this.getExamStertedTimeByStudent();
+      },
+      (error) => {
+        console.log("ExamListComponent error ", error);
+      }
+    )
+  }
+  showStudents(url:string) {
+    window.open("http://localhost:4201/"+url, '_blank');
+  }
+  private getExamStertedTimeByStudent() {
+    this.examListService.startExam().then(
+      (response) => {
+        this.todayDateTime = response;
+      },
+      (error) => {
+        console.log('ExamListComponent Component error', error);
+      }
+    );
+  }
+  startNow(): boolean{
+    const todayTime = this.todayDateTime.time;
+    const todayDate = this.todayDateTime.date;
+    const date = new Date(todayDate+' '+todayTime);
+    const examById: any  = this.exams.find((object) => {
+      return object.id === this.examId
+    });
+    const examEndDate = new Date(examById.date+' '+examById.endHour);
+    if(examEndDate < date){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  publishExam(examIndex: number){
+    const examId = this.exams[examIndex].id;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, publish it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.examListService.publishExam(examId).subscribe(
+          (response) =>{
+            Swal.fire(
+              'Published!',
+              'The exam has been published.',
+              'success'
+            );
+            this.exams[examIndex].isPublished = true;
+          },
+          (error)=>{
+            console.log('ExamListComponent Component error', error);
+            Swal.fire(
+              'Error!',
+              'The exam didnt published.',
+              'error'
+            );
+          }
+        )
+      }
+    });
+  }
+
 }

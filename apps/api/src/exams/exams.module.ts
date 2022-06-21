@@ -10,6 +10,8 @@ import { QuestionsRepository } from './repositiries/questions.repository';
 import { QuestionsService } from './services/questions.service';
 import { InputTypeModule } from 'input-type/input-type.module';
 import { ExamTypeModule } from 'exam-type/exam-type.module';
+import { UsersModule } from '@users';
+import { NotificationsModule } from 'notifications';
 
 @Module({
   imports: [
@@ -18,9 +20,12 @@ import { ExamTypeModule } from 'exam-type/exam-type.module';
       StudentExamRepository,
       AnswersRepository,
       QuestionsRepository,
+      
     ]),
     InputTypeModule,
-    ExamTypeModule
+    ExamTypeModule,
+    UsersModule,
+    NotificationsModule
   ],
   controllers: [ExamsController, AnswersController],
   providers: [

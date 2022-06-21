@@ -13,7 +13,7 @@ export class StudentExamService {
   constructor(private readonly studentExamRepo: StudentExamRepository){
   }
   
-  @Cron('0 0 * * * *')
+  @Cron('0 */10 * * * *')
   handleCron() {
     this.studentExamRepo.changeExamStatus();
     console.log("cron called")
@@ -34,7 +34,23 @@ export class StudentExamService {
       );
     }
   }
-
+  async findAllStudentOfExam(examId: string){
+    return await this.studentExamRepo.createQueryBuilder("stdntexam")
+    .leftJoin("stdntexam.student","student")
+    .leftJoin("student.level","level")
+    .leftJoin("student.speciality","speciality")
+    .where("stdntexam.exam = :id", {id: examId})
+    .select([
+      "stdntexam.videoPath",
+      "student.firstName",
+      "student.id",
+      "student.lastName",
+      "student.studentNumber",
+      "level.name",
+      "speciality.name",
+    ])
+    .getMany();
+  }
   async findAllScheduledExams(studentId: string): Promise<IStudentExam[]> {
     return await this.studentExamRepo.findAllScheduledExams(studentId);
   }

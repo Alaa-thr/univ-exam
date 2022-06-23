@@ -106,7 +106,7 @@ export class UserAuthService {
     user: IUser,
     userRole: EUserRoles
   ) {
-    const { email, password } = data;
+    const { password } = data;
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Username or Password is invalid');

@@ -3610,3 +3610,6 @@ table.table-inbox tbody tr.checked {
 .blackColor{
 	color: #000;
 }
+.m-r-20{
+	margin-right: 20px !important;
+}

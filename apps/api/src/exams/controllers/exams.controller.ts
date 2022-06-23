@@ -22,7 +22,7 @@ import { QueryDto } from 'shared';
 
 @Controller('exams')
 @ApiTags('Exams')
-//@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class ExamsController {
   constructor(
     private readonly examsService: ExamsService,

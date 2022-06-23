@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'univ-exam-side-bar',
@@ -6,11 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./side-bar.component.css'],
 })
 export class SideBarComponent implements OnInit {
+  isLogged = false;
   multiStepScript: any;
-  constructor() {}
+  constructor(private readonly authService: AuthService) {
+  }
 
   ngOnInit(): void {
     this.initStepsScript();
+    this.authService.userIsLogged.subscribe((value) => { //recevoir l'evenement
+      this.isLogged = value;
+    });
+    this.isLogged = this.authService.isLogged();  
   }
   private initStepsScript():void{
     this.multiStepScript = document.createElement("script");

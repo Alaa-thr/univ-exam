@@ -43,6 +43,9 @@ import { CreateAdminComponent } from '../admin/modules/admin/create-admin/create
 import { CreateAdminService } from '../admin/modules/admin/create-admin/create-admin.service';
 import { IsAdminGuard } from '../shared/guards/isAdmin.guard';
 import { IsTeacherGuard } from '../shared/guards/isTeacher.guard';
+import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
+import { BlankPathGuard } from '../shared/guards/blank-path.guard';
+import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,9 @@ import { IsTeacherGuard } from '../shared/guards/isTeacher.guard';
     ExamListComponent,
     StudentsAnswersDetailsComponent,
     LoginComponent,
-    CreateAdminComponent
+    CreateAdminComponent,
+    PageNotFoundComponent,
+    UnauthorizedComponent
   ],
   imports: [
     BrowserModule,
@@ -92,7 +97,8 @@ import { IsTeacherGuard } from '../shared/guards/isTeacher.guard';
     SideBarService,
     CreateAdminService,
     IsAdminGuard,
-    IsTeacherGuard
+    IsTeacherGuard,
+    BlankPathGuard
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

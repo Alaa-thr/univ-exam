@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
 @Injectable({
     providedIn: 'root'
 })
-export class IsAdminGuard implements CanActivate{
+export class BlankPathGuard implements CanActivate{
 
     jwtHelper = new JwtHelperService();
     constructor(
@@ -16,9 +16,9 @@ export class IsAdminGuard implements CanActivate{
         const token = localStorage.getItem('access_token');
         if(token){
             const decodeToken = this.jwtHelper.decodeToken(token);
-            if(decodeToken.role == 'ADMIN') return true;
+            if(decodeToken.role == 'ADMIN') return this.router.navigate(['students-list']);
         }
-        return this.router.navigate(['unauthorized']);
+        return this.router.navigate(['exam-list']);
     }
     
 }

@@ -9,7 +9,6 @@ import { AuthService } from "../services/auth.service";
 export class LoginGuard implements CanActivate{
 
     constructor(
-        private readonly authService: AuthService,
         private readonly router: Router
     ){}
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {

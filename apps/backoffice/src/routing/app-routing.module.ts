@@ -16,6 +16,9 @@ import { LoginGuard } from '../shared/guards/login.guard';
 import { CreateAdminComponent } from '../admin/modules/admin/create-admin/create-admin.component';
 import { IsAdminGuard } from '../shared/guards/isAdmin.guard';
 import { IsTeacherGuard } from '../shared/guards/isTeacher.guard';
+import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
+import { BlankPathGuard } from '../shared/guards/blank-path.guard';
+import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
 
 const APP_ROUTING: Routes = [ 
 
@@ -73,6 +76,21 @@ const APP_ROUTING: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [LogoutGuard] 
+  },
+  {
+    path: '', 
+    component: LoginComponent,
+    canActivate: [LoginGuard, BlankPathGuard] 
+  },
+  {
+    path: 'unauthorized', 
+    component: UnauthorizedComponent,
+    canActivate: [LoginGuard] 
+  },
+  {
+    path: '**', 
+    component: PageNotFoundComponent,
+    canActivate: [LoginGuard] 
   }
 ]
 export const ROUTING = RouterModule.forRoot(APP_ROUTING);

@@ -1,3 +1,4 @@
+import { IAdmin } from 'admins/interface/admin.interface';
 import { IStudent } from 'students/interface/student.interface';
 import { ITeacher } from 'teachers/interface/teacher.interface';
 
@@ -9,4 +10,5 @@ export interface IUser {
   updated_at: Date;
   student?: IStudent;
   teacher?: ITeacher;
+  admin?: IAdmin;
 }

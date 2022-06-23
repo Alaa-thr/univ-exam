@@ -16,6 +16,7 @@ import { SpecialityModule } from 'speciality/speciality.module';
 import { LevelModule } from 'level/level.module';
 import { ModuleModule } from 'modulee/module.module';
 import { SpecialityModuleLevelModule } from 'speciality-module-level/speciality-module-level.module';
+import { AdminModule } from 'admins/admin.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { SpecialityModuleLevelModule } from 'speciality-module-level/speciality-
     ModuleModule,
     SpecialityModuleLevelModule,
     ScheduleModule.forRoot(),
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],

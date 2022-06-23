@@ -1,3 +1,4 @@
+import { AdminEntity } from 'admins/entities/admin.entity';
 import { StudentEntity } from 'students/entities/student.entity';
 import { TeacherEntity } from 'teachers/entities/teacher.entity';
 import {
@@ -46,4 +47,11 @@ export class UserEntity implements IUser {
   })
   @JoinColumn()
   teacher: TeacherEntity;
+
+  @OneToOne(() => AdminEntity, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  admin: AdminEntity;
 }

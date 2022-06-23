@@ -81,7 +81,9 @@ export class UserAuthService {
       ? EUserRoles.STUDENT
       : user.teacher
       ? EUserRoles.TEACHER
-      : null;
+      : user.admin
+      ?EUserRoles.ADMIN
+      :null;
     const token = await this.generateToken(user, role);
     return token;
   }

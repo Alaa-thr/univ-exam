@@ -1,5 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { UserEntity } from '@users';
+import { AdminEntity } from 'admins/entities/admin.entity';
 import * as dotenv from 'dotenv';
 import { ExamTypeEntity } from 'exam-type/entities/exam-type.entity';
 import { ExamEntity } from 'exams';
@@ -39,6 +40,7 @@ export const typeOrmOptions: TypeOrmModuleOptions = {
     LevelEntity,
     ModuleEntity,
     SpecialityModuleLevelEntity,
+    AdminEntity
   ],
   synchronize: true,
 };

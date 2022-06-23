@@ -13,6 +13,8 @@ import { RegisterTeacherUserDto } from './dto/register-teacher-user.dto';
 import { TeachersService } from 'teachers/teacher.service';
 import { EUserRoles } from './user-roles.enum';
 import { QrCodeLoginDto } from './dto/qr-code-login.dto';
+import { RegisterAdminUserDto } from './dto/register-admin-user.dto';
+import { AdminService } from 'admins/admin.service';
 
 @Injectable()
 export class UserAuthService {
@@ -20,7 +22,8 @@ export class UserAuthService {
     private readonly userRepo: UsersRepository,
     private readonly jwtService: JwtService,
     private readonly studentService: StudentsService,
-    private readonly teacherService: TeachersService
+    private readonly teacherService: TeachersService,
+    private readonly adminService: AdminService
   ) {}
 
   public async registerStudent(
@@ -54,7 +57,20 @@ export class UserAuthService {
     const { password: pwd, ...saveUser } = await this.userRepo.saveUser({
       email: email,
       password: cryptedPassword,
-      teacher: teacher,
+      teacher: createdTeacher,
+    });
+    return saveUser;
+  }
+  public async registerAdmin(
+    data: RegisterAdminUserDto
+  ): Promise<Partial<IUser>> {
+    const { email, password, admin } = data;
+    const cryptedPassword = await this.cryptPassword(password);
+    const createdAdmin = await this.adminService.create(admin);
+    const { password: pwd, ...saveUser } = await this.userRepo.saveUser({
+      email: email,
+      password: cryptedPassword,
+      admin: createdAdmin,
     });
     return saveUser;
   }

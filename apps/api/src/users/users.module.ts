@@ -11,6 +11,7 @@ import * as dotenv from 'dotenv';
 import { StudentsModule } from 'students/students.module';
 import { TokenValidationStrategy } from './strategy/token-validation.strategy';
 import { TeachersModule } from 'teachers/teachers.module';
+import { AdminModule } from 'admins/admin.module';
 
 dotenv.config();
 @Module({
@@ -25,6 +26,7 @@ dotenv.config();
     }),
     StudentsModule,
     TeachersModule,
+    AdminModule
   ],
   controllers: [UsersController],
   providers: [UsersService, UserAuthService, TokenValidationStrategy],

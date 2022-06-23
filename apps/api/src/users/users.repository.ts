@@ -2,6 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { getPagination, getPagingData, LoginUserDto, QueryDto } from 'shared';
 import { EntityRepository, Repository } from 'typeorm';
 import { UserEntity, IUser } from 'users';
+import { RegisterAdminUserDto } from './dto/register-admin-user.dto';
 import { RegisterStudentUserDto } from './dto/register-student-user.dto';
 import { RegisterTeacherUserDto } from './dto/register-teacher-user.dto';
 
@@ -9,7 +10,7 @@ import { RegisterTeacherUserDto } from './dto/register-teacher-user.dto';
 @EntityRepository(UserEntity)
 export class UsersRepository extends Repository<UserEntity> {
   public async saveUser(
-    data: RegisterStudentUserDto | RegisterTeacherUserDto
+    data: RegisterStudentUserDto | RegisterTeacherUserDto | RegisterAdminUserDto
   ): Promise<IUser> {
     try {
       return await this.save(data);

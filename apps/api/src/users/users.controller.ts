@@ -12,6 +12,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { QueryDto } from 'shared';
 import { IUser, UserAuthService, LoginUserDto, UsersService } from 'users';
 import { QrCodeLoginDto } from './dto/qr-code-login.dto';
+import { RegisterAdminUserDto } from './dto/register-admin-user.dto';
 import { RegisterStudentUserDto } from './dto/register-student-user.dto';
 import { RegisterTeacherUserDto } from './dto/register-teacher-user.dto';
 
@@ -35,6 +36,12 @@ export class UsersController {
     @Body() data: RegisterTeacherUserDto
   ): Promise<Partial<IUser>> {
     return await this.userAuthService.registerTeacher(data);
+  }
+  @Post('register/admin')
+  async registerAdmin(
+    @Body() data: RegisterAdminUserDto
+  ): Promise<Partial<IUser>> {
+    return await this.userAuthService.registerAdmin(data);
   }
 
   @Post('login')

@@ -7,25 +7,25 @@ import { AdminRepository } from './admin.repository';
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly teacherRepo: AdminRepository) {}
+  constructor(private readonly adminRepo: AdminRepository) {}
 
   async create(data: CreateAdminDto): Promise<IAdmin> {
-    return await this.teacherRepo.save(data);
+    return await this.adminRepo.save(data);
   }
 
   async findAll(query: QueryDto) {
-    return await this.teacherRepo.findAll(query);
+    return await this.adminRepo.findAll(query);
   }
 
   async findOne(id: string) {
-    return await this.teacherRepo.findOne(id);
+    return await this.adminRepo.findOne(id);
   }
 
   update(id: string, updateAdminDto: UpdateAdminDto) {
-    return this.teacherRepo.updateOne(id, updateAdminDto);
+    return this.adminRepo.updateOne(id, updateAdminDto);
   }
 
   remove(id: string) {
-    return this.teacherRepo.delete(id);
+    return this.adminRepo.delete(id);
   }
 }

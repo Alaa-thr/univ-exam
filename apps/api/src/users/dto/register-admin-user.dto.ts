@@ -1,11 +1,11 @@
 import { IsEmail, IsNotEmpty, Length, Matches } from 'class-validator';
 import { IUser } from 'users/interface/user.interface';
 import { Type } from 'class-transformer';
-import { CreateTeacherDto } from 'teachers/dto/create-teacher.dto';
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateAdminDto } from 'admins/dto/create-admin.dto';
 
-export class RegisterTeacherUserDto
-  implements Omit<IUser, 'id' | 'created_at' | 'updated_at' | 'teacher'>
+export class RegisterAdminUserDto
+  implements Omit<IUser, 'id' | 'created_at' | 'updated_at' | 'admin'>
 {
   @ApiProperty()
   @IsNotEmpty()
@@ -22,6 +22,6 @@ export class RegisterTeacherUserDto
 
   @ApiProperty()
   @IsNotEmpty()
-  @Type(() => CreateTeacherDto)
-  teacher: CreateTeacherDto;
+  @Type(() => CreateAdminDto)
+  admin: CreateAdminDto;
 }

@@ -10,7 +10,8 @@ export class GetTokenService{
     getUser(){
         const token = localStorage.getItem('access_token');
         if(token){
-            return this.decodeToken(token).userData;
+            return this.decodeToken(token);
+            
         }
         return null;
         

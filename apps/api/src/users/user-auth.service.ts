@@ -82,7 +82,9 @@ export class UserAuthService {
       ? EUserRoles.STUDENT
       : user.teacher
       ? EUserRoles.TEACHER
-      : null;
+      : user.admin
+      ?EUserRoles.ADMIN
+      :null;
     const token = await this.checkUserPassword(data, user, role);
     return token;
   }

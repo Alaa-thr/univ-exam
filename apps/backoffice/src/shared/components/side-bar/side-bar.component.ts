@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { SideBarService } from './side-bar.service';
 
 @Component({
   selector: 'univ-exam-side-bar',
@@ -7,15 +8,28 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./side-bar.component.css'],
 })
 export class SideBarComponent implements OnInit {
+
   isLogged = false;
   multiStepScript: any;
-  constructor(private readonly authService: AuthService) {
+  isAdmin = false;
+  constructor(
+    private readonly authService: AuthService,
+    private readonly sideBarService: SideBarService
+  ) {
   }
 
   ngOnInit(): void {
+    this.sideBarService.getUser();
     this.initStepsScript();
+    this.sideBarService.loggedUser.subscribe((value) =>{
+      if(value){
+        if(value.role == "ADMIN") this.isAdmin = true;
+        else this.isAdmin = false;
+      }   
+    });
     this.authService.userIsLogged.subscribe((value) => { //recevoir l'evenement
       this.isLogged = value;
+      if(value) this.sideBarService.getUser();
     });
     this.isLogged = this.authService.isLogged();  
   }

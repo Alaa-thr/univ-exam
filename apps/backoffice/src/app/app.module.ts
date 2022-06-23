@@ -38,6 +38,11 @@ import { GetTokenService } from '../shared/services/get-token.service';
 import { LoginGuard } from '../shared/guards/login.guard';
 import { LogoutGuard } from '../shared/guards/logout.guard';
 import { LoginInterceptorProvider } from '../shared/interceptors/login.interceptor';
+import { SideBarService } from '../shared/components/side-bar/side-bar.service';
+import { CreateAdminComponent } from '../admin/modules/admin/create-admin/create-admin.component';
+import { CreateAdminService } from '../admin/modules/admin/create-admin/create-admin.service';
+import { IsAdminGuard } from '../shared/guards/isAdmin.guard';
+import { IsTeacherGuard } from '../shared/guards/isTeacher.guard';
 
 @NgModule({
   declarations: [
@@ -58,6 +63,7 @@ import { LoginInterceptorProvider } from '../shared/interceptors/login.intercept
     ExamListComponent,
     StudentsAnswersDetailsComponent,
     LoginComponent,
+    CreateAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +88,11 @@ import { LoginInterceptorProvider } from '../shared/interceptors/login.intercept
     GetTokenService,
     LoginGuard,
     LogoutGuard,
-    LoginInterceptorProvider
+    LoginInterceptorProvider,
+    SideBarService,
+    CreateAdminService,
+    IsAdminGuard,
+    IsTeacherGuard
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

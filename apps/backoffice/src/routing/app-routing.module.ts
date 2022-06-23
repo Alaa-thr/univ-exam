@@ -13,53 +13,61 @@ import { StudentsAnswersDetailsComponent } from '../teacher/modules/students-ans
 import { LoginComponent } from '../login/login.component';
 import { LogoutGuard } from '../shared/guards/logout.guard';
 import { LoginGuard } from '../shared/guards/login.guard';
+import { CreateAdminComponent } from '../admin/modules/admin/create-admin/create-admin.component';
+import { IsAdminGuard } from '../shared/guards/isAdmin.guard';
+import { IsTeacherGuard } from '../shared/guards/isTeacher.guard';
 
 const APP_ROUTING: Routes = [ 
 
   {
     path: 'create-exam', 
     component: CreateExamComponent,
-    canActivate: [LoginGuard] 
+    canActivate: [LoginGuard, IsTeacherGuard] 
   },
   {
     path: 'exam-list', 
     component: ExamListComponent,
-    canActivate: [LoginGuard] 
+    canActivate: [LoginGuard, IsTeacherGuard] 
   },
   {
     path: 'students-answers-list/:examId/:studentId', 
     component: StudentsAnswersDetailsComponent,
-    canActivate: [LoginGuard] 
+    canActivate: [LoginGuard, IsTeacherGuard] 
   },
   {
     path: 'speciality', 
     component: SpecialityComponent,
-    canActivate: [LoginGuard] 
+    canActivate: [LoginGuard,IsAdminGuard] 
+  },
+  {
+    path: 'create-admin', 
+    component: CreateAdminComponent,
+    canActivate: [LoginGuard,IsAdminGuard] 
   },
   {
     path: 'level', 
     component: LevelComponent,
-    canActivate: [LoginGuard] 
+    canActivate: [LoginGuard,IsAdminGuard] 
   },
   {
     path: 'students-list', 
     component: StudentComponent,
-    canActivate: [LoginGuard] 
+    canActivate: [LoginGuard,IsAdminGuard] 
   },
   {
     path: 'create-student', 
     component: CreateStudentComponent,
-    canActivate: [LoginGuard] 
+    canActivate: [LoginGuard,IsAdminGuard] 
   },
   {
     path: 'module', 
     component: ModuleComponent,
-    canActivate: [LoginGuard] 
+    canActivate: [LoginGuard,IsAdminGuard] 
   },
   {
     path: 'students-list/:specialityId/:levelId', 
     component: StudentExamListComponent,
-    canActivate: [LoginGuard] 
+    canActivate: [LoginGuard,IsTeacherGuard] 
   },
   {
     path: 'login',

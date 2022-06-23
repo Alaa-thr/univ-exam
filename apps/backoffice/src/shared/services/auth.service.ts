@@ -26,8 +26,7 @@ export class AuthService{
         try{
             this.setLoggedValue(false);// declanché l'evenement
             localStorage.removeItem('access_token');
-            if(this.router.url == '/login') this.router.navigate(['login']);
-            else this.router.navigate(['login-qrCode']);
+            this.router.navigate(['login']);
         }catch(error){
             console.log('error logout', error);
         }   

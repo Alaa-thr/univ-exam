@@ -1,0 +1,76 @@
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col-8">
+            <h3 class="page-title">Students</h3>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-nowrap mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Fisrt Name</th>
+                                <th>Last Name</th>
+                                <th>Birthday</th>
+                                <th>Phone Number</th>
+                                <th>Student Number</th>
+                                <th>Level</th>
+                                <th>Speciality</th>
+                                <th>Created Date</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let student of students; let studentIndex = index">
+                                <td>{{studentIndex+1}}</td>
+                                <td>{{student.firstName | capitalizeLetter: 'first'}}</td>
+                                <td>{{student.lastName | capitalizeLetter: 'first'}}</td>
+                                <td>{{student.birthDate | date: 'mediumDate'}}</td>
+                                <td>{{student.phoneNumber}}</td>
+                                <td>{{student.studentNumber}}</td>
+                                <td>{{student.level.name}}</td>
+                                <td>{{student.speciality.name}}</td>
+                                <td>{{student.created_at | date: 'mediumDate'}}</td>
+                                <td class="text-end">
+                                    <div class="actions">
+                                        <a class="btn btn-sm bg-success-light me-2">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        <a class="btn btn-sm bg-danger-light" >
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12">
+                    <ul class="pagination float-end">
+                        <li class="paginate_button page-item previous "
+                        [ngClass]="{'disabled': currentPage-1 < 0}">
+                            <a (click)="changePage(currentPage-1)" class="page-link"> << </a>
+                        </li>
+                        <li class="paginate_button page-item active disabled">
+                            <a (click)="changePage(currentPage+1)" class="page-link" >{{(currentPage+1)}}</a>
+                        </li>
+                        <li class="paginate_button page-item " [ngStyle]="{'display': currentPage+2 > totalPages ? 'none':'block'}">
+                            <a (click)="changePage(currentPage+1)" class="page-link">{{(currentPage+2)}}</a>
+                        </li>
+                        <li class="paginate_button page-item " [ngStyle]="{'display': currentPage+3 > totalPages ? 'none':'block'}">
+                            <a (click)="changePage(currentPage+2)" class="page-link">{{(currentPage+3)}}</a>
+                        </li>
+                        <li class="paginate_button page-item next" [ngClass]="{'disabled': currentPage+1 >= totalPages}">
+                            <a (click)="changePage(currentPage+1)" class="page-link">>></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

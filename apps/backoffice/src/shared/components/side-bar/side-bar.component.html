@@ -1,13 +1,13 @@
 <div class="sidebar" id="sidebar" *ngIf="isLogged">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
-            <ul>
+            <ul *ngIf="isAdmin">
                 <li class="menu-title">
                     <span>Main Menu</span>
                 </li>
                 <li class="submenu">
-                    <a href="#"><i class="fas fa-chalkboard-teacher"></i> 
-                        <span> Teachers</span>   
+                    <a href="#"><i class="fas fa-chalkboard-teacher"></i>
+                        <span> Teachers</span>
                         <span class="menu-arrow"></span>
                     </a>
                     <ul>
@@ -18,8 +18,8 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a href="#"><i class="fas fa-user-graduate"></i> 
-                        <span> Students</span> 
+                    <a href="#"><i class="fas fa-user-graduate"></i>
+                        <span> Students</span>
                         <span class="menu-arrow"></span>
                     </a>
                     <ul>
@@ -32,39 +32,44 @@
                 </li>
                 <li [routerLink]="['level']" routerLinkActive="active">
                     <a class="grayColor">
-                        <i class="fas fa-book-reader" ></i> 
-                        <span> Levels</span> 
+                        <i class="fas fa-book-reader"></i>
+                        <span> Levels</span>
                     </a>
                 </li>
                 <li [routerLink]="['speciality']" routerLinkActive="active">
                     <a class="grayColor">
-                        <i class="fas fa-building" ></i> 
-                        <span> Specialities</span> 
+                        <i class="fas fa-building"></i>
+                        <span> Specialities</span>
                     </a>
                 </li>
                 <li [routerLink]="['module']" routerLinkActive="active">
                     <a class="grayColor">
-                        <i class="fas fa-book" ></i> 
-                        <span> Modules</span> 
+                        <i class="fas fa-book"></i>
+                        <span> Modules</span>
                     </a>
                 </li>
                 <li [routerLink]="['modul']" routerLinkActive="active">
                     <a class="grayColor">
-                        <i class="fas fa-calendar-day" ></i> 
-                        <span> Exam Types</span> 
+                        <i class="fas fa-calendar-day"></i>
+                        <span> Exam Types</span>
                     </a>
                 </li>
                 <li [routerLink]="['modul']" routerLinkActive="active">
                     <a class="grayColor">
-                        <i class="fas fa-table"></i> 
-                        <span> Input Types</span> 
+                        <i class="fas fa-table"></i>
+                        <span> Input Types</span>
                     </a>
                 </li>
-                <li class="submenu">
+            </ul>
+            <ul *ngIf="!isAdmin">
+                <li class="menu-title">
+                    <span>Main Menu</span>
+                </li>
+                <li class="submenu" >
                     <a href="#"><i class="fas fa-clipboard-list"></i>
-                         <span> Exams </span> 
-                         <span class="menu-arrow"></span>
-                    </a> 
+                        <span> Exams </span>
+                        <span class="menu-arrow"></span>
+                    </a>
                     <ul>
                         <li><a [routerLink]="['exam-list']" routerLinkActive="active">Exam List</a></li>
                         <li><a [routerLink]="['create-exam']" routerLinkActive="active">Exam Add</a></li>

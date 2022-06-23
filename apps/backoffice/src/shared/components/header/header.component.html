@@ -37,8 +37,11 @@
             </a>
             <div class="dropdown-menu">
                 <div class="user-header">
-                    <div class="user-text">
-                        <h6>{{user?.student?.firstName}} {{user?.student?.lastName}}</h6>  
+                    <div class="user-text" *ngIf="isAdmin">
+                        <h6>{{user?.admin?.firstName}} {{user?.admin?.lastName}}</h6>  
+                    </div>
+                    <div class="user-text" *ngIf="!isAdmin">
+                        <h6>{{user?.teacher?.firstName}} {{user?.teacher?.lastName}}</h6>  
                     </div>
                 </div>
                 <a class="dropdown-item" (click)="logout()">Logout</a>

@@ -3,7 +3,7 @@
         <div class="container">
             <div class="loginbox">
                 <div class="login-left" style="padding: 0px !important ;">
-                    <zxing-scanner (permissionResponse)="permissionResponse($event)" class="zxing-scanner" (scanSuccess)="scanSucess($event)"></zxing-scanner>
+                    <zxing-scanner #scanner (permissionResponse)="permissionResponse($event)" class="zxing-scanner" (scanSuccess)="scanSucess($event)"></zxing-scanner>
                 </div>
                 <div class="login-right">
                     <div class="login-right-wrap">
@@ -11,7 +11,7 @@
                         <small>If you don't have the code QR yet, login with your email and password, and then go to your profile and you will find your code there.</small>
                         <form >
                             <div class="form-group mt-4">
-                                <button class="btn btn-primary btn-block" [routerLink]="['login']"
+                                <button (click)="goToLogin()" class="btn btn-primary btn-block"
                                 >Login with Email and Password</button>
                             </div>
                         </form>

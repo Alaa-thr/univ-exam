@@ -12,6 +12,7 @@ import { QueryDto } from 'shared';
 import { IStudent } from 'students/interface/student.interface';
 import { NotificationsService } from 'notifications';
 import { UsersService } from '@users';
+import { ITeacher } from 'teachers/interface/teacher.interface';
 
 @Injectable()
 export class ExamsService {
@@ -47,7 +48,7 @@ export class ExamsService {
     return await this.examRepo.findAll(query,teacherId);
   }
 
-  async createOne(createExamDto: CreateExamDto) {
+  async createOne(createExamDto: CreateExamDto, teacher: ITeacher) {
     const {questions, title, date,startHour,endHour,isPublished,examType, specialityModuleLevel, students} = createExamDto;
     const createdQuestions: IQuestion[] = await this.questionsService.createMany(questions);
     const getInputType = await this.examTypeService.findOneByType(examType);
@@ -60,6 +61,7 @@ export class ExamsService {
       examType: getInputType,
       specialityModuleLevel: specialityModuleLevel,
       questions: createdQuestions,
+      teacher: teacher
     });
     await this.studentExamService.createMany(students,exam);
     if(isPublished){

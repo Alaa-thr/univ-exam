@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 import { HeaderService } from '../../core/components/header/header.service';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -9,7 +10,8 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrls: ['./qr-code-reader.component.css'],
 })
 export class QrCodeReaderComponent implements OnInit {
-  
+  @ViewChild('scanner') scanner: any;
+
   errorMessage: string;
   waitForSendingData: boolean = false;
   constructor(
@@ -20,8 +22,9 @@ export class QrCodeReaderComponent implements OnInit {
     this.errorMessage = '';
   }
 
-  ngOnInit(): void {}
-
+  ngOnInit(): void {
+  }
+  
   scanSucess(result: any){
     if(!this.waitForSendingData){
       this.login(result);
@@ -37,6 +40,7 @@ export class QrCodeReaderComponent implements OnInit {
         localStorage.setItem('access_token', token);
         this.headerService.getUser();
         this.router.navigate(['exam/scheduled-exams']);
+        this.scanner._enabled = false;
       },
       (error)=>{
         this.waitForSendingData = false;
@@ -48,5 +52,9 @@ export class QrCodeReaderComponent implements OnInit {
   permissionResponse(result: boolean){
     if(!result) this.errorMessage = ' you need to turn on your camera';
     else this.errorMessage = '';
+  }
+  goToLogin(): void {
+    this.router.navigate(['login']);
+    this.scanner._enabled = false;
   }
 }

@@ -30,8 +30,12 @@ export class ExamsController {
   ) {}
 
   @Post()
-  create(@Body() createExamDto: CreateExamDto) {
-    return this.examsService.createOne(createExamDto);
+  create(
+    @User() userLogged: IUser,
+    @Body() createExamDto: CreateExamDto
+  ) {
+    const { teacher } = userLogged;
+    return this.examsService.createOne(createExamDto,teacher);
   }
 
   @Patch(':id')
@@ -41,13 +45,12 @@ export class ExamsController {
 
   @Get()
   async findAllExams(
-    //@User() userLogged: IUser,
+    @User() userLogged: IUser,
     @Query() query: QueryDto
   ) {
-    //const { teacher } = userLogged;
-    return await this.examsService.findAllExams(query,"e5374b05-c23c-40cd-8fc4-883fd0b7dc85");
+    const { teacher } = userLogged;
+    return await this.examsService.findAllExams(query,teacher.id);
   }
-  
 
   @Get('scheduled-exams')
   async findAllScheduledExams(

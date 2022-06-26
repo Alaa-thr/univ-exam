@@ -19,7 +19,8 @@
                         <div  
                             [ngClass]="circleGraphClass" 
                             [attr.data-percent]="dataPercent">
-                            <b *ngIf="exm.grade === 0">0/20</b>
+                            <b *ngIf="exm.grade === 0 && exm.isDone">0/20</b>
+                            <b *ngIf="exm.grade === 0 && !exm.isDone">0</b>
                             <b *ngIf="exm.grade > 0">{{exm.grade}} / 20</b>
                             
                         </div>

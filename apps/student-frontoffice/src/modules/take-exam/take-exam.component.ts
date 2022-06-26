@@ -117,7 +117,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
     document.body.removeChild(this.multiStepScript);
     window.removeEventListener("beforeunload",()=>{});
     window.removeEventListener("unload",()=>{});
-    window.removeEventListener("visibilitychange",()=>{});
+    window.removeEventListener("blur",()=>{});
   }
   setRadioValue(selected: any, questionId: string): void {
     this.selectedOption = true;

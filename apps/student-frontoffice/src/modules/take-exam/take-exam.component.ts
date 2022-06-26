@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -28,6 +28,32 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
   timeDone: number;
   videoRecorded: any;
   file!: File;
+  exitFullScreen = 0;
+  examStarts = false;
+  enterToBeforeUnload = false;
+  redirect = false;
+  @HostListener('window:beforeunload', ['$event'])   
+  beforeUnLoadPage(event:any) { 
+    if(this.examStarts && !this.redirect){
+      event.returnValue = "" ;
+    }
+  }
+  @HostListener('window:unload', ['$event'])
+  unLoadPage() {
+    if(this.examStarts){
+      this.enterToBeforeUnload = true;
+      this.setCheaterStudent();
+      this.sleep(1000)
+    }
+  }
+  @HostListener('window:blur', ['$event'])
+  visibilityChange() {
+    this.onVisibilityChange();
+    if(this.examStarts && !this.enterToBeforeUnload){
+      this.onVisibilityChange();
+    }
+  }
+  
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly takeExamService: TakeExamService,
@@ -60,6 +86,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
         const examId = params['id'];
         this.takeExamService.getScheduledExamById(examId).subscribe(
           (response) => {
+            if(response.studentExams[0].grade === -2) this.goTakenExams();
             this.examDetails = response;
           }, (error) => {
             console.log('ExamDetails Component error', error);
@@ -68,12 +95,29 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
   }
+  getFullScreenElemet(){
+    return this.document.fullscreenElement
+    || this.document.webkitFullscreenElement
+    || this.document.mozFullscreenElement
+    || this.document.msFullscreenElement
+  }
+  onVisibilityChange() {
+    this.closeFullscreen();
+  }
   ngAfterViewInit(): void {
     this.startExamAlert();
     this.initStepsScript();
+    this.document.addEventListener('fullscreenchange', (event:any) => {
+      if(!this.getFullScreenElemet()){
+        this.fullscreenchanged();
+      }
+    });
   }
   ngOnDestroy(): void {
     document.body.removeChild(this.multiStepScript);
+    window.removeEventListener("beforeunload",()=>{});
+    window.removeEventListener("unload",()=>{});
+    window.removeEventListener("visibilitychange",()=>{});
   }
   setRadioValue(selected: any, questionId: string): void {
     this.selectedOption = true;
@@ -95,7 +139,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
         allAnswersOfQuestion.splice(0, allAnswersOfQuestion.length);
         allAnswersOfQuestion.push(answerId);
 
-      }else { //case of the answer is in the checkbox
+      } else { //case of the answer is in the checkbox
         if (answerIndex === -1) {
           allAnswersOfQuestion.push(answerId);
         } else {
@@ -117,11 +161,13 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     const formData = new FormData();
-    formData.append("video",answers.video)
-    formData.append("questions",JSON.stringify(answers.questions))
+    formData.append("video", answers.video)
+    formData.append("questions", JSON.stringify(answers.questions));
     this.takeExamService.addStudentAnswers(formData).subscribe(
       (respone) => {
         this.closeFullscreen();
+        this.examStarts = false;
+        this.enterToBeforeUnload = true;
         Swal.fire({
           title: 'Congratulations!',
           icon: 'success',
@@ -137,7 +183,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
   }
-  stopRecord(){
+  stopRecord() {
     this.recordVideo.stopRecording();
   }
   getTimeLeft(startHour: string, endHour: string): number {
@@ -172,23 +218,23 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
       this.oneAnswerSelectedAtLeast = false;
     }
   }
-  getVideoRecordingRequest(event: any){
+  getVideoRecordingRequest(event: any) {
     this.videoRecorded = event.videoRecorded;
-    const videoName = this.examDetails.id +'_'+this.examDetails.studentExams[0].student.id+'.webm'
+    const videoName = this.examDetails.id + '_' + this.examDetails.studentExams[0].student.id + '.webm'
     const answers = this.form.value;
-    const file = new File([this.videoRecorded], videoName, {type: 'video/webm'});
+    const file = new File([this.videoRecorded], videoName, { type: 'video/webm' });
     answers.video = file;
-    this.onSubmit();
-    
+    if(!this.redirect)this.onSubmit();
+    else this.setCheaterStudent();
   }
-  private initStepsScript():void{
+  private initStepsScript(): void {
     this.elem = this.fullScreenDivRef.nativeElement;
     this.multiStepScript = document.createElement("script");
     this.multiStepScript.type = "text/javascript";
     this.multiStepScript.src = "assets/js/bootstrap-multi-step-form.js";
     document.body.appendChild(this.multiStepScript);
   }
-  private startExamAlert(){
+  private startExamAlert() {
     Swal.fire({
       title: 'Get Started',
       icon: 'warning',
@@ -199,7 +245,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await this.getExamStertedTimeByStudent();
-        
+
       } else {
         this.goHome();
       }
@@ -232,7 +278,7 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
     this.configCountDown = { leftTime: this.leftTime, notify: [3000], demand: false };
   }
   private closeFullscreen(): void {
-    if(document.fullscreen){
+    if (document.fullscreen) {
       if (this.document.exitFullscreen) {
         this.document.exitFullscreen();
       } else if (this.document.mozCancelFullScreen) {
@@ -261,12 +307,70 @@ export class TakeExamComponent implements OnInit, AfterViewInit, OnDestroy {
     this.leftTime = this.getTimeLeft(this.examDetails.startHour, this.examDetails.endHour);
     const timeFromStudentStart = this.getTimeLeft(this.examDetails.startHour, startExamTime);
     this.leftTime = this.leftTime - timeFromStudentStart;
-    if(this.leftTime < 0){
+    if (this.leftTime < 0) {
       this.goHome();
-    }else{
+    } else {
+      this.examStarts = true;
       this.recordVideo.startRecording();
       this.openFullscreen();
     }
-    
+  }
+
+  fullscreenchanged() {
+      this.timerAlert(); 
+  }
+  sleep(delay:any) {
+    const start = new Date().getTime();
+    while (new Date().getTime() < start + delay);
+  }
+  timerAlert(){
+    let timerInterval: any;
+    if(!this.enterToBeforeUnload){
+      Swal.fire({
+        title: 'Go back to fullScreen!',
+        html: 'in <b></b> seconds, or you will be considered as a <strong>cheater</strong>.',
+        timer: 10000,
+        timerProgressBar: true,
+        showConfirmButton: true,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Go back',
+        allowOutsideClick: false,
+        didOpen: () => {
+          timerInterval = setInterval(() => {
+            const b = Swal.getHtmlContainer()?.querySelector('b');
+            if(b){
+              const val = Swal.getTimerLeft();
+              if(val) b.textContent = (val/1000).toFixed().toString();
+            }
+          }, 1000)
+        },
+        willClose: () => {
+          clearInterval(timerInterval)
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.openFullscreen();
+        }
+        if (result.dismiss === Swal.DismissReason.timer) {
+          this.redirect = true;
+          this.recordVideo.stopRecording();
+          
+        }
+      })
+    }
+  }
+  setCheaterStudent(){
+    const answers = this.form.value;
+    const formData = new FormData();
+    formData.append("video", answers.video);
+    formData.append("studentExams", JSON.stringify(this.examDetails.studentExams[0]));
+    this.takeExamService.setCheaterStudent(formData).subscribe(
+      (response) =>{
+        this.goTakenExams();
+      },
+      (error) => {
+
+      }
+    );
   }
 }

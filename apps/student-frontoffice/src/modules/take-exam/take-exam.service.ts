@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { IStudentExam } from "@univ-exam/common";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 
@@ -21,5 +22,9 @@ export class TakeExamService{
     startExam():Promise<any>{
         const sentLink = this.link+"/scheduled-exam/get-exam-started-time";
         return this.httpClient.get(sentLink).toPromise();
+    }
+    setCheaterStudent(data: FormData):Observable<any>{
+        const sentLink = this.link+"/student-cheating";
+        return this.httpClient.post(sentLink,data);
     }
 }

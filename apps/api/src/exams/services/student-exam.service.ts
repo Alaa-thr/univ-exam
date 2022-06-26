@@ -23,6 +23,12 @@ export class StudentExamService {
     return await this.studentExamRepo.save(data);
   }
 
+  async setCheatedStudent(updateExamStudentDto:UpdateExamStudentDto): Promise<IStudentExam> {
+    updateExamStudentDto.isDone = true;
+    updateExamStudentDto.grade = -2;
+    return await this.studentExamRepo.save(updateExamStudentDto);
+  }
+
   async createMany(students: CreateStudentDto[], exam: IExam) {
     for (let index = 0; index < students.length; index++) {
       const student = students[index];

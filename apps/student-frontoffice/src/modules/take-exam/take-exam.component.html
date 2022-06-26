@@ -1,7 +1,7 @@
 <div class="page-header">
     <div class="row align-items-center">
         <div class="col">
-            <h3 class="page-title">{{examDetails.title | capitalizeLetter: 'first'}} {{examDetails.examType | SeparateWords | capitalizeLetter: 'first'}}</h3>
+            <h3 class="page-title">{{examDetails.title | capitalizeLetter: 'first'}} {{examDetails.examType?.type | SeparateWords | capitalizeLetter: 'first'}}</h3>
         </div>
     </div>
 </div>

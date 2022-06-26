@@ -9,11 +9,13 @@ import { UpdateExamStudentDto } from "exams/dto/update-exam-student.dto";
 export class StudentExamRepository extends Repository<StudentExamEntity>{
 
     async findAllScheduledExams(studentId: string): Promise<IStudentExam[]>{
-        return await this.findExams(studentId,false)
+        return await (await this.findExams(studentId,false)).getMany();
     }
 
     async findAllTakenExams(studentId: string): Promise<IStudentExam[]>{
-        return await this.findExams(studentId,true)
+        return await (await this.findExams(studentId,true))
+        .andWhere("exmStdnt.grade != -1 ")
+        .getMany();
     }
     async createStudentVideo(studentId: string,examId: string,updateExamStudentDto: UpdateExamStudentDto):Promise<IStudentExam>{
         try{
@@ -70,7 +72,7 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
             await this.save(studentExams[i]);
         }  
     }
-    private async findExams(studentId: string, isDone: boolean): Promise<IStudentExam[]>{
+    private async findExams(studentId: string, isDone: boolean){
         try{
             return await this.createQueryBuilder('exmStdnt')
             .leftJoinAndSelect('exmStdnt.exam', 'exam')
@@ -79,8 +81,8 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
             .where("exmStdnt.student = :id",{id: studentId})
             .andWhere("exmStdnt.isDone = :done", {done: isDone})
             .andWhere("exam.isPublished = :isPublished", {isPublished: true})
-            .loadRelationCountAndMap('exam.questoin_count', 'exam.questions')
-            .getMany();
+            .loadRelationCountAndMap('exam.questoin_count', 'exam.questions');
+            
         }catch(error){
             console.log('exam repo error', error)
             throw new InternalServerErrorException("Something went wrong, exams cannot be recoverd.") 

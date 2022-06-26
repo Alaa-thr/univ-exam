@@ -91,10 +91,12 @@ export class ExamRepository extends Repository<ExamEntity> {
   ): Promise<IExam> {
     try {
       return await this.createQueryBuilder('exm')
-        .leftJoinAndSelect('exm.questions', 'qst')
+      .leftJoinAndSelect('exm.questions', 'qst')
+      .leftJoinAndSelect('exm.examType', 'examType')
         .leftJoin('qst.answers', 'answr')
         .leftJoinAndSelect('qst.inputType', 'inputType')
         .leftJoinAndSelect('exm.studentExams', 'studentExams')
+        .leftJoinAndSelect('studentExams.exam', 'exam')
         .leftJoin('studentExams.student', 'student')
         .loadRelationCountAndMap('exm.questoin_count', 'exm.questions')
         .where('exm.id = :id', { id: examId })
@@ -106,7 +108,7 @@ export class ExamRepository extends Repository<ExamEntity> {
           'student.lastName',
           'student.studentNumber',
           'answr.id',
-          'answr.title',
+          'answr.title'
         ])
         .getOne();
     } catch (error) {

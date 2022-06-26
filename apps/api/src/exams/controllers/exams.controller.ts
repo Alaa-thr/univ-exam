@@ -8,6 +8,8 @@ import {
   Delete,
   UseGuards,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { IUser } from '@users';
 import { CreateExamDto, ExamsService, UpdateExamDto } from 'exams';
@@ -19,6 +21,9 @@ import { StudentExamService } from 'exams/services/student-exam.service';
 import { IQuestion } from 'exams/interfaces/question.interface';
 import { ApiTags } from '@nestjs/swagger';
 import { QueryDto } from 'shared';
+import { UpdateExamStudentDto } from 'exams/dto/update-exam-student.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 @Controller('exams')
 @ApiTags('Exams')
@@ -36,6 +41,27 @@ export class ExamsController {
   ) {
     const { teacher } = userLogged;
     return this.examsService.createOne(createExamDto,teacher);
+  }
+
+  @Post('student-cheating')
+  @UseInterceptors(FileInterceptor('video', 
+    {
+      storage: diskStorage({
+        destination: "uploads",
+        filename:(req,file,callbackFunct)=>{
+          const videoName = file.originalname;
+          callbackFunct(null, videoName);
+        }
+      })
+    }
+  ))
+  setCheatedStudent(
+    @UploadedFile() video: Express.Multer.File,
+    @Body() updateExamStudentDto: any
+  ) {
+    const studentExams = JSON.parse(updateExamStudentDto.studentExams);
+    studentExams.videoPath = video.originalname;
+    return this.studentExamService.setCheatedStudent(studentExams);
   }
 
   @Patch(':id')

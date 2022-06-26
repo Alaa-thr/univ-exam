@@ -14,15 +14,17 @@
             <div class="dash-widget1 col-12">
                 <div 
                     class="circle-bar" 
-                    *ngIf="getCircleClass(exm.isDone, exm.grade)" 
+                    *ngIf="getCircleClass(exm.isDone, exm.grade) && exm.grade >= 0" 
                     [ngClass]="circleClass">
                         <div  
                             [ngClass]="circleGraphClass" 
                             [attr.data-percent]="dataPercent">
-                            <b *ngIf="exm.grade === 0">0</b>
-                            <b *ngIf="exm.grade !== 0">{{exm.grade}} / 20</b>
+                            <b *ngIf="exm.grade === 0">0/20</b>
+                            <b *ngIf="exm.grade > 0">{{exm.grade}} / 20</b>
+                            
                         </div>
                 </div>
+                <b *ngIf="exm.grade === -2" class="text-danger"> You have cheated </b>
                 <div class="dash-details">
                     <h4>{{exm.exam.title |capitalizeLetter: 'first'}}</h4>
                     <ul>
@@ -33,7 +35,7 @@
                     </ul>
                     <div class="dash-btn">
                         <button type="submit" class="btn btn-info" *ngIf="!exm.isDone" [routerLink]="['preparation-exam/'+exm.exam.id]" [disabled]="startNow(examIndex)">Start</button>
-                        <button type="submit" class="btn btn-info" *ngIf="exm.isDone" [routerLink]="[exm.exam.id]">View</button>
+                        <button type="submit" class="btn btn-info" *ngIf="exm.isDone && exm.grade >= 0" [routerLink]="[exm.exam.id]">View</button>
                     </div>
                 </div>
             </div>

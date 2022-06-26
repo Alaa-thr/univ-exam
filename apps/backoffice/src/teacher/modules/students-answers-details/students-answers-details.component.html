@@ -10,13 +10,20 @@
         <div class="card flex-fill">
             <div class="card-group">
                 <div class="card">
-                    <div class="card-body" *ngIf="examDetails.videoPath">
+                    <div class="card-body" *ngIf="examDetails.videoPath && examDetails.grade >= 0">
                         <video  height="540" controls src="{{uploadsURL}}" >
                         </video>
                     </div>
-                    <div class="card-body" *ngIf="!examDetails.videoPath">
+                    <div class="card-body" *ngIf="!examDetails.videoPath && examDetails.grade === -1">
                         <div class="text-center">
                             <span class="text-danger">There is not video for this student, this student didn't pass the exam.</span>
+                        </div>
+                    </div>
+                    <div class="card-body" *ngIf="examDetails.grade === -2">
+                        <video  height="540" controls src="{{uploadsURL}}" >
+                        </video>
+                        <div class="text-center">
+                            <span class="text-danger">This student has been cheating.</span>
                         </div>
                     </div>
                 </div>

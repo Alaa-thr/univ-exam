@@ -80,16 +80,20 @@ export class ExamsController {
 
   @Get('scheduled-exams')
   async findAllScheduledExams(
-    @User() userLogged: IUser
+    @User() userLogged: IUser,
+    @Query() query: QueryDto
   ): Promise<IStudentExam[]> {
     const { student } = userLogged;
-    return await this.studentExamService.findAllScheduledExams(student.id);
+    return await this.studentExamService.findAllScheduledExams(student.id,query);
   }
 
   @Get('taken-exams')
-  async findAllTakenExams(@User() userLogged: IUser): Promise<IStudentExam[]> {
+  async findAllTakenExams(
+    @User() userLogged: IUser,
+    @Query() query: QueryDto
+  ): Promise<IStudentExam[]> {
     const { student } = userLogged;
-    return await this.studentExamService.findAllTakenExams(student.id);
+    return await this.studentExamService.findAllTakenExams(student.id,query);
   }
 
   @Get('scheduled-exam/get-exam-started-time')

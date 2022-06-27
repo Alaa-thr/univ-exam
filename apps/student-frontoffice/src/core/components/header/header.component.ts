@@ -1,6 +1,5 @@
-import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { IUser } from '@univ-exam/common';
-import { GetTokenService } from '../../../shared/services/get-token.service';
 import { AuthService } from '../../services/auth.service';
 import { HeaderService } from './header.service';
 
@@ -11,13 +10,16 @@ import { HeaderService } from './header.service';
 })
 export class HeaderComponent implements OnInit, AfterContentChecked {
 
+  @Output()search = new EventEmitter();
   isLogged: boolean = false;
   user?: IUser;
+  searchValue: string = '';
   constructor(
     private readonly authService: AuthService,
     private readonly headerService: HeaderService,
-    private changeDetector: ChangeDetectorRef,
-  ) {}
+    private readonly changeDetector: ChangeDetectorRef,
+  ) {
+  }
 
   ngOnInit(): void {
     this.headerService.getUser();
@@ -29,11 +31,14 @@ export class HeaderComponent implements OnInit, AfterContentChecked {
     });
     this.isLogged = this.authService.isLogged();  
   }
- 
   ngAfterContentChecked(): void {
     this.changeDetector.detectChanges();
   }
   logout(){
     this.authService.logout();  
+  }
+  setSearchValue(){
+    this.headerService.setSearch(this.searchValue.trim());
+    this.searchValue='';
   }
 }

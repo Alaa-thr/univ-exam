@@ -7,6 +7,9 @@ export class QueryDto {
   keyword?: string;
 
   @IsOptional()
+  type?: string;
+
+  @IsOptional()
   page?: number;
 
   @IsOptional()

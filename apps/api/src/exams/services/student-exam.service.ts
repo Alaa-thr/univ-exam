@@ -6,6 +6,7 @@ import { Cron } from '@nestjs/schedule';
 import { CreateStudentDto } from 'students/dto/create-student.dto';
 import { IExam } from 'exams/interfaces/exam.interface';
 import { IStudent } from 'students/interface/student.interface';
+import { QueryDto } from 'shared';
 
 @Injectable()
 export class StudentExamService {
@@ -57,22 +58,15 @@ export class StudentExamService {
     ])
     .getMany();
   }
-  async findAllScheduledExams(studentId: string): Promise<IStudentExam[]> {
-    return await this.studentExamRepo.findAllScheduledExams(studentId);
+  async findAllScheduledExams(studentId: string,query: QueryDto): Promise<IStudentExam[]> {
+    return await this.studentExamRepo.findAllScheduledExams(studentId,query);
   }
 
-  async findAllTakenExams(studentId: string): Promise<IStudentExam[]> {
-    return await this.studentExamRepo.findAllTakenExams(studentId);
+  async findAllTakenExams(studentId: string,query: QueryDto): Promise<IStudentExam[]> {
+    return await this.studentExamRepo.findAllTakenExams(studentId,query);
   }
 
   async createStudentVideo(studentId: string,examId: string,updateExamStudentDto: UpdateExamStudentDto): Promise<IStudentExam> {
     return await this.studentExamRepo.createStudentVideo(studentId,examId,updateExamStudentDto);
   }
-  // getExamStartedTime(): {startedExam: string} {
-  //   const today = new Date();
-  //   const startedExam = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  //   return {
-  //     startedExam: startedExam
-  //   }; 
-  // }
 }

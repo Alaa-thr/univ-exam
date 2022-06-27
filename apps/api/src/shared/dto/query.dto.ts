@@ -8,12 +8,19 @@ export class QueryDto implements IQuery {
   @IsOptional()
   @Transform((value) => value.value.split("'").join(''))
   keyword: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  type?: string;
+
   @ApiPropertyOptional()
   @IsOptional()
   page: number;
+
   @ApiPropertyOptional()
   @IsOptional()
   limit: number;
+  
   @ApiPropertyOptional()
   @IsOptional()
   order: string;

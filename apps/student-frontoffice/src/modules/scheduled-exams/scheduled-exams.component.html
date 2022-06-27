@@ -3,11 +3,24 @@
         <div class="col">
             <h3 class="page-title">Scheduled Exams</h3>
         </div>
+        <div class="col-3">
+            <div class="form-group">
+                <select class="form-select" (change)="setSearchExamType()" [(ngModel)]="searchExamType">
+                    <option disabled selected>Filter by Exam Type</option>
+                    <option value="" >All</option>
+                    <option *ngFor="let type of examType"
+                        [value]="type.type">{{type.type | SeparateWords | capitalizeLetter: "first"}}
+                    </option>
+                </select>
+            </div>
+        </div>
     </div>
 </div>
+
 <univ-exam-exam-information-card   
     class="row"
     [exams] = "scheduledExams"
     [todayDateTime]="todayDateTime"
+    [searchValue]="searchValue"
 >
 </univ-exam-exam-information-card>

@@ -46,6 +46,7 @@ import { GetTokenService } from '../shared/services/get-token.service';
 import { HeaderService } from '../core/components/header/header.service';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QrCodeReaderComponent } from '../modules/qr-code-reader/qr-code-reader.component';
+import { SearchComponent } from '../modules/search/search.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { QrCodeReaderComponent } from '../modules/qr-code-reader/qr-code-reader.
     ExamPreparationComponent,
     RecordVideoComponent,
     ProfileComponent,
-    QrCodeReaderComponent
+    QrCodeReaderComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,8 +82,7 @@ import { QrCodeReaderComponent } from '../modules/qr-code-reader/qr-code-reader.
     NgxPaginationModule,
     CountdownModule,
     NgxQRCodeModule,
-    ZXingScannerModule
-    
+    ZXingScannerModule,
   ],
   providers: [
     LoginGuard,
@@ -97,7 +98,6 @@ import { QrCodeReaderComponent } from '../modules/qr-code-reader/qr-code-reader.
     HeaderService,
   ],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
-
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

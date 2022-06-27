@@ -3,17 +3,18 @@ import { EntityRepository, Equal, LessThan, LessThanOrEqual, Repository } from "
 import { IStudentExam } from "../interfaces/student-exam.interface";
 import { StudentExamEntity } from "../entities/studentExam.entity";
 import { UpdateExamStudentDto } from "exams/dto/update-exam-student.dto";
+import { getPagination, getPagingData, QueryDto } from "shared";
 
 @Injectable()
 @EntityRepository(StudentExamEntity)
 export class StudentExamRepository extends Repository<StudentExamEntity>{
 
-    async findAllScheduledExams(studentId: string): Promise<IStudentExam[]>{
-        return await (await this.findExams(studentId,false)).getMany();
+    async findAllScheduledExams(studentId: string,query: QueryDto): Promise<IStudentExam[]>{
+        return await (await this.findExams(studentId,false,query)).getMany();
     }
 
-    async findAllTakenExams(studentId: string): Promise<IStudentExam[]>{
-        return await (await this.findExams(studentId,true))
+    async findAllTakenExams(studentId: string,query: QueryDto): Promise<IStudentExam[]>{
+        return await (await this.findExams(studentId,true,query))
         .andWhere("exmStdnt.grade != -1 ")
         .getMany();
     }
@@ -72,17 +73,26 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
             await this.save(studentExams[i]);
         }  
     }
-    private async findExams(studentId: string, isDone: boolean){
+    private async findExams(studentId: string, isDone: boolean,query: QueryDto){
+        const { keyword, type } = query;
         try{
-            return await this.createQueryBuilder('exmStdnt')
+            const exams =  await this.createQueryBuilder('exmStdnt')
             .leftJoinAndSelect('exmStdnt.exam', 'exam')
             .leftJoinAndSelect('exam.examType', 'examType')
             .leftJoin("exam.questions","question")
             .where("exmStdnt.student = :id",{id: studentId})
             .andWhere("exmStdnt.isDone = :done", {done: isDone})
             .andWhere("exam.isPublished = :isPublished", {isPublished: true})
+            .andWhere(
+                keyword
+                  ? `LOWER(exam.title) LIKE LOWER('%${keyword}%')`
+                  :type
+                  ? `examType.type = '${type}'`
+                  : '1=1'
+            )
             .loadRelationCountAndMap('exam.questoin_count', 'exam.questions');
-            
+        
+            return exams;
         }catch(error){
             console.log('exam repo error', error)
             throw new InternalServerErrorException("Something went wrong, exams cannot be recoverd.") 

@@ -12,16 +12,15 @@ export class ExamInformationCardComponent implements OnInit {
 
   @Input() exams: any[];
   @Input() todayDateTime: any;
+  @Input() searchValue: any;
   circleClass: string = 'circle-warning';
   circleGraphClass: string = 'circle-graph-warning';
   dataPercent: number = 0;
   constructor(private readonly router: Router) {
     this.exams = [];
-    
   }
 
   ngOnInit(): void {}
-
   getCircleClass(isDone:boolean, grade: number): boolean{
     if(!isDone){
       this.circleClass = 'circle-warning';
@@ -42,7 +41,9 @@ export class ExamInformationCardComponent implements OnInit {
       }
     }
   }
-
+  findNonAdults(): any[] {
+    return this.exams.filter(p => p.exam.title === this.searchValue || p.exam.examType.type === this.searchValue);
+  }
   startNow(examIndex: number): boolean{
     const todayTime = this.todayDateTime.time;
     const todayDate = this.todayDateTime.date;

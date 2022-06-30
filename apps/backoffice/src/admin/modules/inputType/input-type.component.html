@@ -1,1 +1,124 @@
-<p>input-type works!</p>
+<div *ngIf="addForm">
+    <div class="page-header">
+        <div class="row align-items-center">
+            <div class="col-8">
+                <h3 class="page-title">Add Input Type</h3>
+            </div>
+            <div class="text-end col-4">
+                <button type="submit" class="btn btn-primary me-2" (click)="done()">Done</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="form-group row">
+                                    <label class="col-3 col-form-label">Type Name</label>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" formControlName="type"
+                                            [ngClass]="{'is-invalid':(type.invalid && (type.dirty || type.touched))|| (typeError)}"
+                                            (keypress)="typeError=''">
+                                        <div *ngIf="type.invalid && (type.dirty || type.touched)">
+                                            <div *ngIf="type.errors?.['required']" class="text-danger">
+                                                Type is required.
+                                            </div>
+                                            <div *ngIf="type.errors?.['minlength']" class="text-danger">
+                                                Type must be at least 2 characters long.
+                                            </div>
+                                        </div>
+                                        <div *ngIf="typeError">
+                                            <div class="text-danger">
+                                                {{typeError}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group row">
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-primary" [disabled]="form.invalid"
+                                            *ngIf="!updateForm" (click)="addLevel()">Add</button>
+                                        <button type="submit" class="btn btn-primary" [disabled]="form.invalid"
+                                            *ngIf="updateForm" (click)="updateLevel()">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col-8">
+            <h3 class="page-title">Input Types</h3>
+        </div>
+        <div class="text-end col-4">
+            <button type="submit" class="btn btn-outline-primary me-2" (click)="addForm=true">Add type <i class="fas fa-plus"></i></button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-nowrap mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Created Date</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let inputType of inputTypes; let indexLevel = index">
+                                <td>{{(indexLevel+1)}}</td>
+                                <td>{{inputType.type | capitalizeLetter: 'first' | SeparateWords}}</td>
+                                <td>{{inputType.created_at | date :'mediumDate'}}</td>
+                                <td class="text-end">
+                                    <div class="actions">
+                                        <a (click)="editLevel(inputType)" class="btn btn-sm bg-success-light me-2">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                        <a class="btn btn-sm bg-danger-light" (click)="deleteAlert(inputType)">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12">
+                    <ul class="pagination float-end">
+                        <li class="paginate_button page-item previous "
+                        [ngClass]="{'disabled': currentPage-1 < 0}">
+                            <a (click)="changePage(currentPage-1)" class="page-link"> << </a>
+                        </li>
+                        <li class="paginate_button page-item active disabled">
+                            <a (click)="changePage(currentPage+1)" class="page-link" >{{(currentPage+1)}}</a>
+                        </li>
+                        <li class="paginate_button page-item " [ngStyle]="{'display': currentPage+2 > totalPages ? 'none':'block'}">
+                            <a (click)="changePage(currentPage+1)" class="page-link">{{(currentPage+2)}}</a>
+                        </li>
+                        <li class="paginate_button page-item " [ngStyle]="{'display': currentPage+3 > totalPages ? 'none':'block'}">
+                            <a (click)="changePage(currentPage+2)" class="page-link">{{(currentPage+3)}}</a>
+                        </li>
+                        <li class="paginate_button page-item next" [ngClass]="{'disabled': currentPage+1 >= totalPages}">
+                            <a (click)="changePage(currentPage+1)" class="page-link">>></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,6 +7,6 @@ export class CreateInputTypeDto implements Omit<IInputType, 'id'|'created_at'|'u
 
     @ApiProperty()
     @IsNotEmpty()
-    @IsEnum(InputTypeEnum)
+    // @IsEnum(InputTypeEnum)
     type: string;
 }

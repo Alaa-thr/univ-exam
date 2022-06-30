@@ -49,6 +49,7 @@ import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
 import { ExamTypeComponent } from '../admin/modules/examType/exam-type.component';
 import { InputTypeComponent } from '../admin/modules/inputType/input-type.component';
 import { ExamTypeService } from '../admin/modules/examType/exam-type.service';
+import { InputTypeService } from '../admin/modules/inputType/input-type.service';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { ExamTypeService } from '../admin/modules/examType/exam-type.service';
     IsAdminGuard,
     IsTeacherGuard,
     BlankPathGuard,
-    ExamTypeService
+    ExamTypeService,
+    InputTypeService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

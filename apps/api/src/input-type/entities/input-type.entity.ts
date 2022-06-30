@@ -11,9 +11,10 @@ export class InputTypeEntity implements IInputType {
     id: string;
 
     @Column({
-        type: 'enum',
-        enum: InputTypeEnum,
-        default: InputTypeEnum.CHECKBOX,
+        // type: 'enum',
+        // enum: InputTypeEnum,
+        // default: InputTypeEnum.CHECKBOX,
+        nullable: true,
         unique: true
     })
     type: string;

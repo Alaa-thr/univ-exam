@@ -6,12 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ExamTypeService } from './exam-type.service';
 import { CreateExamTypeDto } from './dto/create-exam-type.dto';
 import { UpdateExamTypeDto } from './dto/update-exam-type.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { IExamType } from './interface/exam-type.interface';
+import { QueryDto } from 'shared';
 
 @Controller('exam-type')
 @ApiTags('ExamType')
@@ -24,8 +26,8 @@ export class ExamTypeController {
   }
 
   @Get()
-  async findAll(): Promise<IExamType[]> {
-    return await this.examTypeService.findAll();
+  async findAll(@Query() query: QueryDto) {
+    return await this.examTypeService.findAll(query);
   }
 
   @Get(':id')

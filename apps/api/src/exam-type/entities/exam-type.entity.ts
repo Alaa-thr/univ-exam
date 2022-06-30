@@ -10,9 +10,9 @@ export class ExamTypeEntity implements IExamType{
   id: string;
 
   @Column({
-    type: 'enum',
-    enum: ExamTypeEnum,
-    default: ExamTypeEnum.EXAM,
+    // type: 'enum',
+    // enum: ExamTypeEnum,
+    nullable: true,
     unique: true
   })
   type: string;

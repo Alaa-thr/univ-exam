@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { QueryDto } from 'shared';
 import { CreateExamTypeDto } from './dto/create-exam-type.dto';
 import { UpdateExamTypeDto } from './dto/update-exam-type.dto';
 import { ExamTypeRepository } from './exam-type.repository';
@@ -13,8 +14,8 @@ export class ExamTypeService {
     return await this.examTypeRepo.save(createExamTypeDto);
   }
 
-  async findAll(): Promise<IExamType[]> {
-    return await this.examTypeRepo.find();
+  async findAll(query: QueryDto){
+    return await this.examTypeRepo.findAll(query);
   }
 
   async findOne(id: string): Promise<IExamType> {

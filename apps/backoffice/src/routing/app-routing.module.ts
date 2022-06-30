@@ -19,6 +19,8 @@ import { IsTeacherGuard } from '../shared/guards/isTeacher.guard';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { BlankPathGuard } from '../shared/guards/blank-path.guard';
 import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
+import { ExamTypeComponent } from '../admin/modules/examType/exam-type.component';
+import { InputTypeComponent } from '../admin/modules/inputType/input-type.component';
 
 const APP_ROUTING: Routes = [ 
 
@@ -65,6 +67,16 @@ const APP_ROUTING: Routes = [
   {
     path: 'module', 
     component: ModuleComponent,
+    canActivate: [LoginGuard,IsAdminGuard] 
+  },
+  {
+    path: 'exam-type', 
+    component: ExamTypeComponent,
+    canActivate: [LoginGuard,IsAdminGuard] 
+  },
+  {
+    path: 'input-type', 
+    component: InputTypeComponent,
     canActivate: [LoginGuard,IsAdminGuard] 
   },
   {

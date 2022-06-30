@@ -46,6 +46,9 @@ import { IsTeacherGuard } from '../shared/guards/isTeacher.guard';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { BlankPathGuard } from '../shared/guards/blank-path.guard';
 import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
+import { ExamTypeComponent } from '../admin/modules/examType/exam-type.component';
+import { InputTypeComponent } from '../admin/modules/inputType/input-type.component';
+import { ExamTypeService } from '../admin/modules/examType/exam-type.service';
 
 @NgModule({
   declarations: [
@@ -68,7 +71,9 @@ import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
     LoginComponent,
     CreateAdminComponent,
     PageNotFoundComponent,
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    ExamTypeComponent,
+    InputTypeComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,7 +103,8 @@ import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
     CreateAdminService,
     IsAdminGuard,
     IsTeacherGuard,
-    BlankPathGuard
+    BlankPathGuard,
+    ExamTypeService
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

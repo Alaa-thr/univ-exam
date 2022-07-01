@@ -21,96 +21,100 @@ import { BlankPathGuard } from '../shared/guards/blank-path.guard';
 import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
 import { ExamTypeComponent } from '../admin/modules/examType/exam-type.component';
 import { InputTypeComponent } from '../admin/modules/inputType/input-type.component';
+import { TeacherComponent } from '../admin/modules/teacher/all-teachers/teacher.component';
 
-const APP_ROUTING: Routes = [ 
-
+const APP_ROUTING: Routes = [
   {
-    path: 'create-exam', 
+    path: 'teachers',
+    component: TeacherComponent,
+    canActivate: [LoginGuard, IsAdminGuard],
+  },
+  {
+    path: 'create-exam',
     component: CreateExamComponent,
-    canActivate: [LoginGuard, IsTeacherGuard] 
+    canActivate: [LoginGuard, IsTeacherGuard],
   },
   {
-    path: 'exam-list', 
+    path: 'exam-list',
     component: ExamListComponent,
-    canActivate: [LoginGuard, IsTeacherGuard] 
+    canActivate: [LoginGuard, IsTeacherGuard],
   },
   {
-    path: 'students-answers-list/:examId/:studentId', 
+    path: 'students-answers-list/:examId/:studentId',
     component: StudentsAnswersDetailsComponent,
-    canActivate: [LoginGuard, IsTeacherGuard] 
+    canActivate: [LoginGuard, IsTeacherGuard],
   },
   {
-    path: 'speciality', 
+    path: 'speciality',
     component: SpecialityComponent,
-    canActivate: [LoginGuard,IsAdminGuard] 
+    canActivate: [LoginGuard, IsAdminGuard],
   },
   {
-    path: 'create-admin', 
+    path: 'create-admin',
     component: CreateAdminComponent,
-    canActivate: [LoginGuard,IsAdminGuard] 
+    canActivate: [LoginGuard, IsAdminGuard],
   },
   {
-    path: 'level', 
+    path: 'level',
     component: LevelComponent,
-    canActivate: [LoginGuard,IsAdminGuard] 
+    canActivate: [LoginGuard, IsAdminGuard],
   },
   {
-    path: 'students-list', 
+    path: 'students-list',
     component: StudentComponent,
-    canActivate: [LoginGuard,IsAdminGuard] 
+    canActivate: [LoginGuard, IsAdminGuard],
   },
   {
-    path: 'create-student', 
+    path: 'create-student',
     component: CreateStudentComponent,
-    canActivate: [LoginGuard,IsAdminGuard] 
+    canActivate: [LoginGuard, IsAdminGuard],
   },
   {
-    path: 'module', 
+    path: 'module',
     component: ModuleComponent,
-    canActivate: [LoginGuard,IsAdminGuard] 
+    canActivate: [LoginGuard, IsAdminGuard],
   },
   {
-    path: 'exam-type', 
+    path: 'exam-type',
     component: ExamTypeComponent,
-    canActivate: [LoginGuard,IsAdminGuard] 
+    canActivate: [LoginGuard, IsAdminGuard],
   },
   {
-    path: 'input-type', 
+    path: 'input-type',
     component: InputTypeComponent,
-    canActivate: [LoginGuard,IsAdminGuard] 
+    canActivate: [LoginGuard, IsAdminGuard],
   },
   {
-    path: 'students-list/:specialityId/:levelId', 
+    path: 'students-list/:specialityId/:levelId',
     component: StudentExamListComponent,
-    canActivate: [LoginGuard,IsTeacherGuard] 
+    canActivate: [LoginGuard, IsTeacherGuard],
   },
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [LogoutGuard] 
+    canActivate: [LogoutGuard],
   },
   {
-    path: '', 
+    path: '',
     component: LoginComponent,
-    canActivate: [LoginGuard, BlankPathGuard] 
+    canActivate: [LoginGuard, BlankPathGuard],
   },
   {
-    path: 'unauthorized', 
+    path: 'unauthorized',
     component: UnauthorizedComponent,
-    canActivate: [LoginGuard] 
+    canActivate: [LoginGuard],
   },
+
   {
-    path: '**', 
+    path: '**',
     component: PageNotFoundComponent,
-    canActivate: [LoginGuard] 
-  }
-]
+    canActivate: [LoginGuard],
+  },
+];
 export const ROUTING = RouterModule.forRoot(APP_ROUTING);
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

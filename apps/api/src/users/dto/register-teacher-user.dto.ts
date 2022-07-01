@@ -16,8 +16,9 @@ export class RegisterTeacherUserDto
   @IsNotEmpty()
   @Length(6, 12)
   @Matches(/(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-      message: "Password is too weak, choose a stronger password between 6 and 12 characters"
-    })
+    message:
+      'Password is too weak, choose a stronger password between 6 and 12 characters',
+  })
   password: string;
 
   @ApiProperty()

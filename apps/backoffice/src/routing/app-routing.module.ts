@@ -22,11 +22,17 @@ import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
 import { ExamTypeComponent } from '../admin/modules/examType/exam-type.component';
 import { InputTypeComponent } from '../admin/modules/inputType/input-type.component';
 import { TeacherComponent } from '../admin/modules/teacher/all-teachers/teacher.component';
+import { CreateTeacherComponent } from '../admin/modules/teacher/create-teacher/create-teacher.component';
 
 const APP_ROUTING: Routes = [
   {
     path: 'teachers',
     component: TeacherComponent,
+    canActivate: [LoginGuard, IsAdminGuard],
+  },
+  {
+    path: 'teachers/create',
+    component: CreateTeacherComponent,
     canActivate: [LoginGuard, IsAdminGuard],
   },
   {

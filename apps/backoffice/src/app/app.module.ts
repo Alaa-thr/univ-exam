@@ -52,6 +52,8 @@ import { ExamTypeService } from '../admin/modules/examType/exam-type.service';
 import { InputTypeService } from '../admin/modules/inputType/input-type.service';
 import { TeacherComponent } from '../admin/modules/teacher/all-teachers/teacher.component';
 import { TeacherService } from '../admin/modules/teacher/all-teachers/teacher.service';
+import { CreateTeacherComponent } from '../admin/modules/teacher/create-teacher/create-teacher.component';
+import { CreateTeacherService } from '../admin/modules/teacher/create-teacher/create-teacher.service';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,7 @@ import { TeacherService } from '../admin/modules/teacher/all-teachers/teacher.se
     ExamTypeComponent,
     InputTypeComponent,
     TeacherComponent,
+    CreateTeacherComponent,
   ],
   imports: [
     BrowserModule,
@@ -111,6 +114,7 @@ import { TeacherService } from '../admin/modules/teacher/all-teachers/teacher.se
     ExamTypeService,
     InputTypeService,
     TeacherService,
+    CreateTeacherService,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -25,7 +25,7 @@ export class TakenExamsComponent implements OnInit {
     this.getTakenExams();
     this.takenExamsService.getExamTypes().subscribe(
       (response) => {
-        this.examType = response;
+        this.examType = response.items;
       },(error)=>{
         console.log('Taken Exams Component error', error);
       }

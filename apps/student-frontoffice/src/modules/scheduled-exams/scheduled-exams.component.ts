@@ -31,7 +31,7 @@ export class ScheduledExamsComponent implements OnInit {
     this.getScheduledExams();
     this.scheduledExamsService.getExamTypes().subscribe(
       (response) => {
-        this.examType = response;
+        this.examType = response.items;
       },(error)=>{
         console.log('ScheduledExams Component error', error);
       }

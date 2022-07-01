@@ -12,6 +12,7 @@ export class StudentsAnswersDetailsComponent implements OnInit,AfterContentCheck
 
   examDetails: any;
   uploadsURL = environment.uploads;
+  changeGrade = false;
    constructor(
      private readonly studentsAnswersDetailsService: StudentsAnswersDetailsService,
      private readonly activatedRoute: ActivatedRoute,

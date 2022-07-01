@@ -82,7 +82,7 @@ export class CreateExamComponent implements OnInit {
   ngOnInit(): void {
     this.createExamService.getExamType().subscribe(
       (response) => {
-        this.examTypes = response;
+        this.examTypes = response.items;
         console.log("examType ",this.examTypes)
       },(error)=>{
         console.log('CreateExam Component error', error);

@@ -39,8 +39,8 @@ export class QrCodeReaderComponent implements OnInit {
         this.authService.setLoggedValue(true);
         localStorage.setItem('access_token', token);
         this.headerService.getUser();
-        this.router.navigate(['exam/scheduled-exams']);
         this.scanner._enabled = false;
+        this.router.navigate(['exam/scheduled-exams']);
       },
       (error)=>{
         this.waitForSendingData = false;
@@ -54,7 +54,8 @@ export class QrCodeReaderComponent implements OnInit {
     else this.errorMessage = '';
   }
   goToLogin(): void {
-    this.router.navigate(['login']);
     this.scanner._enabled = false;
+    this.router.navigate(['login']);
+    
   }
 }

@@ -5,13 +5,13 @@
         <div class="page-header">
           <div class="row align-items-center">
             <div class="col">
-              <h3 class="page-title">Update Teacher</h3>
+              <h3 class="page-title">Update Admin</h3>
             </div>
           </div>
         </div>
-        <form [formGroup]="form" (ngSubmit)="updateTeacher()">
+        <form [formGroup]="form" (ngSubmit)="updateAdmin()">
           <div class="row">
-            <div class="row" formGroupName="teacher">
+            <div class="row" formGroupName="admin">
               <div class="col-12 col-sm-6">
                 <div class="form-group">
                   <label>First Name</label>
@@ -207,7 +207,7 @@
               class="btn btn-primary"
               [disabled]="form.invalid"
             >
-              Update Teacher
+              Update Admin
             </button>
           </div>
         </form>

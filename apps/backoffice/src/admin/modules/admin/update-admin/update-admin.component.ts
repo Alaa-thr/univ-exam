@@ -3,23 +3,23 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ILevel, ISpeciality } from '@univ-exam/common';
 import Swal from 'sweetalert2';
-import { UpdateTeacherService } from './update-teacher.service';
+import { UpdateAdminService } from './update-admin.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'univ-exam-update-teacher',
-  templateUrl: './update-teacher.component.html',
-  styleUrls: ['./update-teacher.component.css'],
+  selector: 'univ-exam-update-admin',
+  templateUrl: './update-admin.component.html',
+  styleUrls: ['./update-admin.component.css'],
 })
-export class UpdateTeacherComponent implements OnInit {
+export class UpdateAdminComponent implements OnInit {
   form: FormGroup;
   userId = '';
-  teacherId = '';
+  adminId = '';
   error: string;
   pipe = new DatePipe('en-US');
 
   constructor(
-    private readonly updateTeacherService: UpdateTeacherService,
+    private readonly updateAdminService: UpdateAdminService,
     private route: ActivatedRoute
   ) {
     this.error = '';
@@ -30,7 +30,7 @@ export class UpdateTeacherComponent implements OnInit {
           /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/
         ),
       ]),
-      teacher: new FormGroup({
+      admin: new FormGroup({
         firstName: new FormControl('', [
           Validators.required,
           Validators.minLength(3),
@@ -53,28 +53,28 @@ export class UpdateTeacherComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.userId = params['id'];
-      this.fetchTeacher(params['id']);
+      this.fetchAdmin(params['id']);
     });
   }
 
-  fetchTeacher(id: string) {
-    this.updateTeacherService.fetchTeacher(id).subscribe(
+  fetchAdmin(id: string) {
+    this.updateAdminService.fetchAdmin(id).subscribe(
       (user) => {
-        console.log('fetched teacher : ', user);
+        console.log('fetched admin : ', user);
 
         if (user) {
-          this.teacherId = user.teacher.id;
+          this.adminId = user.admin.id;
           this.form.setValue({
             email: user.email,
             password: '',
-            teacher: {
-              firstName: user.teacher.firstName,
-              lastName: user.teacher.lastName,
+            admin: {
+              firstName: user.admin.firstName,
+              lastName: user.admin.lastName,
               birthDate: this.pipe.transform(
-                user.teacher.birthDate,
+                user.admin.birthDate,
                 'yyyy-MM-dd'
               ),
-              phoneNumber: '0' + user.teacher.phoneNumber,
+              phoneNumber: '0' + user.admin.phoneNumber,
             },
           });
         }
@@ -84,22 +84,22 @@ export class UpdateTeacherComponent implements OnInit {
       }
     );
   }
-  updateTeacher() {
+  updateAdmin() {
     const credentialsDto: any = { email: this.form.value.email };
     console.log('password :', this.form.value.password);
     if (this.form.value.password === '') delete this.form.value.password;
     else credentialsDto['password'] = this.form.value.password;
-    this.updateTeacherService
-      .updateTeacherCredentials(this.userId, credentialsDto)
+    this.updateAdminService
+      .updateAdminCredentials(this.userId, credentialsDto)
       .subscribe(
         (response) => {
-          this.updateTeacherService
-            .updateTeacher(this.teacherId, this.form.value.teacher)
+          this.updateAdminService
+            .updateAdmin(this.adminId, this.form.value.admin)
             .subscribe(
               (response) => {
                 Swal.fire(
                   'Success!',
-                  'The teacher has been Update successfully',
+                  'The admin has been Update successfully',
                   'success'
                 );
               },
@@ -114,20 +114,20 @@ export class UpdateTeacherComponent implements OnInit {
       );
   }
 
-  get teachers() {
-    return this.form.get('teacher') as FormGroup;
+  get admins() {
+    return this.form.get('admin') as FormGroup;
   }
   get firstName() {
-    return this.teachers.get('firstName') as FormControl;
+    return this.admins.get('firstName') as FormControl;
   }
   get lastName() {
-    return this.teachers.get('lastName') as FormControl;
+    return this.admins.get('lastName') as FormControl;
   }
   get birthDate() {
-    return this.teachers.get('birthDate') as FormControl;
+    return this.admins.get('birthDate') as FormControl;
   }
   get phoneNumber() {
-    return this.teachers.get('phoneNumber') as FormControl;
+    return this.admins.get('phoneNumber') as FormControl;
   }
 
   get email() {

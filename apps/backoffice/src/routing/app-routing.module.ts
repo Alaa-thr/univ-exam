@@ -23,6 +23,7 @@ import { ExamTypeComponent } from '../admin/modules/examType/exam-type.component
 import { InputTypeComponent } from '../admin/modules/inputType/input-type.component';
 import { TeacherComponent } from '../admin/modules/teacher/all-teachers/teacher.component';
 import { CreateTeacherComponent } from '../admin/modules/teacher/create-teacher/create-teacher.component';
+import { UpdateTeacherComponent } from '../admin/modules/teacher/update-teacher/update-teacher.component';
 
 const APP_ROUTING: Routes = [
   {
@@ -33,6 +34,11 @@ const APP_ROUTING: Routes = [
   {
     path: 'teachers/create',
     component: CreateTeacherComponent,
+    canActivate: [LoginGuard, IsAdminGuard],
+  },
+  {
+    path: 'teachers/update/:id',
+    component: UpdateTeacherComponent,
     canActivate: [LoginGuard, IsAdminGuard],
   },
   {

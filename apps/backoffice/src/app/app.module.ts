@@ -54,6 +54,8 @@ import { TeacherComponent } from '../admin/modules/teacher/all-teachers/teacher.
 import { TeacherService } from '../admin/modules/teacher/all-teachers/teacher.service';
 import { CreateTeacherComponent } from '../admin/modules/teacher/create-teacher/create-teacher.component';
 import { CreateTeacherService } from '../admin/modules/teacher/create-teacher/create-teacher.service';
+import { UpdateTeacherService } from '../admin/modules/teacher/update-teacher/update-teacher.service';
+import { UpdateTeacherComponent } from '../admin/modules/teacher/update-teacher/update-teacher.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +83,7 @@ import { CreateTeacherService } from '../admin/modules/teacher/create-teacher/cr
     InputTypeComponent,
     TeacherComponent,
     CreateTeacherComponent,
+    UpdateTeacherComponent,
   ],
   imports: [
     BrowserModule,
@@ -115,6 +118,7 @@ import { CreateTeacherService } from '../admin/modules/teacher/create-teacher/cr
     InputTypeService,
     TeacherService,
     CreateTeacherService,
+    UpdateTeacherService,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

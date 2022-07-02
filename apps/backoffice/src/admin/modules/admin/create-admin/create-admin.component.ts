@@ -10,7 +10,6 @@ import { CreateAdminService } from './create-admin.service';
   styleUrls: ['./create-admin.component.css'],
 })
 export class CreateAdminComponent implements OnInit {
-
   form: FormGroup;
   specialities: ISpeciality[] = [];
   levels: ILevel[] = [];
@@ -18,75 +17,71 @@ export class CreateAdminComponent implements OnInit {
   constructor(private readonly createAdminService: CreateAdminService) {
     this.error = '';
     this.form = new FormGroup({
-      'email': new FormControl('',[
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
         Validators.required,
-        Validators.email,
+        Validators.pattern(
+          /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/
+        ),
       ]),
-      'password': new FormControl('',[
-        Validators.required,
-        Validators.pattern(/(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/),
-      ]),
-      'admin': new FormGroup({
-        'firstName': new FormControl('',[
+      admin: new FormGroup({
+        firstName: new FormControl('', [
           Validators.required,
           Validators.minLength(3),
         ]),
-        
-        'lastName': new FormControl('',[
+
+        lastName: new FormControl('', [
           Validators.required,
           Validators.minLength(3),
         ]),
-        'birthDate': new FormControl('',[
-          Validators.required
-        ]),
-        'phoneNumber': new FormControl('',[
+        birthDate: new FormControl('', [Validators.required]),
+        phoneNumber: new FormControl('', [
           Validators.required,
           Validators.maxLength(10),
-          Validators.minLength(10)
-        ])
-      })
+          Validators.minLength(10),
+        ]),
+      }),
     });
   }
 
   ngOnInit(): void {}
-  createAdmin(){
+  createAdmin() {
     this.createAdminService.addAdmin(this.form.value).subscribe(
       (response) => {
-        console.log(response)
+        console.log(response);
         this.form.reset();
         Swal.fire(
           'Success!',
-          'The student has bean created successfully',
+          'The student has been created successfully',
           'success'
         );
-
       },
       (error) => {
         console.log('CreateAdmin Component error', error);
         this.error = error.error.message;
       }
-    )
+    );
   }
 
-  get Admin() { 
+  get Admin() {
     return this.form.get('admin') as FormGroup;
   }
-  get firstName() { 
+  get firstName() {
     return this.Admin.get('firstName') as FormControl;
   }
-  get lastName() { 
+  get lastName() {
     return this.Admin.get('lastName') as FormControl;
   }
-  get birthDate() { 
+  get birthDate() {
     return this.Admin.get('birthDate') as FormControl;
   }
-  get phoneNumber() { 
+  get phoneNumber() {
     return this.Admin.get('phoneNumber') as FormControl;
   }
-  get email() { 
+  get email() {
     return this.form.get('email') as FormControl;
   }
-  get password() { 
+  get password() {
     return this.form.get('password') as FormControl;
   }
 }

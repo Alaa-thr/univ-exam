@@ -51,7 +51,7 @@ export class CreateTeacherComponent implements OnInit {
         this.form.reset();
         Swal.fire(
           'Success!',
-          'The teacher has bean created successfully',
+          'The teacher has been created successfully',
           'success'
         );
       },

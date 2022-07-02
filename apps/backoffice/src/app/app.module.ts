@@ -50,6 +50,18 @@ import { ExamTypeComponent } from '../admin/modules/examType/exam-type.component
 import { InputTypeComponent } from '../admin/modules/inputType/input-type.component';
 import { ExamTypeService } from '../admin/modules/examType/exam-type.service';
 import { InputTypeService } from '../admin/modules/inputType/input-type.service';
+import { TeacherComponent } from '../admin/modules/teacher/all-teachers/teacher.component';
+import { TeacherService } from '../admin/modules/teacher/all-teachers/teacher.service';
+import { CreateTeacherComponent } from '../admin/modules/teacher/create-teacher/create-teacher.component';
+import { CreateTeacherService } from '../admin/modules/teacher/create-teacher/create-teacher.service';
+import { UpdateTeacherService } from '../admin/modules/teacher/update-teacher/update-teacher.service';
+import { UpdateTeacherComponent } from '../admin/modules/teacher/update-teacher/update-teacher.component';
+import { AdminComponent } from '../admin/modules/admin/all-admins/admin.component';
+import { AdminService } from '../admin/modules/admin/all-admins/admin.service';
+import { UpdateAdminService } from '../admin/modules/admin/update-admin/update-admin.service';
+import { UpdateAdminComponent } from '../admin/modules/admin/update-admin/update-admin.component';
+import { UpdateStudentComponent } from '../admin/modules/student/update-student/update-student.component';
+import { UpdateStudentService } from '../admin/modules/student/update-student/update-student.service';
 
 @NgModule({
   declarations: [
@@ -75,6 +87,12 @@ import { InputTypeService } from '../admin/modules/inputType/input-type.service'
     UnauthorizedComponent,
     ExamTypeComponent,
     InputTypeComponent,
+    TeacherComponent,
+    CreateTeacherComponent,
+    UpdateTeacherComponent,
+    AdminComponent,
+    UpdateAdminComponent,
+    UpdateStudentComponent,
   ],
   imports: [
     BrowserModule,
@@ -106,7 +124,13 @@ import { InputTypeService } from '../admin/modules/inputType/input-type.service'
     IsTeacherGuard,
     BlankPathGuard,
     ExamTypeService,
-    InputTypeService
+    InputTypeService,
+    TeacherService,
+    CreateTeacherService,
+    UpdateTeacherService,
+    AdminService,
+    UpdateAdminService,
+    UpdateStudentService,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

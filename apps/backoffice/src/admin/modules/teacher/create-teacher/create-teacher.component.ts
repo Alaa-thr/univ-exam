@@ -2,19 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ILevel, ISpeciality } from '@univ-exam/common';
 import Swal from 'sweetalert2';
-import { CreateAdminService } from './create-admin.service';
+import { CreateTeacherService } from './create-teacher.service';
 
 @Component({
-  selector: 'univ-exam-create-admin',
-  templateUrl: './create-admin.component.html',
-  styleUrls: ['./create-admin.component.css'],
+  selector: 'univ-exam-create-teacher',
+  templateUrl: './create-teacher.component.html',
+  styleUrls: ['./create-teacher.component.css'],
 })
-export class CreateAdminComponent implements OnInit {
+export class CreateTeacherComponent implements OnInit {
   form: FormGroup;
-  specialities: ISpeciality[] = [];
-  levels: ILevel[] = [];
+
   error: string;
-  constructor(private readonly createAdminService: CreateAdminService) {
+  constructor(private readonly createTeacherService: CreateTeacherService) {
     this.error = '';
     this.form = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -24,7 +23,7 @@ export class CreateAdminComponent implements OnInit {
           /(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/
         ),
       ]),
-      admin: new FormGroup({
+      teacher: new FormGroup({
         firstName: new FormControl('', [
           Validators.required,
           Validators.minLength(3),
@@ -45,39 +44,40 @@ export class CreateAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {}
-  createAdmin() {
-    this.createAdminService.addAdmin(this.form.value).subscribe(
+  createTeacher() {
+    this.createTeacherService.addTeacher(this.form.value).subscribe(
       (response) => {
         console.log(response);
         this.form.reset();
         Swal.fire(
           'Success!',
-          'The admin has been created successfully',
+          'The teacher has been created successfully',
           'success'
         );
       },
       (error) => {
-        console.log('CreateAdmin Component error', error);
+        console.log('CreateTeacher Component error', error);
         this.error = error.error.message;
       }
     );
   }
 
-  get Admin() {
-    return this.form.get('admin') as FormGroup;
+  get teachers() {
+    return this.form.get('teacher') as FormGroup;
   }
   get firstName() {
-    return this.Admin.get('firstName') as FormControl;
+    return this.teachers.get('firstName') as FormControl;
   }
   get lastName() {
-    return this.Admin.get('lastName') as FormControl;
+    return this.teachers.get('lastName') as FormControl;
   }
   get birthDate() {
-    return this.Admin.get('birthDate') as FormControl;
+    return this.teachers.get('birthDate') as FormControl;
   }
   get phoneNumber() {
-    return this.Admin.get('phoneNumber') as FormControl;
+    return this.teachers.get('phoneNumber') as FormControl;
   }
+
   get email() {
     return this.form.get('email') as FormControl;
   }

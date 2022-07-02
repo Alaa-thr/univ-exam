@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IStudent } from '@univ-exam/common';
-import { StudentService } from './student.service';
+import { ITeacher } from '@univ-exam/common';
+import { TeacherService } from './teacher.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'univ-exam-student',
-  templateUrl: './student.component.html',
-  styleUrls: ['./student.component.css'],
+  selector: 'univ-exam-teacher',
+  templateUrl: './teacher.component.html',
+  styleUrls: ['./teacher.component.css'],
 })
-export class StudentComponent implements OnInit {
-  students: IStudent[] = [];
+export class TeacherComponent implements OnInit {
+  teachers: ITeacher[] = [];
   currentPage: number;
   totalPages: number;
   itemsLimit: number;
-  constructor(private readonly studentService: StudentService) {
+  constructor(private readonly teacherService: TeacherService) {
     this.currentPage = 0;
     this.totalPages = 0;
     this.itemsLimit = 10;
@@ -26,14 +26,14 @@ export class StudentComponent implements OnInit {
 
   fetchItems() {
     const query = { page: this.currentPage, limit: this.itemsLimit };
-    this.studentService.getStudents(query).subscribe(
+    this.teacherService.getTeachers(query).subscribe(
       (response) => {
-        this.students = response.items;
+        this.teachers = response.items;
         this.totalPages = response.totalPages;
-        console.log('students', this.students);
+        console.log('teachers', this.teachers);
       },
       (error) => {
-        console.log('Student component error', error);
+        console.log('Teacher component error', error);
       }
     );
   }
@@ -46,12 +46,12 @@ export class StudentComponent implements OnInit {
   // get name() {
   //   return this.form.get('name') as FormControl;
   // }
-  // addStudent(){
+  // addTeacher(){
   //   const data = this.form.value;
-  //   this.studentService.addStudent(data).subscribe(
+  //   this.teacherService.addTeacher(data).subscribe(
   //     (response) =>{
   //       this.form.reset();
-  //       this.students.unshift(response)
+  //       this.teachers.unshift(response)
   //     },
   //     (error) =>{
   //       this.nameError = error.error.message[0];
@@ -64,38 +64,38 @@ export class StudentComponent implements OnInit {
   //   this.form.reset();
   //   this.nameError = '';
   // }
-  // editStudent(student: IStudent){
+  // editTeacher(teacher: ITeacher){
   //   this.addForm = true;
   //   this.updateForm = true;
-  //   this.studentUpdate = student;
-  //   this.form.setValue({name: student.name});
+  //   this.teacherUpdate = teacher;
+  //   this.form.setValue({name: teacher.name});
   // }
-  // updateStudent(){
+  // updateTeacher(){
   //   const data = this.form.value;
-  //   this.studentService.updateStudent(this.studentUpdate.id,data).subscribe(
+  //   this.teacherService.updateTeacher(this.teacherUpdate.id,data).subscribe(
   //     (response) =>{
-  //       const speclt = this.students.indexOf(this.studentUpdate);
-  //       this.students[speclt].name = data.name;
+  //       const speclt = this.teachers.indexOf(this.teacherUpdate);
+  //       this.teachers[speclt].name = data.name;
   //     },
   //     (error) =>{
   //       this.nameError = error.error.message[0];
   //     }
   //   )
   // }
-  deleteStudent(student: IStudent) {
-    this.studentService.deleteStudent(student.id).subscribe(
+  deleteTeacher(teacher: ITeacher) {
+    this.teacherService.deleteTeacher(teacher.id).subscribe(
       (response) => {
-        Swal.fire('Deleted!', 'The student has been deleted.', 'success');
-        const speclt = this.students.indexOf(student);
-        this.students.splice(speclt, 1);
+        Swal.fire('Deleted!', 'The teacher has been deleted.', 'success');
+        const speclt = this.teachers.indexOf(teacher);
+        this.teachers.splice(speclt, 1);
       },
       (error) => {
-        Swal.fire('Error!', 'The student didnt deleted.', 'error');
+        Swal.fire('Error!', 'The teacher didnt deleted.', 'error');
       }
     );
   }
 
-  deleteAlert(student: IStudent) {
+  deleteAlert(teacher: ITeacher) {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -106,7 +106,7 @@ export class StudentComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.deleteStudent(student);
+        this.deleteTeacher(teacher);
       }
     });
   }

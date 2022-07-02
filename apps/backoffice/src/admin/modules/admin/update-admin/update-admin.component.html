@@ -5,13 +5,13 @@
         <div class="page-header">
           <div class="row align-items-center">
             <div class="col">
-              <h3 class="page-title">Add Student</h3>
+              <h3 class="page-title">Update Admin</h3>
             </div>
           </div>
         </div>
-        <form [formGroup]="form" (ngSubmit)="createStudent()">
+        <form [formGroup]="form" (ngSubmit)="updateAdmin()">
           <div class="row">
-            <div class="row" formGroupName="student">
+            <div class="row" formGroupName="admin">
               <div class="col-12 col-sm-6">
                 <div class="form-group">
                   <label>First Name</label>
@@ -141,110 +141,7 @@
                       *ngIf="phoneNumber.errors?.['maxlength']"
                       class="text-danger"
                     >
-                      Phone number must be at mac 10 characters long.
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-sm-6">
-                <div class="form-group">
-                  <label>Student Number</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    formControlName="studentNumber"
-                    [ngClass]="{
-                      'is-invalid':
-                        (studentNumber.invalid &&
-                          (studentNumber.dirty || studentNumber.touched)) ||
-                        error
-                    }"
-                  />
-                  <div
-                    *ngIf="
-                      studentNumber.invalid &&
-                      (studentNumber.dirty || studentNumber.touched)
-                    "
-                  >
-                    <div
-                      *ngIf="studentNumber.errors?.['required']"
-                      class="text-danger"
-                    >
-                      Student Number is required.
-                    </div>
-                    <div
-                      *ngIf="studentNumber.errors?.['minlength']"
-                      class="text-danger"
-                    >
-                      Student Number must be at least 12 characters long.
-                    </div>
-                  </div>
-                  <div
-                    *ngIf="error"
-                    class="text-danger"
-                    (keypress)="error = ''"
-                  >
-                    this student number is already exist.
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-sm-6">
-                <div class="form-group">
-                  <label>Speciality</label>
-                  <select
-                    class="form-select"
-                    formControlName="speciality"
-                    [ngClass]="{
-                      'is-invalid':
-                        speciality.invalid &&
-                        (speciality.dirty || speciality.touched)
-                    }"
-                    (change)="getLevel($event)"
-                  >
-                    <option value="" selected disabled>
-                      Select Speciality
-                    </option>
-                    <option
-                      *ngFor="let speciality of specialities"
-                      [value]="speciality.id"
-                    >
-                      {{ speciality.name | capitalizeLetter: 'first' }}
-                    </option>
-                  </select>
-                  <div
-                    *ngIf="
-                      speciality.invalid &&
-                      (speciality.dirty || speciality.touched)
-                    "
-                  >
-                    <div
-                      *ngIf="speciality.errors?.['required']"
-                      class="text-danger"
-                    >
-                      Speciality is required.
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-sm-6">
-                <div class="form-group">
-                  <label value="">Level</label>
-                  <select
-                    class="form-select"
-                    formControlName="level"
-                    [ngClass]="{
-                      'is-invalid':
-                        level.invalid && (level.dirty || level.touched)
-                    }"
-                  >
-                    <option value="" selected disabled>Select Level</option>
-                    <option *ngFor="let level of levels" [value]="level.id">
-                      {{ level.name | capitalizeLetter: 'first' }}
-                    </option>
-                  </select>
-                  <div *ngIf="level.invalid && (level.dirty || level.touched)">
-                    <div *ngIf="level.errors?.['required']" class="text-danger">
-                      Level is required.
+                      Phone number must be at max 10 characters long.
                     </div>
                   </div>
                 </div>
@@ -310,7 +207,7 @@
               class="btn btn-primary"
               [disabled]="form.invalid"
             >
-              Add Student
+              Update Admin
             </button>
           </div>
         </form>

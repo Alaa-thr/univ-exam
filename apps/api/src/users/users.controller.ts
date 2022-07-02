@@ -15,6 +15,7 @@ import { QrCodeLoginDto } from './dto/qr-code-login.dto';
 import { RegisterAdminUserDto } from './dto/register-admin-user.dto';
 import { RegisterStudentUserDto } from './dto/register-student-user.dto';
 import { RegisterTeacherUserDto } from './dto/register-teacher-user.dto';
+import { UpdateUserDto } from './dto/update.user.dto';
 
 @Controller('users')
 @ApiTags('Users')
@@ -65,8 +66,8 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: LoginUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userAuthService.updateCredentials(id, updateUserDto);
   }
 
   @Delete(':id')

@@ -18,11 +18,16 @@ export class StudentsService {
   }
 
   async findOne(id: string) {
-    return await this.studentRepo.findOne(id);
+    return await this.studentRepo.findOne(id, {
+      relations: ['level', 'speciality'],
+    });
   }
 
-  async findOneBySpecialityLevel(specialityId: string, levelId:string) {
-    return await this.studentRepo.findOneBySpecialityLevel(specialityId,levelId);
+  async findOneBySpecialityLevel(specialityId: string, levelId: string) {
+    return await this.studentRepo.findOneBySpecialityLevel(
+      specialityId,
+      levelId
+    );
   }
 
   update(id: string, updateStudentDto: UpdateStudentDto) {

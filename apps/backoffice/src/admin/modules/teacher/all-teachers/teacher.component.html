@@ -1,7 +1,7 @@
 <div class="page-header">
   <div class="row align-items-center">
     <div class="col-8">
-      <h3 class="page-title">Students</h3>
+      <h3 class="page-title">Teachers</h3>
     </div>
   </div>
 </div>
@@ -18,37 +18,31 @@
                 <th>Last Name</th>
                 <th>Birthday</th>
                 <th>Phone Number</th>
-                <th>Student Number</th>
-                <th>Level</th>
-                <th>Speciality</th>
                 <th>Created Date</th>
                 <th class="text-end">Action</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let student of students; let studentIndex = index">
-                <td>{{ studentIndex + 1 }}</td>
-                <td>{{ student.firstName | capitalizeLetter: 'first' }}</td>
-                <td>{{ student.lastName | capitalizeLetter: 'first' }}</td>
-                <td>{{ student.birthDate | date: 'mediumDate' }}</td>
-                <td>{{ student.phoneNumber }}</td>
-                <td>{{ student.studentNumber }}</td>
-                <td>{{ student.level.name }}</td>
-                <td>{{ student.speciality.name }}</td>
-                <td>{{ student.created_at | date: 'mediumDate' }}</td>
+              <tr *ngFor="let teacher of teachers; let teacherIndex = index">
+                <td>{{ teacherIndex + 1 }}</td>
+                <td>{{ teacher.firstName | capitalizeLetter: 'first' }}</td>
+                <td>{{ teacher.lastName | capitalizeLetter: 'first' }}</td>
+                <td>{{ teacher.birthDate | date: 'mediumDate' }}</td>
+                <td>{{ teacher.phoneNumber }}</td>
+                <td>{{ teacher.created_at | date: 'mediumDate' }}</td>
                 <td class="text-end">
                   <div class="actions">
                     <a
+                      [href]="'teachers/update/' + teacher.id"
                       class="btn btn-sm bg-success-light me-2"
-                      [href]="'students/update/' + student.id"
                     >
                       <i class="fas fa-pen"></i>
                     </a>
-                    <a class="btn btn-sm bg-danger-light">
-                      <i
-                        class="fas fa-trash"
-                        (click)="deleteAlert(student)"
-                      ></i>
+                    <a
+                      class="btn btn-sm bg-danger-light"
+                      (click)="deleteTeacher(teacher)"
+                    >
+                      <i class="fas fa-trash"></i>
                     </a>
                   </div>
                 </td>

@@ -15,6 +15,7 @@ import { EUserRoles } from './user-roles.enum';
 import { QrCodeLoginDto } from './dto/qr-code-login.dto';
 import { RegisterAdminUserDto } from './dto/register-admin-user.dto';
 import { AdminService } from 'admins/admin.service';
+import { UpdateUserDto } from './dto/update.user.dto';
 
 @Injectable()
 export class UserAuthService {
@@ -75,6 +76,19 @@ export class UserAuthService {
     return saveUser;
   }
 
+  public async updateCredentials(
+    id: string,
+    updateUserDto: UpdateUserDto
+  ): Promise<Partial<IUser>> {
+    const { email, password } = updateUserDto;
+    if (password)
+      updateUserDto = {
+        ...updateUserDto,
+        password: await this.cryptPassword(password),
+      };
+    return await this.userRepo.updateOne(id, updateUserDto);
+  }
+
   public async login(data: LoginUserDto) {
     const { email } = data;
     const user = await this.checkUserEmail(email);
@@ -83,15 +97,15 @@ export class UserAuthService {
       : user.teacher
       ? EUserRoles.TEACHER
       : user.admin
-      ?EUserRoles.ADMIN
-      :null;
+      ? EUserRoles.ADMIN
+      : null;
     const token = await this.checkUserPassword(data, user, role);
     return token;
   }
 
   public async qrLogin(data: QrCodeLoginDto) {
     const { code } = data;
-    const user = await this.userRepo.findOne({id: code});
+    const user = await this.userRepo.findOne({ id: code });
     if (!user) {
       throw new UnauthorizedException('The QR Code is invalid');
     }
@@ -100,12 +114,11 @@ export class UserAuthService {
       : user.teacher
       ? EUserRoles.TEACHER
       : user.admin
-      ?EUserRoles.ADMIN
-      :null;
+      ? EUserRoles.ADMIN
+      : null;
     const token = await this.generateToken(user, role);
     return token;
   }
-  
 
   private async cryptPassword(password: string): Promise<string> {
     const salt = await bcrypt.genSalt();
@@ -135,7 +148,7 @@ export class UserAuthService {
   }
 
   private async generateToken(user: IUser, userRole: EUserRoles) {
-    const {password, ...userData} = user;
+    const { password, ...userData } = user;
     const payload = { userData, role: userRole };
     const jwtToken = await this.jwtService.signAsync(payload);
     return {

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { QueryDto } from 'shared';
 import { RegisterUserDto, LoginUserDto, UsersRepository } from 'users';
+import { UpdateUserDto } from './dto/update.user.dto';
 
 @Injectable()
 export class UsersService {
@@ -14,14 +15,14 @@ export class UsersService {
   }
 
   findOne(id: string) {
-    return this.usersRepository.findOne(id);
+    return this.usersRepository.findUser(id);
   }
 
   findOneByStudent(studentId: string) {
     return this.usersRepository.findOneByStudent(studentId);
   }
 
-  update(id: string, updateUserDto: LoginUserDto) {
+  update(id: string, updateUserDto: UpdateUserDto) {
     return this.usersRepository.updateOne(id, updateUserDto);
   }
 

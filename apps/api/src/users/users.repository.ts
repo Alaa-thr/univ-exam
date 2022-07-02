@@ -1,10 +1,12 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { isUUID } from 'class-validator';
 import { getPagination, getPagingData, LoginUserDto, QueryDto } from 'shared';
 import { EntityRepository, Repository } from 'typeorm';
 import { UserEntity, IUser } from 'users';
 import { RegisterAdminUserDto } from './dto/register-admin-user.dto';
 import { RegisterStudentUserDto } from './dto/register-student-user.dto';
 import { RegisterTeacherUserDto } from './dto/register-teacher-user.dto';
+import { UpdateUserDto } from './dto/update.user.dto';
 
 @Injectable()
 @EntityRepository(UserEntity)
@@ -22,10 +24,25 @@ export class UsersRepository extends Repository<UserEntity> {
     }
   }
 
-  public async findUser(email: string): Promise<IUser> {
+  public async findUser(emailOrId: string): Promise<IUser> {
     try {
-      const user = await this.findOne({ email });
-      return user;
+      let query = this.createQueryBuilder('users')
+        .leftJoinAndSelect('users.teacher', 'teacher')
+        .leftJoinAndSelect('users.student', 'student')
+        .leftJoinAndSelect('users.admin', 'admin')
+        .leftJoinAndSelect('student.level', 'level')
+        .leftJoinAndSelect('student.speciality', 'speciality')
+        .where('users.email = :email', { email: emailOrId });
+
+      if (isUUID(emailOrId, 4)) {
+        query = query
+          .orWhere('users.id = :id', { id: emailOrId })
+          .orWhere('teacher.id = :id', { id: emailOrId })
+          .orWhere('student.id = :id', { id: emailOrId })
+          .orWhere('admin.id = :id', { id: emailOrId });
+      }
+
+      return query.getOne();
     } catch (error) {
       console.log('user repo', error);
       throw new InternalServerErrorException(
@@ -51,17 +68,26 @@ export class UsersRepository extends Repository<UserEntity> {
       .offset(skip)
       .limit(take)
       .getManyAndCount();
-    
+
     return getPagingData(users, take, skip);
   }
 
-  async updateOne(id: string, loginUserDto: LoginUserDto) {
-    await this.update(id, loginUserDto);
-    return this.findOne(id);
+  async updateOne(id: string, updateUserDto: UpdateUserDto) {
+    const query = await this.createQueryBuilder('users')
+      .leftJoinAndSelect('users.teacher', 'teacher')
+      .leftJoinAndSelect('users.student', 'student')
+      .leftJoinAndSelect('users.admin', 'admin')
+      .where('users.id = :id', { id: id })
+      .orWhere('teacher.id = :id', { id: id })
+      .orWhere('student.id = :id', { id: id })
+      .orWhere('admin.id = :id', { id: id });
+
+    await query.update(updateUserDto).execute();
+    return await query.getOne();
   }
-  async findOneByStudent(studentId: string){
+  async findOneByStudent(studentId: string) {
     return await this.createQueryBuilder('user')
-    .where('user.student = :id',{id: studentId})
-    .getOne();
+      .where('user.student = :id', { id: studentId })
+      .getOne();
   }
 }

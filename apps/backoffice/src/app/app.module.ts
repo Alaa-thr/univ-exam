@@ -60,6 +60,8 @@ import { AdminComponent } from '../admin/modules/admin/all-admins/admin.componen
 import { AdminService } from '../admin/modules/admin/all-admins/admin.service';
 import { UpdateAdminService } from '../admin/modules/admin/update-admin/update-admin.service';
 import { UpdateAdminComponent } from '../admin/modules/admin/update-admin/update-admin.component';
+import { UpdateStudentComponent } from '../admin/modules/student/update-student/update-student.component';
+import { UpdateStudentService } from '../admin/modules/student/update-student/update-student.service';
 
 @NgModule({
   declarations: [
@@ -90,6 +92,7 @@ import { UpdateAdminComponent } from '../admin/modules/admin/update-admin/update
     UpdateTeacherComponent,
     AdminComponent,
     UpdateAdminComponent,
+    UpdateStudentComponent,
   ],
   imports: [
     BrowserModule,
@@ -127,6 +130,7 @@ import { UpdateAdminComponent } from '../admin/modules/admin/update-admin/update
     UpdateTeacherService,
     AdminService,
     UpdateAdminService,
+    UpdateStudentService,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -10,10 +10,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./student.component.css'],
 })
 export class StudentComponent implements OnInit {
-  
-
   students: IStudent[] = [];
-  currentPage: number; 
+  currentPage: number;
   totalPages: number;
   itemsLimit: number;
   constructor(private readonly studentService: StudentService) {
@@ -26,26 +24,26 @@ export class StudentComponent implements OnInit {
     this.fetchItems();
   }
 
-  fetchItems(){
-    const query = {page: this.currentPage, limit: this.itemsLimit}
+  fetchItems() {
+    const query = { page: this.currentPage, limit: this.itemsLimit };
     this.studentService.getStudents(query).subscribe(
-      (response) =>{
+      (response) => {
         this.students = response.items;
         this.totalPages = response.totalPages;
-        console.log("students", this.students)
+        console.log('students', this.students);
       },
-      (error) =>{
-        console.log("Student component error", error);
+      (error) => {
+        console.log('Student component error', error);
       }
-    )
+    );
   }
-  changePage(page: number){
-    if(page < 0) return;
+  changePage(page: number) {
+    if (page < 0) return;
     this.currentPage = page;
     this.fetchItems();
   }
 
-  // get name() { 
+  // get name() {
   //   return this.form.get('name') as FormControl;
   // }
   // addStudent(){
@@ -84,40 +82,32 @@ export class StudentComponent implements OnInit {
   //     }
   //   )
   // }
-  // deleteStudent(student: IStudent){
-  //   this.studentService.deleteStudent(student.id).subscribe(
-  //     (response) =>{
-  //       Swal.fire(
-  //         'Deleted!',
-  //         'The student has been deleted.',
-  //         'success'
-  //       );
-  //       const speclt = this.students.indexOf(student);
-  //       this.students.splice(speclt,1);
-  //     },
-  //     (error) =>{
-  //       Swal.fire(
-  //         'Error!',
-  //         'The student didnt deleted.',
-  //         'error'
-  //       );
-  //     }
-  //   )
-  // }
+  deleteStudent(student: IStudent) {
+    this.studentService.deleteStudent(student.id).subscribe(
+      (response) => {
+        Swal.fire('Deleted!', 'The student has been deleted.', 'success');
+        const speclt = this.students.indexOf(student);
+        this.students.splice(speclt, 1);
+      },
+      (error) => {
+        Swal.fire('Error!', 'The student didnt deleted.', 'error');
+      }
+    );
+  }
 
-  // deleteAlert(student: IStudent){
-  //   Swal.fire({
-  //     title: 'Are you sure?',
-  //     text: "You won't be able to revert this!",
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Yes, delete it!'
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       this.deleteStudent(student);
-  //     }
-  //   });
-  // }
+  deleteAlert(student: IStudent) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteStudent(student);
+      }
+    });
+  }
 }

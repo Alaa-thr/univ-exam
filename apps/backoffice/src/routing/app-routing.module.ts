@@ -26,6 +26,7 @@ import { CreateTeacherComponent } from '../admin/modules/teacher/create-teacher/
 import { UpdateTeacherComponent } from '../admin/modules/teacher/update-teacher/update-teacher.component';
 import { AdminComponent } from '../admin/modules/admin/all-admins/admin.component';
 import { UpdateAdminComponent } from '../admin/modules/admin/update-admin/update-admin.component';
+import { UpdateStudentComponent } from '../admin/modules/student/update-student/update-student.component';
 
 const APP_ROUTING: Routes = [
   {
@@ -91,6 +92,11 @@ const APP_ROUTING: Routes = [
   {
     path: 'create-student',
     component: CreateStudentComponent,
+    canActivate: [LoginGuard, IsAdminGuard],
+  },
+  {
+    path: 'students/update/:id',
+    component: UpdateStudentComponent,
     canActivate: [LoginGuard, IsAdminGuard],
   },
   {

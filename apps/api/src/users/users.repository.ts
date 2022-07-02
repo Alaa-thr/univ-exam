@@ -30,6 +30,8 @@ export class UsersRepository extends Repository<UserEntity> {
         .leftJoinAndSelect('users.teacher', 'teacher')
         .leftJoinAndSelect('users.student', 'student')
         .leftJoinAndSelect('users.admin', 'admin')
+        .leftJoinAndSelect('student.level', 'level')
+        .leftJoinAndSelect('student.speciality', 'speciality')
         .where('users.email = :email', { email: emailOrId });
 
       if (isUUID(emailOrId, 4)) {

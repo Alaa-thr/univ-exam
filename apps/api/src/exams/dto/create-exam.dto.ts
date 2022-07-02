@@ -43,7 +43,6 @@ export class CreateExamDto implements Omit< IExam, 'id'| 'created_at'| 'updated_
   isPublished: boolean;
 
   @ApiProperty()
-  @IsEnum(ExamTypeEnum)
   examType: string;
 
   @ApiProperty()

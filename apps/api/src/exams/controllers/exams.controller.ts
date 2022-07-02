@@ -112,6 +112,12 @@ export class ExamsController {
   ): Promise<{ examDetails: IExam; studentAnswewr: IQuestion[] }> {
     return await this.examsService.findTakenExamsById(studentId, examId);
   }
+  @Get('get-exam-this-date/:date')
+  async getExamsOfThisDate(
+    @Param('date') date: string,
+  ){
+    return await this.examsService.getExamsOfThisDate(date);
+  }
   @Get('publish/:id')
   publishExam(@Param('id') examId: string) {
     return this.examsService.publishExam(examId);

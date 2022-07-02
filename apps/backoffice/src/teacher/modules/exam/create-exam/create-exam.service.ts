@@ -16,6 +16,10 @@ export class CreateExamService{
         const link = environment.api+"exam-type"
         return this.httpClient.get(link);
     }
+    getInputType(): Observable<any>{
+        const link = environment.api+"input-type"
+        return this.httpClient.get(link);
+    }
     getSpeciality(): Observable<any>{
         return this.httpClient.get(this.linkSpeciality);
     }
@@ -32,7 +36,7 @@ export class CreateExamService{
     }
     getExamsOfThisDate(date: any){
         console.log(date)
-        const link = this.examlink+"get-exam-this-date"
+        const link = this.examlink+"/get-exam-this-date"
         return this.httpClient.get(link+`/${date}`);
     }
     redirectToStudentsList(url: string){

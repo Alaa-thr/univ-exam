@@ -201,4 +201,20 @@ export class ExamsService {
       date: today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
     }; 
   }
+  async getExamsOfThisDate(date:any){
+    return await this.examRepo.find(
+            {
+                where:[
+                    {
+                        date : date,
+                    }
+                ],
+                select: [
+                    "date",
+                    "startHour",
+                    "endHour"
+                ]
+            }
+    );
+  }
 }

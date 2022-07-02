@@ -52,7 +52,7 @@ export class CreateAdminComponent implements OnInit {
         this.form.reset();
         Swal.fire(
           'Success!',
-          'The student has been created successfully',
+          'The admin has been created successfully',
           'success'
         );
       },

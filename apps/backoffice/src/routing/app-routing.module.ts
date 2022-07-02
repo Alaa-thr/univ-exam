@@ -24,6 +24,7 @@ import { InputTypeComponent } from '../admin/modules/inputType/input-type.compon
 import { TeacherComponent } from '../admin/modules/teacher/all-teachers/teacher.component';
 import { CreateTeacherComponent } from '../admin/modules/teacher/create-teacher/create-teacher.component';
 import { UpdateTeacherComponent } from '../admin/modules/teacher/update-teacher/update-teacher.component';
+import { AdminComponent } from '../admin/modules/admin/all-admins/admin.component';
 
 const APP_ROUTING: Routes = [
   {
@@ -62,7 +63,12 @@ const APP_ROUTING: Routes = [
     canActivate: [LoginGuard, IsAdminGuard],
   },
   {
-    path: 'create-admin',
+    path: 'admins',
+    component: AdminComponent,
+    canActivate: [LoginGuard, IsAdminGuard],
+  },
+  {
+    path: 'admins/create',
     component: CreateAdminComponent,
     canActivate: [LoginGuard, IsAdminGuard],
   },

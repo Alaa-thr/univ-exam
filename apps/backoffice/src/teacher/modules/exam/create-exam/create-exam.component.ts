@@ -262,12 +262,18 @@ export class CreateExamComponent implements OnInit {
     );
   }
   showStudents(url:string) {
-    window.open("http://localhost:4201/"+url, '_blank');
+    this.createExamService.redirectToStudentsList(url);
+    
   }
   deleteAnswerItem(index: number){
     this.getansewrs().controls.splice(index,1)
     this.questionForm.value.answers.splice(index,1)
     console.log((this.questionForm.value))
     console.log(index)
+  }
+  getExamsOfThisDate(event: any){
+    console.log(event.target.value)
+    const date = event.target.value;
+    this.createExamService.getExamsOfThisDate(date)
   }
 }

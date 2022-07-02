@@ -30,4 +30,12 @@ export class CreateExamService{
         const link = environment.api+"students"
         return this.httpClient.get(link+`/${specialityId}/${levelId}`);
     }
+    getExamsOfThisDate(date: any){
+        console.log(date)
+        const link = this.examlink+"get-exam-this-date"
+        return this.httpClient.get(link+`/${date}`);
+    }
+    redirectToStudentsList(url: string){
+        window.open(environment.api+"/"+url, '_blank');
+    }
 }

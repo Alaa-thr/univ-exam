@@ -15,19 +15,23 @@ export class QuestionsService {
   ) {}
 
   async createOne(createQuestionDto: CreateQuestionDto): Promise<IQuestion> {
-
-    const {answers, text, point, inputType} = createQuestionDto;
-    const createdAnswers: IAnswer[] = await this.answersService.create(
-      answers
-    );
+    const { answers, text, point, inputType } = createQuestionDto;
+    const createdAnswers: IAnswer[] = await this.answersService.create(answers);
     const getInputType = await this.inputTypeService.findOneByType(inputType);
-    return await this.questionsRepo.save({text: text, point:point,inputType: getInputType ,answers:createdAnswers});
+    return await this.questionsRepo.save({
+      text: text,
+      point: point,
+      inputType: getInputType,
+      answers: createdAnswers,
+    });
   }
 
-  async createMany(createQuestionDtoList: CreateQuestionDto[]) {
+  async createMany(createQuestionDtoList: any[]) {
     const createdQuestionsList: IQuestion[] = [];
+    console.log('index :', createQuestionDtoList.length);
 
     for (let index = 0; index < createQuestionDtoList.length; index++) {
+      console.log('index :', index);
       const createQuestionDto = createQuestionDtoList[index];
       const createdQuestion: IQuestion = await this.createOne(
         createQuestionDto

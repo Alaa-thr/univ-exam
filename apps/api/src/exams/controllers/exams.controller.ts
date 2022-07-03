@@ -35,26 +35,23 @@ export class ExamsController {
   ) {}
 
   @Post()
-  create(
-    @User() userLogged: IUser,
-    @Body() createExamDto: CreateExamDto
-  ) {
+  create(@User() userLogged: IUser, @Body() createExamDto: CreateExamDto) {
     const { teacher } = userLogged;
-    return this.examsService.createOne(createExamDto,teacher);
+    return this.examsService.createOne(createExamDto, teacher);
   }
 
   @Post('student-cheating')
-  @UseInterceptors(FileInterceptor('video', 
-    {
+  @UseInterceptors(
+    FileInterceptor('video', {
       storage: diskStorage({
-        destination: "uploads",
-        filename:(req,file,callbackFunct)=>{
+        destination: 'uploads',
+        filename: (req, file, callbackFunct) => {
           const videoName = file.originalname;
           callbackFunct(null, videoName);
-        }
-      })
-    }
-  ))
+        },
+      }),
+    })
+  )
   setCheatedStudent(
     @UploadedFile() video: Express.Multer.File,
     @Body() updateExamStudentDto: any
@@ -65,17 +62,14 @@ export class ExamsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() UpdateExamDto) {
+  update(@Param('id') id: string, @Body() UpdateExamDto: UpdateExamDto) {
     return this.examsService.updateOne(id, UpdateExamDto);
   }
 
   @Get()
-  async findAllExams(
-    @User() userLogged: IUser,
-    @Query() query: QueryDto
-  ) {
+  async findAllExams(@User() userLogged: IUser, @Query() query: QueryDto) {
     const { teacher } = userLogged;
-    return await this.examsService.findAllExams(query,teacher.id);
+    return await this.examsService.findAllExams(query, teacher.id);
   }
 
   @Get('scheduled-exams')
@@ -84,7 +78,10 @@ export class ExamsController {
     @Query() query: QueryDto
   ): Promise<IStudentExam[]> {
     const { student } = userLogged;
-    return await this.studentExamService.findAllScheduledExams(student.id,query);
+    return await this.studentExamService.findAllScheduledExams(
+      student.id,
+      query
+    );
   }
 
   @Get('taken-exams')
@@ -93,7 +90,7 @@ export class ExamsController {
     @Query() query: QueryDto
   ): Promise<IStudentExam[]> {
     const { student } = userLogged;
-    return await this.studentExamService.findAllTakenExams(student.id,query);
+    return await this.studentExamService.findAllTakenExams(student.id, query);
   }
 
   @Get('scheduled-exam/get-exam-started-time')
@@ -108,7 +105,7 @@ export class ExamsController {
   @Get('student-exam-answers/:examId/:studentId')
   async findStudentExamAmswers(
     @Param('examId') examId: string,
-    @Param('studentId') studentId: string,
+    @Param('studentId') studentId: string
   ): Promise<{ examDetails: IExam; studentAnswewr: IQuestion[] }> {
     return await this.examsService.findTakenExamsById(studentId, examId);
   }
@@ -123,9 +120,7 @@ export class ExamsController {
     return this.examsService.publishExam(examId);
   }
   @Get('exam-student/:id')
-  async findAllStudentOfExam(
-    @Param('id') examId: string
-  ) {
+  async findAllStudentOfExam(@Param('id') examId: string) {
     return await this.studentExamService.findAllStudentOfExam(examId);
   }
   @Get('taken-exams/:id')
@@ -152,7 +147,7 @@ export class ExamsController {
   }
 
   @Delete(':id')
-  async deleteOne(@Param('id') id: string){
+  async deleteOne(@Param('id') id: string) {
     return await this.examsService.deleteOne(id);
   }
 }

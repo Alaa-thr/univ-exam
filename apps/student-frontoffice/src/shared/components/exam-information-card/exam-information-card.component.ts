@@ -29,7 +29,7 @@ export class ExamInformationCardComponent implements OnInit {
       return true;
     }else{
       this.dataPercent = (grade/20)*100;
-      if(grade > 10){
+      if(grade >= 10){
         this.circleClass = 'circle-success';
         this.circleGraphClass = 'circle-graph-success';
         
@@ -58,6 +58,7 @@ export class ExamInformationCardComponent implements OnInit {
     return true;
   }
   getTime(startHour: string, endHour: string){
+    console.log(this.exams)
     return calculeTime(startHour,endHour);
   }
 

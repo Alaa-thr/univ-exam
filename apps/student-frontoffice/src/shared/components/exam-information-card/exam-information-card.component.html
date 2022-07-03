@@ -36,7 +36,7 @@
                     </ul>
                     <div class="dash-btn">
                         <button type="submit" class="btn btn-info" *ngIf="!exm.isDone" [routerLink]="['preparation-exam/'+exm.exam.id]" [disabled]="startNow(examIndex)">Start</button>
-                        <button type="submit" class="btn btn-info" *ngIf="exm.isDone && exm.grade >= 0" [routerLink]="[exm.exam.id]">View</button>
+                        <button type="submit" class="btn btn-info" *ngIf="exm.isDone && exm.grade >= 0" [disabled]="!exm.exam.answersArePublished" [routerLink]="[exm.exam.id]">View</button>
                     </div>
                 </div>
             </div>

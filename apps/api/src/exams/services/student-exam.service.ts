@@ -14,7 +14,7 @@ export class StudentExamService {
   constructor(private readonly studentExamRepo: StudentExamRepository){
   }
   
-  @Cron('0 */10 * * * *')
+  @Cron('0 */1 * * * *')
   handleCron() {
     this.studentExamRepo.changeExamStatus();
     console.log("cron called")

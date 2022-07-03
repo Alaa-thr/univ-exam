@@ -25,7 +25,7 @@ import { NotificationsModule } from 'notifications';
     InputTypeModule,
     ExamTypeModule,
     UsersModule,
-    NotificationsModule
+    NotificationsModule,
   ],
   controllers: [ExamsController, AnswersController],
   providers: [
@@ -34,5 +34,6 @@ import { NotificationsModule } from 'notifications';
     StudentExamService,
     QuestionsService,
   ],
+  exports: [StudentExamService,ExamsService]
 })
 export class ExamsModule {}

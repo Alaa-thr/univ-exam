@@ -121,7 +121,7 @@
                             *ngFor="let answr of qst.answers">
                              <div class="form-check" >
                                 <input type="checkbox" name="checkbox" class="form-check-input"
-                                [ngClass]="{'is-valid':answr.isCorrect,'is-invalid':!answr.isCorrect && answr.isSelected}"
+                                [ngClass]="{'is-valid':answr.isCorrect,'is-invalid':answr.isCorrect === false && answr.isSelected}"
                                 [checked]="answr.isSelected" id="{{answr.id}}"
                                 (click)="false">
                                 <label class="form-check-label" for="{{answr.id}}">{{answr.title}}</label>
@@ -133,7 +133,7 @@
                             *ngFor="let answr of qst.answers">
                              <div class="form-check" >
                                 <input type="radio" name="{{qst.id}}" class="form-check-input"
-                                [ngClass]="{'is-valid':answr.isCorrect,'is-invalid':!answr.isCorrect && answr.isSelected}"
+                                [ngClass]="{'is-valid':answr.isCorrect,'is-invalid':answr.isCorrect === false && answr.isSelected}"
                                 [checked]="answr.isSelected" id="{{answr.id}}"
                                 (click)="false">
                                 <label class="form-check-label" for="{{answr.id}}">{{answr.title}}</label>

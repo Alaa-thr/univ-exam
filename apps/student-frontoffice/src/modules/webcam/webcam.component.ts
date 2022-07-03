@@ -62,7 +62,7 @@ export class WebcamComponent implements OnInit, OnDestroy, AfterViewInit {
         this.sendStreamRequest();
       })
       .catch((err) => {
-        alert('You need to TURN ON your CAMERA and AUDIO');
+        alert('You need to TURN ON your CAMERA');
         this.setCameraIsActivated(false);
       });
   }

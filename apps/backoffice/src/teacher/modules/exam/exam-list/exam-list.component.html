@@ -51,7 +51,7 @@
                                         </a>
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item" (click)="publishExam(examIndex)" *ngIf="!exam.isPublished">Publish</a>
-                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#" *ngIf="exam.isPublished">Edit</a>
                                             <a class="dropdown-item" (click)="deleteAlert(exam)">Delete</a>
                                         </div>
                                     </div>

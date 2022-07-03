@@ -1,9 +1,10 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { EntityRepository, Equal, LessThan, LessThanOrEqual, Repository } from "typeorm";
+import { EntityRepository, getConnection, LessThan, LessThanOrEqual, Repository } from "typeorm";
 import { IStudentExam } from "../interfaces/student-exam.interface";
 import { StudentExamEntity } from "../entities/studentExam.entity";
 import { UpdateExamStudentDto } from "exams/dto/update-exam-student.dto";
-import { getPagination, getPagingData, QueryDto } from "shared";
+import {  QueryDto } from "shared";
+import { ExamEntity } from "exams/entities/exam.entity";
 
 @Injectable()
 @EntityRepository(StudentExamEntity)
@@ -67,10 +68,13 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
                 ]
             }
         );
+        const connection = await getConnection();
         for(let i = 0; i< studentExams.length; i++){
             studentExams[i].isDone = true;
             studentExams[i].grade = -1;
             await this.save(studentExams[i]);
+            const examRepo = connection.getRepository(ExamEntity);
+            const exam = await examRepo.update(studentExams[i].exam.id,{answersArePublished: true,isPublished: true});
         }  
     }
     private async findExams(studentId: string, isDone: boolean,query: QueryDto){

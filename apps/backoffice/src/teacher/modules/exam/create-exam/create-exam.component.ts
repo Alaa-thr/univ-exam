@@ -157,7 +157,6 @@ export class CreateExamComponent implements OnInit {
     for(let i=0; i< answersLength-1; i++){
       this.getansewrs().controls.pop();
     }
-    console.log(this.createExamForm.value)
   }
   addAnswer(){
     this.getansewrs().push(this.initAnswer());
@@ -273,9 +272,7 @@ export class CreateExamComponent implements OnInit {
     
   }
   deleteAnswerItem(index: number){
-    this.getansewrs().controls.splice(index,1);
     this.getansewrs().removeAt(index);
-    this.questionForm.value.answers.splice(index,1);
   }
   checkTime():ValidatorFn{
     return (group: AbstractControl): ValidationErrors | null => {
@@ -288,13 +285,18 @@ export class CreateExamComponent implements OnInit {
       }
     };
   }
-  changeSelectInAnswers(event: any){
-    console.log(event.target.value)
-    const value = event.target.value.split(' ')
-    console.log(value)
-    if(value[1] === 'true' && this.questionForm.value.inputType === 'radio'){
-      this.trueIsSelectedInAnswer = false;
-    }else if(this.questionForm.value.inputType === 'checkbox'){
+  changeSelectInAnswers(){
+    let j = 0;
+    if(this.questionForm.value.inputType === 'radio'){
+      const answers = this.questionForm.value.answers;
+      for(let i=0; i< answers.length; i++){
+        if(answers[i].isCorrect){
+          this.trueIsSelectedInAnswer = false;
+          j++;
+        }
+      }
+      if(!j) this.trueIsSelectedInAnswer = true;
+    }else{
       this.trueIsSelectedInAnswer = true;
     }
   }
@@ -304,5 +306,13 @@ export class CreateExamComponent implements OnInit {
   deleteQuestionItem(index: number){
     this.questionsList.splice(index, 1);
     (this.createExamForm.get('questions') as FormArray).value.splice(index+1,1);
+  }
+  updateQst(index: number){
+    const qst = this.createExamForm.value.questions[index+1];
+    for(let i=0; i< qst.answers.length-1; i++){
+      this.getansewrs().push(this.initAnswer());
+    }
+    this.questionForm.setValue(qst);
+    this.deleteQuestionItem(index);
   }
 }

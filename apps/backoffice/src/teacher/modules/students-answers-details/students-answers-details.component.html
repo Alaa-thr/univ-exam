@@ -30,25 +30,25 @@
             </div>
         </div>
     </div>
-    <div class="row" *ngIf="changeGrade && examDetails.grade >= 0">
+    <div class="row" >
         <div class="col-md-12">
-            <div class="card" >
-                <div class="card-body">
-                    <!-- <form [formGroup]="form">
+            <div class="card" *ngIf="examDetails.grade >= 0">
+                <div class="card-body" *ngIf="cheated">
+                    <form [formGroup]="formCheated">
                         <div class="row">
                             <div class="col-8">
                                 <div class="form-group row">
-                                    <label class="col-3 col-form-label">Type Name</label>
+                                    <label class="col-3 col-form-label">Reason</label>
                                     <div class="col-9">
-                                        <input type="text" class="form-control" formControlName="type"
-                                            [ngClass]="{'is-invalid':(type.invalid && (type.dirty || type.touched))|| (typeError)}"
+                                        <input type="text" class="form-control" formControlName="reason"
+                                            [ngClass]="{'is-invalid':(reason.invalid && (reason.dirty || reason.touched))|| (typeError)}"
                                             (keypress)="typeError=''">
-                                        <div *ngIf="type.invalid && (type.dirty || type.touched)">
-                                            <div *ngIf="type.errors?.['required']" class="text-danger">
-                                                Type is required.
+                                        <div *ngIf="reason.invalid && (reason.dirty || reason.touched)">
+                                            <div *ngIf="reason.errors?.['required']" class="text-danger">
+                                                reason is required.
                                             </div>
-                                            <div *ngIf="type.errors?.['minlength']" class="text-danger">
-                                                Type must be at least 2 characters long.
+                                            <div *ngIf="reason.errors?.['minLength']" class="text-danger">
+                                                reason is minLength 2.
                                             </div>
                                         </div>
                                         <div *ngIf="typeError">
@@ -62,18 +62,17 @@
                             <div class="col-4">
                                 <div class="form-group row">
                                     <div class="text-end">
-                                        <button type="submit" class="btn btn-primary" [disabled]="form.invalid"
-                                            *ngIf="updateForm" (click)="updateLevel()">Update</button>
+                                        <button class="btn btn-primary m-r-5" [disabled]="formCheated.invalid" (click)="changeValue()">Update</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </form> -->
-                    
+                    </form>
                 </div>
             </div>
-            <div class="col-12">
-                <button class="btn btn-primary float-end  m-b-15">Change Grade</button>
+            <div class="col-12" *ngIf="examDetails.grade >= 0">
+                <button class="btn btn-primary float-end  m-b-15 m-l-5" (click)="cheated=true;changeGrade=false"> Cheated</button>
+                <button class="btn btn-primary float-end  m-b-15" (click)="reCalculateGrade()"> ReCalculate</button>
             </div>
         </div>
     </div>
@@ -99,7 +98,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12 d-flex">
+    <div class="col-12 d-flex" *ngIf="examDetails.grade>=0">
         <div class="card flex-fill">
             <div 
                 *ngFor="let qst of examDetails.questions;

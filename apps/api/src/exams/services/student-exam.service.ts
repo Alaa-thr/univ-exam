@@ -69,4 +69,8 @@ export class StudentExamService {
   async createStudentVideo(studentId: string,examId: string,updateExamStudentDto: UpdateExamStudentDto): Promise<IStudentExam> {
     return await this.studentExamRepo.createStudentVideo(studentId,examId,updateExamStudentDto);
   }
+  async updateByStudentExamId(studentId: string,examId: string,updateExamStudentDto: UpdateExamStudentDto) {
+    return await this.studentExamRepo.updateByStudentExamId(studentId, examId,updateExamStudentDto);
+  }
+
 }

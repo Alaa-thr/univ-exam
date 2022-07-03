@@ -46,4 +46,22 @@ export class AnswersController {
     return await this.answerService.createStudentAnswers(student.id,questions,videoName);
   }
 
+  @Post('recalculate-grade')
+  async reCalculateGrade(
+    @Body() data: any,
+    @User() userLogged: IUser
+  ):Promise<any> {
+    const {teacher} = userLogged;
+    return await this.answerService.reCalculateGrade(teacher,data);
+  }
+
+  @Post('cheated-student')
+  async setCheatedStudent(
+    @Body() data: any,
+    @User() userLogged: IUser
+  ):Promise<any> {
+    const {teacher} = userLogged;
+    return await this.answerService.updateByStudentExamId(data,data.grade,teacher);
+  }
+
 }

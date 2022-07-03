@@ -1,19 +1,46 @@
 import { Injectable } from '@nestjs/common';
+import { UsersService } from '@users';
 import { CreateAnswerDto } from 'exams/dto/create-answer.dto';
 import { UpdateExamStudentDto } from 'exams/dto/update-exam-student.dto';
 import { IAnswer } from 'exams/interfaces/answer.interface';
 import { IQuestion } from 'exams/interfaces/question.interface';
 import { AnswersRepository } from 'exams/repositiries/answers.repository';
+import { NotificationEntity, NotificationsService } from 'notifications';
 import { getStudentAnswers } from 'shared/fonctions/common-functions';
+import { ITeacher } from 'teachers/interface/teacher.interface';
 import { StudentExamService } from './student-exam.service';
 
 @Injectable()
 export class AnswersService {
   constructor(
     private readonly studentExamService: StudentExamService,
+    private readonly userService: UsersService,
+     private readonly notifService: NotificationsService,
     private readonly answerRepo: AnswersRepository
   ) {}
 
+  async reCalculateGrade(teacher: ITeacher, data: any){
+    const studentAnswers =  data.questions;
+    for(let i = 0; i<studentAnswers.length; i++ ){
+      for(let j= 0; j< studentAnswers[i].answers.length; j++){
+        if(!studentAnswers[i].answers[j].isSelected){
+          studentAnswers[i].answers.splice(j,1)
+        }
+      }
+    }
+    const examQuestions = await this.findAnswersByExamId(data.examId);
+    const studentAnswersId = getStudentAnswers(studentAnswers);
+    const grade = this.getExamGrade(examQuestions, studentAnswersId);
+    return await this.studentExamService.updateByStudentExamId(data.studentId,data.examId,{grade: grade});
+  }
+  async updateByStudentExamId(data: any, grade: number,teacher: ITeacher){
+    const notif = new NotificationEntity();
+    notif.description = "the teacher "+teacher.firstName+" "+teacher.lastName+" has changed your grade because you cheated by "+data.reason;
+    const user = await this.userService.findOneByTeacher(teacher.id);
+    notif.user = user;
+    await this.notifService.create(notif);
+    return await this.studentExamService.updateByStudentExamId(data.studentId,data.examId,{grade: grade});
+  }
   async createStudentAnswers(
     studentId: string,
     studentAnswers: any,
@@ -45,7 +72,7 @@ export class AnswersService {
     const {examAnswers, studentAnswers,substractPoint} = data
     for (let i = 0; i < examAnswers.length; i++) {
       for (let j = 0; j < studentAnswers.length; j++) {
-        if (examAnswers[i].id == studentAnswers[j] && examAnswers[i].isCorrect) {
+        if (examAnswers[i].id == studentAnswers[j].id && examAnswers[i].isCorrect) {
           gradeOfOneQuestion += substractPoint;
         }
       }
@@ -66,16 +93,6 @@ export class AnswersService {
   }
   async findAnswersByExamId(examId: string): Promise<IQuestion[]> {
     return await this.answerRepo.findAnswersByExamId(examId);
-  }
-
-  private getStudentAnswers(questions: any): string[] {
-    const answers: string[] = [];
-    for (let i = 0; i < questions.length; i++) {
-      for (let j = 0; j < questions[i].answers.length; j++) {
-        answers.push(questions[i].answers[j]);
-      }
-    }
-    return answers;
   }
 
   getExamStartedTime(): { startedExam: string } {

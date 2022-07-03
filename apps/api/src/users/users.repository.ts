@@ -90,4 +90,9 @@ export class UsersRepository extends Repository<UserEntity> {
       .where('user.student = :id', { id: studentId })
       .getOne();
   }
+  async findOneByTeacher(teacherID: string) {
+    return await this.createQueryBuilder('user')
+      .where('user.teacher = :id', { id: teacherID })
+      .getOne();
+  }
 }

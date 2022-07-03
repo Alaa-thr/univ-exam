@@ -102,5 +102,14 @@ export class StudentExamRepository extends Repository<StudentExamEntity>{
             throw new InternalServerErrorException("Something went wrong, exams cannot be recoverd.") 
         }
     }
-
+    async updateByStudentExamId(studentId: string,examId: string,updateExamStudentDto: UpdateExamStudentDto) {
+        const studentExam =  await this.createQueryBuilder('exmStdnt')
+        .leftJoinAndSelect('exmStdnt.exam', 'exam')
+        .leftJoinAndSelect('exmStdnt.student', 'student')
+        .where('exmStdnt.student  = :student ',{student:studentId})
+        .andWhere('exmStdnt.exam = :exam ',{exam:examId})
+        .getOne();
+        return await this.save({...studentExam, ...updateExamStudentDto});
+      }
+    
 }

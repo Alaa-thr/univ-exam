@@ -240,4 +240,20 @@ export class ExamsService {
         today.getDate(),
     };
   }
+  async getExamsOfThisDate(date:any){
+    return await this.examRepo.find(
+            {
+                where:[
+                    {
+                        date : date,
+                    }
+                ],
+                select: [
+                    "date",
+                    "startHour",
+                    "endHour"
+                ]
+            }
+    );
+  }
 }

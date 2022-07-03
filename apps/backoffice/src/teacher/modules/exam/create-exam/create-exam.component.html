@@ -91,23 +91,28 @@
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>Start Time</label>
-                                    <input type="time" class="form-control" formControlName="startHour" [ngClass]="{'is-invalid':startHour.invalid && (startHour.dirty || startHour.touched)}">
+                                    <input type="time" class="form-control" formControlName="startHour" [ngClass]="{'is-invalid':(startHour.invalid && (startHour.dirty || startHour.touched))|| createExamForm.hasError('notEquivalent')}" >
                                     <div *ngIf="startHour.invalid && (startHour.dirty || startHour.touched)">
                                         <div *ngIf="startHour.errors?.['required']" class="text-danger">
                                             Start time is required.
                                         </div>
+                                        
+                                    </div>
+                                    <div *ngIf="createExamForm.hasError('notEquivalent')" class="text-danger">
+                                        Start time needs to be less then the End time.
                                     </div>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                     <label>End Time</label>
-                                    <input type="time" class="form-control" formControlName="endHour" [ngClass]="{'is-invalid':endHour.invalid && (endHour.dirty || endHour.touched)}">
+                                    <input type="time" class="form-control" formControlName="endHour" [ngClass]="{'is-invalid':endHour.invalid && (endHour.dirty || endHour.touched)}" >
                                     <div *ngIf="endHour.invalid && (endHour.dirty || endHour.touched)">
                                         <div *ngIf="endHour.errors?.['required']" class="text-danger">
                                             End time is required.
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                             <div class="col-12">
@@ -164,8 +169,7 @@
                                                     <div class="col-lg-10">
                                                         <select class="form-select" formControlName="inputType" [ngClass]="{'is-invalid':inputType.invalid && (inputType.dirty || inputType.touched)}">
                                                             <option value=""> Choose one</option>
-                                                            <option value="radio">Radio</option>
-                                                            <option value="checkbox">Checkbox</option>
+                                                            <option *ngFor="let type of inputTypes" [value]="type.type">{{type.type | SeparateWords | capitalizeLetter: "first"}}</option>
                                                         </select>
                                                     </div>
                                                     <div *ngIf="inputType.invalid && (inputType.dirty || inputType.touched)">
@@ -228,9 +232,13 @@
                                         </div>
                                         <div class="col-12 col-sm-3">
                                             <h5 class="card-title">Is True</h5>
-                                            <select class="form-control form-select" formControlName="isCorrect" [ngClass]="{'is-invalid':isCorrect(j).invalid && (isCorrect(j).dirty || isCorrect(j).touched)}">
+                                            <select class="form-control form-select" formControlName="isCorrect" [ngClass]="{'is-invalid':isCorrect(j).invalid && (isCorrect(j).dirty || isCorrect(j).touched)}" (change)="changeSelectInAnswers($event)">
                                                 <option selected value="">Select</option>
-                                                <option [ngValue]="true">True</option>
+                                                <option  [ngValue]="true">True</option>
+                                                <option [ngValue]="false">False</option>
+                                            </select>
+                                            <select class="form-control form-select" formControlName="isCorrect" [ngClass]="{'is-invalid':isCorrect(j).invalid && (isCorrect(j).dirty || isCorrect(j).touched)}"  *ngIf="!trueIsSelectedInAnswer">
+                                                <option selected value="">Select</option>
                                                 <option [ngValue]="false">False</option>
                                             </select>
                                             <div *ngIf="isCorrect(j).invalid && (isCorrect(j).dirty || isCorrect(j).touched)">
@@ -277,14 +285,14 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr *ngFor="let qst of questionsList">
+                                                        <tr *ngFor="let qst of questionsList; let i = index">
                                                             <td>{{qst.text}}</td>
                                                             <td>{{qst.inputType}}</td>
                                                             <td>{{qst.point}}</td>
                                                             <td>
                                                                 <u>
                                                                     <a class="text-dark" data-bs-toggle="modal"
-                                                                        href="#viewanswer" role="button">view
+                                                                        href="#viewanswer" role="button" (click)="getAnswersDetails(i)">view
                                                                         answers</a>
                                                                 </u>
                                                             </td>
@@ -296,7 +304,7 @@
                                                                         <i class="fas fa-pen"></i>
 
                                                                     </a>
-                                                                    <a href="#" class="btn btn-sm bg-danger-light">
+                                                                    <a class="btn btn-sm bg-danger-light" (click)="deleteQuestionItem(i)">
                                                                         <i class="fas fa-trash"></i>
                                                                     </a>
                                                                 </div>
@@ -409,13 +417,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>answr</td>
-                                        <td>True</td>
-                                    </tr>
-                                    <tr>
-                                        <td>answr</td>
-                                        <td>false</td>
+                                    <tr *ngFor="let answer of answersDetails">
+                                        <td>{{answer.title | capitalizeLetter: 'first'}}</td>
+                                        <td>{{answer.isCorrect}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -423,11 +427,6 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
-                    data-bs-dismiss="modal">Edit</button>
-            </div>
         </div>
     </div>
 </div>
-

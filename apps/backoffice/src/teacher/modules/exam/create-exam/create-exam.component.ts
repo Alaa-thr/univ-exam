@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { IExamType, ILevel, IModule, ISpeciality, IStudent } from '@univ-exam/common';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { IAnswer, IExamType, IInputType, ILevel, IModule, ISpeciality, IStudent } from '@univ-exam/common';
 import { ISpecialityModuleLevel } from '@univ-exam/common';
 import Swal from 'sweetalert2';
 import { CreateExamService } from './create-exam.service';
@@ -24,6 +24,7 @@ export class CreateExamComponent implements OnInit {
     }]
   }];
   examTypes: IExamType[] = [];
+  inputTypes: IInputType[] = [];
   specialities: ISpeciality[] = [];
   levels: ILevel[] = [];
   modules: IModule[] = []; 
@@ -32,6 +33,8 @@ export class CreateExamComponent implements OnInit {
   specialityLevelModule: ISpecialityModuleLevel[] = [];
   students: any = [];
   addExamError: number;
+  trueIsSelectedInAnswer = true;
+  answersDetails: any[] = [];
   constructor(
     private readonly fb: FormBuilder,
     private readonly createExamService: CreateExamService,
@@ -55,7 +58,7 @@ export class CreateExamComponent implements OnInit {
         Validators.required
       ]),
       'endHour': this.fb.control('',[
-        Validators.required
+        Validators.required,
       ]),
       'date': this.fb.control('',[
         Validators.required
@@ -75,6 +78,7 @@ export class CreateExamComponent implements OnInit {
         }) 
       ])
     });
+    this.createExamForm.setValidators(this.checkTime())
     this.questionForm = this.initQuestion();
     this.questionsList.splice(0,1); 
   }
@@ -83,7 +87,13 @@ export class CreateExamComponent implements OnInit {
     this.createExamService.getExamType().subscribe(
       (response) => {
         this.examTypes = response.items;
-        console.log("examType ",this.examTypes)
+      },(error)=>{
+        console.log('CreateExam Component error', error);
+      }
+    );
+    this.createExamService.getInputType().subscribe(
+      (response) => {
+        this.inputTypes = response.items;
       },(error)=>{
         console.log('CreateExam Component error', error);
       }
@@ -91,7 +101,6 @@ export class CreateExamComponent implements OnInit {
     this.createExamService.getSpeciality().subscribe(
       (response) => {
         this.specialities = response.items;
-        console.log("speciality ",this.specialities)
       },(error)=>{
         console.log('CreateExam Component error', error);
       }
@@ -105,7 +114,6 @@ export class CreateExamComponent implements OnInit {
         this.levels = [];
         this.modules = [];
         this.specialityLevelModule = response;
-        console.log("specialityLevelModule",this.specialityLevelModule)
         for(let i=0; i< this.specialityLevelModule.length; i++){
           const index = this.levels.findIndex(object => {
             return object.id === this.specialityLevelModule[i].level.id;
@@ -158,7 +166,7 @@ export class CreateExamComponent implements OnInit {
     return new FormGroup({
       'title': this.fb.control('',[
         Validators.required,
-        Validators.minLength(3),
+        Validators.minLength(1),
       ]),
       'isCorrect': this.fb.control('',[
         Validators.required
@@ -179,7 +187,7 @@ export class CreateExamComponent implements OnInit {
         ]),
         'answers': this.fb.array([
           this.initAnswer()
-        ])
+        ],Validators.minLength(2))
       });
   }
 
@@ -244,7 +252,6 @@ export class CreateExamComponent implements OnInit {
       (response) => {
         this.levelId = '';
         this.specialityId = '';
-        console.log(response)
         this.createExamForm.reset();
         this.modules = [];
         this.levels =[];
@@ -266,14 +273,36 @@ export class CreateExamComponent implements OnInit {
     
   }
   deleteAnswerItem(index: number){
-    this.getansewrs().controls.splice(index,1)
-    this.questionForm.value.answers.splice(index,1)
-    console.log((this.questionForm.value))
-    console.log(index)
+    this.getansewrs().controls.splice(index,1);
+    this.getansewrs().removeAt(index);
+    this.questionForm.value.answers.splice(index,1);
   }
-  getExamsOfThisDate(event: any){
+  checkTime():ValidatorFn{
+    return (group: AbstractControl): ValidationErrors | null => {
+      const startTime = group.value.startHour;
+      const endTime = group.value.endHour;
+      if (startTime > endTime) {
+        return {notEquivalent: true};
+      } else {
+        return null;
+      }
+    };
+  }
+  changeSelectInAnswers(event: any){
     console.log(event.target.value)
-    const date = event.target.value;
-    this.createExamService.getExamsOfThisDate(date)
+    const value = event.target.value.split(' ')
+    console.log(value)
+    if(value[1] === 'true' && this.questionForm.value.inputType === 'radio'){
+      this.trueIsSelectedInAnswer = false;
+    }else if(this.questionForm.value.inputType === 'checkbox'){
+      this.trueIsSelectedInAnswer = true;
+    }
+  }
+  getAnswersDetails(index: number){
+    this.answersDetails = this.questionsList[index].answers;
+  }
+  deleteQuestionItem(index: number){
+    this.questionsList.splice(index, 1);
+    (this.createExamForm.get('questions') as FormArray).value.splice(index+1,1);
   }
 }

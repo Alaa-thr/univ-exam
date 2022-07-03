@@ -7,8 +7,7 @@ import { getPagination, getPagingData, QueryDto } from 'shared';
 @Injectable()
 @EntityRepository(ExamEntity)
 export class ExamRepository extends Repository<ExamEntity> {
-
-  async findAll(query: QueryDto,teacherId: string) {
+  async findAll(query: QueryDto, teacherId: string) {
     const { keyword, limit, page, order } = query;
     const { take, skip } = getPagination(page, limit);
 
@@ -21,16 +20,16 @@ export class ExamRepository extends Repository<ExamEntity> {
     }
 
     const users = await this.createQueryBuilder('exam')
-      .where( keyword? `(LOWER(exam.title) LIKE LOWER('%${keyword}%')`: '1=1')
-      .andWhere("exam.teacher = :teacherId",{teacherId: teacherId})
-      .leftJoinAndSelect("exam.examType","examType")
-      .leftJoinAndSelect("exam.specialityModuleLevel","specialityModuleLevel")
-      .leftJoinAndSelect("exam.questions","questions")
-      .leftJoinAndSelect("questions.inputType","inputType")
-      .leftJoinAndSelect("questions.answers","answers")
-      .leftJoinAndSelect("specialityModuleLevel.speciality","speciality")
-      .leftJoinAndSelect("specialityModuleLevel.level","level")
-      .leftJoinAndSelect("specialityModuleLevel.module","module")
+      .where(keyword ? `(LOWER(exam.title) LIKE LOWER('%${keyword}%')` : '1=1')
+      .andWhere('exam.teacher = :teacherId', { teacherId: teacherId })
+      .leftJoinAndSelect('exam.examType', 'examType')
+      .leftJoinAndSelect('exam.specialityModuleLevel', 'specialityModuleLevel')
+      .leftJoinAndSelect('exam.questions', 'questions')
+      .leftJoinAndSelect('questions.inputType', 'inputType')
+      .leftJoinAndSelect('questions.answers', 'answers')
+      .leftJoinAndSelect('specialityModuleLevel.speciality', 'speciality')
+      .leftJoinAndSelect('specialityModuleLevel.level', 'level')
+      .leftJoinAndSelect('specialityModuleLevel.module', 'module')
       .orderBy(orderField, orderType)
       .offset(skip)
       .getManyAndCount();
@@ -38,7 +37,17 @@ export class ExamRepository extends Repository<ExamEntity> {
     return getPagingData(users, take, skip);
   }
   findById(id: string) {
-    return this.findOne(id, { relations: ['questions', 'questions.answers'] });
+    return this.findOne(id, {
+      relations: [
+        'questions',
+        'questions.inputType',
+
+        'questions.answers',
+        'specialityModuleLevel',
+        'examType',
+        'studentExams',
+      ],
+    });
   }
 
   async findTakenExamsById(studentId: string, examId: string): Promise<IExam> {
@@ -53,10 +62,7 @@ export class ExamRepository extends Repository<ExamEntity> {
         .where('exm.id = :id', { id: examId })
         .andWhere('exm.isPublished = :isPublished', { isPublished: true })
         .andWhere('studentExams.studentId = :sId', { sId: studentId })
-        .addSelect([
-          'studentExams.grade',
-          'studentExams.videoPath'
-        ])
+        .addSelect(['studentExams.grade', 'studentExams.videoPath'])
         .getOne();
     } catch (error) {
       console.log('exam repo error', error);
@@ -91,8 +97,8 @@ export class ExamRepository extends Repository<ExamEntity> {
   ): Promise<IExam> {
     try {
       return await this.createQueryBuilder('exm')
-      .leftJoinAndSelect('exm.questions', 'qst')
-      .leftJoinAndSelect('exm.examType', 'examType')
+        .leftJoinAndSelect('exm.questions', 'qst')
+        .leftJoinAndSelect('exm.examType', 'examType')
         .leftJoin('qst.answers', 'answr')
         .leftJoinAndSelect('qst.inputType', 'inputType')
         .leftJoinAndSelect('exm.studentExams', 'studentExams')
@@ -108,7 +114,7 @@ export class ExamRepository extends Repository<ExamEntity> {
           'student.lastName',
           'student.studentNumber',
           'answr.id',
-          'answr.title'
+          'answr.title',
         ])
         .getOne();
     } catch (error) {

@@ -22,37 +22,51 @@ export class ExamsService {
     private readonly examTypeService: ExamTypeService,
     private readonly studentExamService: StudentExamService,
     private readonly notificationService: NotificationsService,
-    private readonly userService: UsersService,
+    private readonly userService: UsersService
   ) {}
 
-  async publishExam(id: string){
-    const studentWillTakeExam = await this.studentExamService.findAllStudentOfExam(id);
-    await this.examRepo.update(id, {isPublished: true});
+  async publishExam(id: string) {
+    const studentWillTakeExam =
+      await this.studentExamService.findAllStudentOfExam(id);
+    await this.examRepo.update(id, { isPublished: true });
     const exam = await this.examRepo.findOne(id);
-    for(let i=0; i< studentWillTakeExam.length ; i++){
-      await this.sendInvitationToStuduent(studentWillTakeExam[i].student, exam.title);
+    for (let i = 0; i < studentWillTakeExam.length; i++) {
+      await this.sendInvitationToStuduent(
+        studentWillTakeExam[i].student,
+        exam.title
+      );
     }
-    
   }
-  async sendInvitationToStuduent(student: IStudent, title:string){
+  async sendInvitationToStuduent(student: IStudent, title: string) {
     const notif = {
-      description: "The exam "+title+" is published now",
-      user: await this.userService.findOneByStudent(student.id)
-    }
-    return await this.notificationService.create(notif);  
+      description: 'The exam ' + title + ' is published now',
+      user: await this.userService.findOneByStudent(student.id),
+    };
+    return await this.notificationService.create(notif);
   }
-  async deleteOne(id: string){
+  async deleteOne(id: string) {
     return await this.examRepo.delete(id);
   }
-  async findAllExams(query: QueryDto,teacherId: string){
-    return await this.examRepo.findAll(query,teacherId);
+  async findAllExams(query: QueryDto, teacherId: string) {
+    return await this.examRepo.findAll(query, teacherId);
   }
 
   async createOne(createExamDto: CreateExamDto, teacher: ITeacher) {
-    const {questions, title, date,startHour,endHour,isPublished,examType, specialityModuleLevel, students} = createExamDto;
-    const createdQuestions: IQuestion[] = await this.questionsService.createMany(questions);
+    const {
+      questions,
+      title,
+      date,
+      startHour,
+      endHour,
+      isPublished,
+      examType,
+      specialityModuleLevel,
+      students,
+    } = createExamDto;
+    const createdQuestions: IQuestion[] =
+      await this.questionsService.createMany(questions);
     const getInputType = await this.examTypeService.findOneByType(examType);
-    const exam =  await this.examRepo.save({
+    const exam = await this.examRepo.save({
       title: title,
       date: date,
       startHour: startHour,
@@ -61,25 +75,38 @@ export class ExamsService {
       examType: getInputType,
       specialityModuleLevel: specialityModuleLevel,
       questions: createdQuestions,
-      teacher: teacher
+      teacher: teacher,
     });
-    await this.studentExamService.createMany(students,exam);
-    if(isPublished){
+    await this.studentExamService.createMany(students, exam);
+    if (isPublished) {
       await this.publishExam(exam.id);
     }
     return exam;
   }
 
-  async updateOne(id: string, updateExamDto: UpdateExamDto) {
+  async updateOne(id: string, updateExamDto: any) {
     const exam = await this.examRepo.findById(id);
 
-    // const createdQuestions: IQuestion[] =
-    //   await this.questionsService.createMany({
-    //     ...exam.questions,
-    //     ...updateExamDto.questions,
-    //   });
+    const createdQuestions: IQuestion[] =
+      await this.questionsService.createMany(updateExamDto.questions);
 
-    // return this.examRepo.save({ ...updateExamDto, ...createdQuestions, id });
+    const getInputType = await this.examTypeService.findOneByType(
+      updateExamDto.examType ? updateExamDto.examType : exam.examType
+    );
+
+    updateExamDto.questions = createdQuestions;
+    const updatedExam = await this.examRepo.save({
+      ...exam,
+      ...updateExamDto,
+    });
+
+    if (updateExamDto.students)
+      await this.studentExamService.createMany(updateExamDto.students, exam);
+    if (updateExamDto.isPublished) {
+      await this.publishExam(exam.id);
+    }
+
+    return updatedExam;
   }
 
   async findTakenExamsById(studentId: string, examId: string): Promise<any> {
@@ -92,7 +119,7 @@ export class ExamsService {
       examId
     );
     let getAnswers = [];
-    if(studentAnswer){
+    if (studentAnswer) {
       getAnswers = getStudentAnswers(studentAnswer.questions);
     }
     const takenExam = this.getQuestionAndItsAnswersAndStudentAnswers(
@@ -114,7 +141,7 @@ export class ExamsService {
       grade: 0,
       questions: [],
       videoPath: '',
-      student: {}
+      student: {},
     };
     details.examType = examDetails.examType.type;
     details.date = examDetails.date;
@@ -124,8 +151,8 @@ export class ExamsService {
     details.grade = examDetails.studentExams[0].grade;
     details.videoPath = examDetails.studentExams[0].videoPath;
     details.student = examDetails.studentExams[0].student;
-    
-    if(studentAnswers.length > 0){
+
+    if (studentAnswers.length > 0) {
       for (let i = 0; i < examDetails.questions.length; i++) {
         const qst = {
           id: '',
@@ -156,8 +183,14 @@ export class ExamsService {
           answr.title = examDetails.questions[i].answers[j].title;
           answr.isCorrect = examDetails.questions[i].answers[j].isCorrect;
           let qstAnswrIsSelected = 0;
-          for (let k = 0; k < studentAnswers.length && !qstAnswrIsSelected; k++) {
-            if (studentAnswers[k].id == examDetails.questions[i].answers[j].id) {
+          for (
+            let k = 0;
+            k < studentAnswers.length && !qstAnswrIsSelected;
+            k++
+          ) {
+            if (
+              studentAnswers[k].id == examDetails.questions[i].answers[j].id
+            ) {
               answr.isSelected = true;
               qstAnswrIsSelected++;
             }
@@ -195,10 +228,16 @@ export class ExamsService {
   getTodayDateWithTime() {
     const today = new Date();
     const time = this.getTodayTime();
-    const startedExam = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const startedExam =
+      today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
     return {
       time: time.startedExam,
-      date: today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()
-    }; 
+      date:
+        today.getFullYear() +
+        '-' +
+        (today.getMonth() + 1) +
+        '-' +
+        today.getDate(),
+    };
   }
 }
